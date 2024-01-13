@@ -18,6 +18,23 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+::-webkit-scrollbar {
+  border-radius: 5px;
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  border-radius: 5px;
+  background: #bfbdbd54;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background: #717172;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #626262;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
