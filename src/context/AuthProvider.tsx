@@ -18,7 +18,8 @@ const AuthProvider = ({ children }) => {
             console.log('res', res)
 			localStorage.setItem('token', res.data.access_token);
 			setToken(res.data.access_token);
-			localStorage.setItem('user', JSON.stringify(res.data.data));
+            const user = res.data.data
+			localStorage.setItem('user', JSON.stringify(user));
 			setCurrentUser(res.data.data);
 			const origin = location.state?.from?.pathname || '/admin/news';
 			navigate(origin);

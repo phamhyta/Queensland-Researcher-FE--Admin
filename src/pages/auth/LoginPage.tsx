@@ -7,7 +7,7 @@ const LoginPage = () => {
 	const { onLogin } = useAuth();
 	const [email, setEmal] = useState('');
 	const [password, setPassword] = useState('');
-	const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(false);
 
 	const handleLogin = async (e) => {
         e.preventDefault()
