@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { FaImage } from "react-icons/fa6";
+import { useAuth } from '../../utils/hook';
 
 
 interface ISideBarSubItem {
@@ -178,6 +179,11 @@ const Sidebar = () => {
 };
 
 const SidebarItem = ({ item }: { item: ISideBarItem }) => {
+    const { onLogout } = useAuth()
+    const handleOnClick = (id) => {
+        if(id == "logout")
+            onLogout()
+    }
 	const navigate = useNavigate()
 	const hasSubItems = item.subItems && item.subItems.length > 0
 	let targetProps = hasSubItems ? {
@@ -189,6 +195,7 @@ const SidebarItem = ({ item }: { item: ISideBarItem }) => {
 		<button
 			type="button"
 			key={ `sidebar-item-${item.id}` }
+            onClick={() => handleOnClick(item.id)}
 			className="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
 			{ ...targetProps }
 		>
