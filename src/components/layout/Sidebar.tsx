@@ -82,12 +82,12 @@ const Sidebar = () => {
 			subItems: [
 				{
 					id: "EventList",
-					link: "#",
+					link: "/admin/events",
 					text: "Danh sách sự kiện",
 				},
 				{
 					id: "CreateEvent",
-					link: "#",
+					link: "/admin/events/create-events",
 					text: "Tạo mới sự kiện",
 				},
 			],
@@ -186,7 +186,7 @@ const SidebarItem = ({ item }: { item: ISideBarItem }) => {
     }
 	const navigate = useNavigate()
 	const hasSubItems = item.subItems && item.subItems.length > 0
-	let targetProps = hasSubItems ? {
+	const targetProps = hasSubItems ? {
 		"aria-controls": item.id,
 		"data-target": item.id,
 		"data-collapse-toggle": item.id
