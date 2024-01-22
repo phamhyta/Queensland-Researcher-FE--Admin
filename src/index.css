@@ -84,3 +84,35 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+
+.thumb {
+    display: inline-flex;
+    border-radius: 2;
+    border: 1px solid #eaeaea;
+    margin-bottom: 8;
+    margin-right: 8;
+    width: 200px;
+    height: 200px;
+    padding: 4px;
+    box-sizing: border-box
+}
+
+.thumb-inner {
+    display: flex;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.thumb-img {
+    display: block;
+    width: auto;
+    height: 100%;
+}
+
+.thumbs-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 16px;
+}
