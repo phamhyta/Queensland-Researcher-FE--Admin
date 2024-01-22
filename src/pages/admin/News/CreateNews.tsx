@@ -1,9 +1,21 @@
 import { Editor } from '@tinymce/tinymce-react';
+import { useState } from 'react'
 const CreateNews = () => {
+    const [title, setTitle] = useState('')
+    const [content, setContent] = useState('')
+    const [text, setText] = useState("");
+
+    const onEditorInputChange = (newValue, editor) => {
+        setContent(newValue);
+        setText(editor.getContent({ format: "text" }));
+    }
+    const handleOnSubmit = () => {
+        console.log('content', content, text)
+    }
 	return (
 		<>
 			<h1 className='text-center'>Tạo mới tin tức</h1>
-			<form className='mt-5'>
+			<div className='mt-5'>
 				<div className='mb-5'>
 					<label
 						htmlFor='news-title'
@@ -14,6 +26,8 @@ const CreateNews = () => {
 					<input
 						type='text'
 						id='news-title'
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
 						className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
 						placeholder='Tiêu đề tin tức ...'
 						required
@@ -67,17 +81,19 @@ const CreateNews = () => {
 							images_file_types: 'jpg,svg,webp',
 							image_title: true,
 						}}
+                        value={content}
+                        onEditorChange={(newValue, editor) => onEditorInputChange(newValue, editor)}
 					/>
 				</div>
 				<div className='flex justify-center mt-10'>
 					<button
-						type='submit'
+                        onClick={handleOnSubmit}
 						className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
 					>
 						Tạo tin tức
 					</button>
 				</div>
-			</form>
+			</div>
 		</>
 	);
 };
