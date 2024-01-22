@@ -4,7 +4,7 @@ import { useEffect, useReducer, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import { getAllEvents } from '../../../utils/api/events';
 import { useNavigate } from 'react-router-dom';
-import { Pagination } from '../../../components/layout';
+import Pagination from '@mui/material/Pagination';
 
 const reducer = (state, action) => {
 	switch (action.type) {
@@ -177,10 +177,10 @@ const EventsList = () => {
 				{numOfPage && (
 					<div className='flex justify-center mt-5'>
 						<Pagination
-							currentPage={currentPage}
-							numOfPage={numOfPage}
-              				onChangePage={handleChangePage}
-						/>
+							count={numOfPage}
+							page={currentPage}
+							onChange={handleChangePage}
+						></Pagination>
 					</div>
 				)}
 			</div>
