@@ -2,7 +2,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 import { useEffect, useReducer, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
-import { getAllEvents } from '../../../utils/api/events';
+import { getAllEvents, deleteEvent } from '../../../utils/api/events';
 import { useNavigate } from 'react-router-dom';
 import Pagination from '@mui/material/Pagination';
 
@@ -19,6 +19,13 @@ const reducer = (state, action) => {
 			};
 		case 'FETCH_FAIL':
 			return { ...state, loading: true, error: action.payload };
+		case 'DELETE_SUCCESS':
+			return {
+				...state,
+				events: state.events.filter(
+					(event) => event.id !== action.payload
+				),
+			};
 		default:
 			return state;
 	}
@@ -43,6 +50,7 @@ const EventsList = () => {
 					type: 'FETCH_SUCCESS',
 					payload: res.data,
 				});
+				toast.success(res.message);
 			} else {
 				dispatch({
 					type: 'FETCH_FAIL',
@@ -53,14 +61,30 @@ const EventsList = () => {
 		};
 		fetchData();
 	}, [currentPage]);
-	console.log(events, loading);
 	const handleDelete = (id) => {
-		console.log(id);
+		console.log('id', id);
+		const confirm = window.confirm(
+			'Bạn có chắc chắn muốn xóa sự kiện này không ?'
+		);
+		if (confirm) {
+			deleteEvent(id).then((res) => {
+				if (res.success) {
+					dispatch({
+						type: 'DELETE_SUCCESS',
+						payload: id,
+					});
+					toast.success(res.message);
+				} else {
+					toast.error(res.message);
+				}
+			});
+		}
+
 	};
 	return (
 		<>
-			<ToastContainer />
 			<h1 className='text-center'>List Events</h1>
+			<ToastContainer />
 			<div className='relative overflow-x-auto p-2'>
 				<div className='pb-4 bg-white dark:bg-gray-900'>
 					<label htmlFor='table-search' className='sr-only'>
@@ -184,6 +208,7 @@ const EventsList = () => {
 					</div>
 				)}
 			</div>
+
 		</>
 	);
 };
