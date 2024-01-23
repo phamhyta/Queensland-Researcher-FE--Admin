@@ -78,17 +78,17 @@ const Sidebar = () => {
 					<path d="M7.958 19.393a7.7 7.7 0 0 1-6.715-3.439c-2.868-4.832 0-9.376.944-10.654l.091-.122a3.286 3.286 0 0 0 .765-3.288A1 1 0 0 1 4.6.8c.133.1.313.212.525.347A10.451 10.451 0 0 1 10.6 9.3c.5-1.06.772-2.213.8-3.385a1 1 0 0 1 1.592-.758c1.636 1.205 4.638 6.081 2.019 10.441a8.177 8.177 0 0 1-7.053 3.795Z" />
 				</svg>
 			),
-			text: "Sự kiện",
+			text: "Events",
 			subItems: [
 				{
 					id: "EventList",
-					link: "#",
-					text: "Danh sách sự kiện",
+					link: "/admin/events",
+					text: "List events",
 				},
 				{
 					id: "CreateEvent",
-					link: "#",
-					text: "Tạo mới sự kiện",
+					link: "/admin/events/create-events",
+					text: "Create new events",
 				},
 			],
 		},
@@ -186,7 +186,7 @@ const SidebarItem = ({ item }: { item: ISideBarItem }) => {
     }
 	const navigate = useNavigate()
 	const hasSubItems = item.subItems && item.subItems.length > 0
-	let targetProps = hasSubItems ? {
+	const targetProps = hasSubItems ? {
 		"aria-controls": item.id,
 		"data-target": item.id,
 		"data-collapse-toggle": item.id

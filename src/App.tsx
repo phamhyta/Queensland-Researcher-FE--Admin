@@ -14,6 +14,8 @@ import {
 	ImageGallery,
 } from './pages';
 import { Dialog, Snackbar } from './commons';
+import EventsList from './pages/admin/Events/EventsList';
+import EventsDetail from './pages/admin/Events/EventsDetail';
 
 const ProtectedRouter = ({ children }) => {
 	const location = useLocation();
@@ -73,6 +75,33 @@ function App() {
 							<ProtectedRouter>
 								{' '}
 								<CreateNews />
+							</ProtectedRouter>
+						}
+					/>
+					<Route
+						path='/admin/events'
+						element={
+							<ProtectedRouter>
+								{' '}
+								<EventsList />
+							</ProtectedRouter>
+						}
+					/>
+					<Route
+						path='/admin/events/:id'
+						element={
+							<ProtectedRouter>
+								{' '}
+								<EventsDetail />
+							</ProtectedRouter>
+						}
+					/>
+					<Route
+						path='/admin/events/create-events'
+						element={
+							<ProtectedRouter>
+								{' '}
+								<EventsDetail />
 							</ProtectedRouter>
 						}
 					/>
