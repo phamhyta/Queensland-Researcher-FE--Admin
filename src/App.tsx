@@ -16,7 +16,6 @@ import {
 import { Dialog, Snackbar } from './commons';
 import EventsList from './pages/admin/Events/EventsList';
 import EventsDetail from './pages/admin/Events/EventsDetail';
-import CreateEvents from './pages/admin/News/CreateNews';
 
 const ProtectedRouter = ({ children }) => {
 	const location = useLocation();
@@ -102,7 +101,7 @@ function App() {
 						element={
 							<ProtectedRouter>
 								{' '}
-								<CreateEvents />
+								<EventsDetail />
 							</ProtectedRouter>
 						}
 					/>

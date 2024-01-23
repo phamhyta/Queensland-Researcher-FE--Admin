@@ -141,7 +141,7 @@ const EventsList = () => {
 								Category
 							</th>
 							<th scope='col' className='px-6 py-3'>
-								Create at
+								Event date
 							</th>
 							<th scope='col' className='px-6 py-3'>
 								Action
@@ -171,11 +171,11 @@ const EventsList = () => {
 										scope='row'
 										className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'
 									>
-                                        <a href={`/admin/news/${news.id}`}>{news.title.length > 60 ? news.title.slice(0,50) + '...' : news.title}</a>
+                                        <a href={`/admin/events/${news.id}`}>{news.title.length > 60 ? news.title.slice(0,50) + '...' : news.title}</a>
 										
 									</th>
 									<td className='px-6 py-4'>{news.category}</td>
-									<td className='px-6 py-4'>{news.createAt}</td>
+									<td className='px-6 py-4'>{news.eventDate.slice(0, 10)}</td>
 									<td className='px-6 py-4'>
 										<a
 											href='#'
