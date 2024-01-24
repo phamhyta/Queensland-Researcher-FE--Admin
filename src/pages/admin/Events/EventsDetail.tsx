@@ -65,6 +65,23 @@ const EventsDetail = () => {
 			toast.error(res.message);
 		}
 	}
+
+	const handelChangeInputForm2 = (e: any, index: number) => {
+		const arr = eventItem[e.target.name].split('/n');
+		arr[index] = e.target.value;
+		setEventItem({ ...eventItem, [e.target.name]: arr.join('/n') });
+	}
+
+	const addInput = (nameInput: string) => {
+		setEventItem({ ...eventItem, [nameInput]: eventItem[nameInput] + '/n' });
+	}
+
+	const deleteInput = (nameInput: string, index: number) => {
+		const arr = eventItem[nameInput].split('/n');
+		arr.splice(index, 1);
+		setEventItem({ ...eventItem, [nameInput]: arr.join('/n') });
+	}
+
 	return (
 		<>
 			<ToastContainer />
@@ -83,7 +100,7 @@ const EventsDetail = () => {
                         name='title'
 						value={eventItem.title}
 						className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-						placeholder='Tiêu đề tin tức ...'
+						placeholder='New title ...'
 						onChange={(e) => handelChangeInputForm(e)}
 						required
 					/>
@@ -190,7 +207,7 @@ const EventsDetail = () => {
                         value={eventItem.attendance}
 						name='attendance'
 						className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-						placeholder='Tiêu đề tin tức ...'
+						placeholder='Attendance ...'
 						onChange={(e) => handelChangeInputForm(e)}
 						required
 					/>
@@ -208,7 +225,7 @@ const EventsDetail = () => {
                         value={eventItem.category}
 						name='category'
 						className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-						placeholder='Tiêu đề tin tức ...'
+						placeholder='Category ...'
 						onChange={(e) => handelChangeInputForm(e)}
 						required
 					/>
@@ -226,7 +243,7 @@ const EventsDetail = () => {
                         value={eventItem.when}
 						name='when'
 						className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-						placeholder='Tiêu đề tin tức ...'
+						placeholder='When ...'
 						onChange={(e) => handelChangeInputForm(e)}
 						required
 					/>
@@ -244,7 +261,7 @@ const EventsDetail = () => {
                         name='where'
 						value={eventItem.where}
 						className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-						placeholder='Tiêu đề tin tức ...'
+						placeholder='Where ...'
 						onChange={(e) => handelChangeInputForm(e)}
 						required
 					/>
@@ -256,16 +273,23 @@ const EventsDetail = () => {
 					>
 						Purpose
 					</label>
-					<input
-						type='text'
-						id='news-purpose'
-                        name='purpose'
-						value={eventItem.purpose}
-						className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-						placeholder='Tiêu đề tin tức ...'
-						onChange={(e) => handelChangeInputForm(e)}
-						required
-					/>
+					{eventItem.purpose && eventItem.purpose.split('/n').map((item, index) => {
+						return <div className='flex'>
+							<input 
+								key={index}
+								type='text'
+								id='news-purpose'
+								name='purpose'
+								value={item}
+								className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+								placeholder='Purpose ...'
+								onChange={(e) => handelChangeInputForm2(e, index)}
+								required
+							/>
+							<button className='ml-2 mt-2 bg-red-600 text-white' onClick={() => deleteInput('purpose', index)}>Delete</button>
+						</div>;
+					})}
+					<button className='mt-2' onClick={() => addInput("purpose")}>Add purpose</button>
 				</div>
 				<div className='mb-5'>
 					<label
@@ -274,16 +298,23 @@ const EventsDetail = () => {
 					>
 						Audience
 					</label>
-					<input
-						type='text'
-						id='news-audience'
-						name='audience'
-						value={eventItem.audience}
-						className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-						placeholder='Tiêu đề tin tức ...'
-						onChange={(e) => handelChangeInputForm(e)}
-						required
-					/>
+					{eventItem.audience && eventItem.audience.split('/n').map((item, index) => {
+						return <div className='flex'>
+							<input 
+								key={index}
+								type='text'
+								id='news-audience'
+								name='audience'
+								value={item}
+								className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+								placeholder='Audience ...'
+								onChange={(e) => handelChangeInputForm2(e, index)}
+								required
+							/>
+							<button className='ml-2 mt-2 bg-red-600 text-white' onClick={() => deleteInput('purpose', index)}>Delete</button>
+						</div>;
+					})}
+					<button className='mt-2' onClick={() => addInput("audience")}>Add audience</button>
 				</div>
 				<div className='mb-5'>
 					<label
@@ -292,16 +323,23 @@ const EventsDetail = () => {
 					>
 						Program
 					</label>
-					<input
-						type='text'
-						id='news-program'
-						name='program'
-						value={eventItem.program}
-						className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-						placeholder='Tiêu đề tin tức ...'
-						onChange={(e) => handelChangeInputForm(e)}
-						required
-					/>
+					{eventItem.program && eventItem.program.split('/n').map((item, index) => {
+						return <div className='flex'>
+							<input 
+								key={index}
+								type='text'
+								id='news-program'
+								name='program'
+								value={item}
+								className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+								placeholder='Program ...'
+								onChange={(e) => handelChangeInputForm2(e, index)}
+								required
+							/> 
+							<button className='ml-2 mt-2 bg-red-600 text-white' onClick={() => deleteInput('program', index)}>Delete</button>
+						</div>;
+					})}
+					<button className='mt-2' onClick={() => addInput("program")}>Add program</button>
 				</div>
 				<div className='flex justify-center mt-10'>
 					<button
