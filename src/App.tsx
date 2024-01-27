@@ -16,12 +16,16 @@ import {
 import { Dialog, Snackbar } from './commons';
 import EventsList from './pages/admin/Events/EventsList';
 import EventsDetail from './pages/admin/Events/EventsDetail';
+import MemberPendingDetail from './pages/admin/Members/MemberPendingDetail';
 
 const ProtectedRouter = ({ children }) => {
 	const location = useLocation();
-	const { token, onVerifyToken } = useAuth();
+	const { token, onVerifyToken, role } = useAuth();
 	if (!token) {
 		return <Navigate to='/login' replace state={{ from: location }} />;
+	} else if (role != 'admin') {
+		const user = localStorage.getItem('user');
+		return <Navigate to={`/admin/members/${user?.id}`} replace state={{ from: location }} />;
 	} else {
 		// onVerifyToken();
 	}
@@ -154,6 +158,15 @@ function App() {
 							<ProtectedRouter>
 								{' '}
 								<MemberDetail />
+							</ProtectedRouter>
+						}
+					/>
+					<Route
+						path='/admin/members-pending/:id'
+						element={
+							<ProtectedRouter>
+								{' '}
+								<MemberPendingDetail />
 							</ProtectedRouter>
 						}
 					/>

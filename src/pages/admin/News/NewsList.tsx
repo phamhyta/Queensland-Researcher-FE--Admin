@@ -1,6 +1,6 @@
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
-import { IconButton,Pagination  } from '@mui/material';
+import { IconButton, Pagination } from '@mui/material';
 import { useStateValue } from '../../../context/StateProvider';
 import { actionType } from '../../../context/reducer';
 import { useState, useEffect } from 'react'
@@ -9,35 +9,35 @@ import { LIMIT } from '../../../utils/constant';
 import { useNavigate } from 'react-router-dom';
 
 const NewsList = () => {
-    const [newsList, setNewsList] = useState([])
-    const [page, setPage] = useState(1)
-    const [totalPage, setTotalPage] = useState(1)
-    const [_, dispatch] = useStateValue();
+	const [newsList, setNewsList] = useState([])
+	const [page, setPage] = useState(1)
+	const [totalPage, setTotalPage] = useState(1)
+	const [_, dispatch] = useStateValue();
 	const navigate = useNavigate();
-    useEffect(() => {
-        const fetch = async () => {
-            const res = await getNews({page, limit : LIMIT})
-            if(res.success) {
-                setNewsList(res.data.news)
-                setTotalPage(res.data.total_pages)
-            }
-        }
-        fetch()
-    }, [page])
+	useEffect(() => {
+		const fetch = async () => {
+			const res = await getNews({ page, limit: LIMIT })
+			if (res.success) {
+				setNewsList(res.data.news)
+				setTotalPage(res.data.total_pages)
+			}
+		}
+		fetch()
+	}, [page])
 
-    const handlePageChange = (_e: any, page: number) => {
+	const handlePageChange = (_e: any, page: number) => {
 		setPage(page);
 	};
 
-    const handleDeleteNews = (newsId) => {
+	const handleDeleteNews = (newsId) => {
 		dispatch({
 			type: actionType.SET_DIALOG,
 			payload: {
-				title: 'Xác nhận xóa',
-				text: 'Bạn có chắc chắn muốn xóa bài viết này? Dữ liệu sẽ bị xóa vĩnh viễn và không thể khôi phục',
+				title: 'Confirm deletion',
+				text: 'Are you sure you want to delete this post? The data will be permanently deleted and cannot be recovered',
 				type: 'warning',
 				handleOkClick: async () => {
-                    await onDeleteNews(newsId)
+					await onDeleteNews(newsId)
 				},
 				open: true,
 			},
@@ -45,14 +45,14 @@ const NewsList = () => {
 		setOpenMenu(false);
 	};
 
-    const onDeleteNews = async (id) => {
-        const res = await deleteNews(id)
-        if(res.success)
-            setNewsList(newsList.filter((f) => f.id !== id));
-    }
+	const onDeleteNews = async (id) => {
+		const res = await deleteNews(id)
+		if (res.success)
+			setNewsList(newsList.filter((f) => f.id !== id));
+	}
 	return (
 		<>
-			<h1 className='text-center'>Danh sách bài viết</h1>
+			<h1 className='text-center'>List News</h1>
 			<div className='relative overflow-x-auto p-2'>
 				<div className='pb-4 bg-white dark:bg-gray-900'>
 					<label htmlFor='table-search' className='sr-only'>
@@ -103,13 +103,13 @@ const NewsList = () => {
 								</div>
 							</th>
 							<th scope='col' className='px-6 py-3'>
-								Tiêu đề
+								Title
 							</th>
 							<th scope='col' className='px-6 py-3'>
-								Người tạo
+								Creator
 							</th>
 							<th scope='col' className='px-6 py-3'>
-								Thời gian tạo
+								Create At
 							</th>
 							<th scope='col' className='px-6 py-3'>
 								Action
@@ -139,8 +139,8 @@ const NewsList = () => {
 										scope='row'
 										className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'
 									>
-                                        <a className='cursor-pointer' onClick={() => navigate(`/admin/news/${news.id}`)}>{news.title.length > 60 ? news.title.slice(0,50) + '...' : news.title}</a>
-										
+										<a className='cursor-pointer' onClick={() => navigate(`/admin/news/${news.id}`)}>{news.title.length > 60 ? news.title.slice(0, 50) + '...' : news.title}</a>
+
 									</th>
 									<td className='px-6 py-4'>{news.createBy || 'Admin'}</td>
 									<td className='px-6 py-4'>{news.created_at.slice(0, 10)}</td>
@@ -169,10 +169,10 @@ const NewsList = () => {
 					aria-label='Table navigation'
 				>
 					<Pagination
-                        count={totalPage}
-                        page={page}
-                        onChange={handlePageChange}
-                    ></Pagination>
+						count={totalPage}
+						page={page}
+						onChange={handlePageChange}
+					></Pagination>
 				</nav>
 			</div>
 		</>

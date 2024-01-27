@@ -1,11 +1,4 @@
-import axios from 'axios';
-
-export const axiosInstance = axios.create({
-	baseURL: "https://api.avesq.org",
-	headers: {
-		accept: 'application/json',
-	},
-});
+import { axiosInstance } from "../constant";
 
 export async function login({ email, password }) {
 	try {
@@ -26,10 +19,8 @@ export async function login({ email, password }) {
 	}
 }
 
-
-// images
-export async function getListImages({page, limit}) {
-    try {
+export async function getListImages({ page, limit }) {
+	try {
 		const res = await axiosInstance.get(
 			`image?page=${page}&limit=${limit}`,
 		);
@@ -46,11 +37,9 @@ export async function getListImages({page, limit}) {
 	}
 }
 
-
-
 export async function uploadImage(file) {
 	try {
-        const token = localStorage.getItem('token');
+		const token = localStorage.getItem('token');
 		const formData = new FormData();
 		formData.append('files', file);
 		const res = await axiosInstance.post('image', formData, {
@@ -71,11 +60,9 @@ export async function uploadImage(file) {
 	}
 }
 
-
-//news
-export async function getNews({page, limit}) {
-    try {
-        const token = localStorage.getItem('token');
+export async function getNews({ page, limit }) {
+	try {
+		const token = localStorage.getItem('token');
 		const res = await axiosInstance.get(
 			`admin/news/?page=${page}&limit=${limit}`,
 			{
@@ -96,8 +83,8 @@ export async function getNews({page, limit}) {
 }
 
 export async function deleteNews(id) {
-    try {
-        const token = localStorage.getItem('token');
+	try {
+		const token = localStorage.getItem('token');
 		const res = await axiosInstance.delete(
 			`admin/news/${id}`,
 			{
@@ -117,15 +104,15 @@ export async function deleteNews(id) {
 	}
 }
 
-export async function createNews({title, content,image}) {
-    try {
-        const token = localStorage.getItem('token');
+export async function createNews({ title, content, image }) {
+	try {
+		const token = localStorage.getItem('token');
 		const res = await axiosInstance.post(
 			"admin/news/", {
-                title,
-                content,
-                image
-            },
+			title,
+			content,
+			image
+		},
 			{
 				headers: {
 					Authorization: `Bearer ${token}`,
@@ -144,8 +131,8 @@ export async function createNews({title, content,image}) {
 }
 
 export async function getNewsDetail(id) {
-    try {
-        const token = localStorage.getItem('token');
+	try {
+		const token = localStorage.getItem('token');
 		const res = await axiosInstance.get(
 			`admin/news/${id}`,
 			{
@@ -165,17 +152,16 @@ export async function getNewsDetail(id) {
 	}
 }
 
-
-export async function updateNews({id, title, content,image}) {
-    try {
-        const token = localStorage.getItem('token');
+export async function updateNews({ id, title, content, image }) {
+	try {
+		const token = localStorage.getItem('token');
 		const res = await axiosInstance.put(
 			`admin/news/${id}`,
-            {
-                title,
-                content,
-                image
-            },
+			{
+				title,
+				content,
+				image
+			},
 			{
 				headers: {
 					Authorization: `Bearer ${token}`,
@@ -193,14 +179,33 @@ export async function updateNews({id, title, content,image}) {
 	}
 }
 
-
-
-//registration 
 export async function getListRegistration() {
 	try {
 		const token = localStorage.getItem('token');
 		const res = await axiosInstance.get(
-			`registration/get_all_registrations`,
+			`/registration/`,
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		);
+		return {
+			success: true,
+			data: res.data,
+		};
+	} catch (error) {
+		return {
+			success: false,
+		};
+	}
+}
+
+export async function getRegistration(id) {
+	try {
+		const token = localStorage.getItem('token');
+		const res = await axiosInstance.get(
+			`/registration/${id}`,
 			{
 				headers: {
 					Authorization: `Bearer ${token}`,
@@ -219,10 +224,10 @@ export async function getListRegistration() {
 }
 
 export async function deleteRegistration(id) {
-    try {
-        const token = localStorage.getItem('token');
+	try {
+		const token = localStorage.getItem('token');
 		const res = await axiosInstance.delete(
-			`registration/delete_registration/${id}`,
+			`/registration/${id}`,
 			{
 				headers: {
 					Authorization: `Bearer ${token}`,
@@ -240,12 +245,11 @@ export async function deleteRegistration(id) {
 	}
 }
 
-// members
 export async function getListMembers() {
 	try {
 		const token = localStorage.getItem('token');
 		const res = await axiosInstance.get(
-			`members/get_all_members`,
+			`/admin/members/`,
 			{
 				headers: {
 					Authorization: `Bearer ${token}`,
@@ -259,14 +263,34 @@ export async function getListMembers() {
 	} catch (error) {
 		return {
 			success: false,
+		};
+	}
+}
+
+export async function updateMember(id, data) {
+	try {
+		const token = localStorage.getItem('token');
+		const res = await axiosInstance.put(`/admin/members/${id}`, data, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
+		return {
+			success: true,
+			data: res.data,
+		};
+	} catch (error) {
+		return {
+			success: false,
+			message: error.response.data.detail || 'Something was wrong!'
 		};
 	}
 }
 
 export async function deleteMember(id) {
-    try {
-        const token = localStorage.getItem('token');
-		const res = await axiosInstance.delete(`members/delete_member/${id}`, {
+	try {
+		const token = localStorage.getItem('token');
+		const res = await axiosInstance.delete(`/admin/members/${id}`, {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
@@ -285,7 +309,7 @@ export async function deleteMember(id) {
 export async function getMember(id) {
 	try {
 		const token = localStorage.getItem('token');
-		const res = await axiosInstance.get(`members/get_member/${id}`, {
+		const res = await axiosInstance.get(`/admin/members/${id}`, {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
@@ -295,6 +319,29 @@ export async function getMember(id) {
 			data: res.data,
 		};
 	} catch (error) {
+		return {
+			success: false,
+		};
+	}
+}
+
+export async function acceptMember(id) {
+	try {
+		const token = localStorage.getItem('token');
+		const formData = new FormData();
+		formData.append('id', id);
+		const res = await axiosInstance.post(`/admin/accept/`, formData, {
+			headers: {
+				'Content-Type': 'multipart/form-data',
+				Authorization: `Bearer ${token}`,
+			},
+		});
+		return {
+			success: true,
+			data: res.data,
+		};
+	} catch (error) {
+		console.log(error);
 		return {
 			success: false,
 		};

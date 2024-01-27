@@ -28,19 +28,19 @@ export default function AlertDialog() {
         return (
             <React.Fragment>
                 <Dialog
-                    open={ dialog?.open || false }
-                    onClose={ handleClose }
+                    open={dialog?.open || false}
+                    onClose={handleClose}
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
-                    sx={ {
+                    sx={{
                         ".MuiPaper-root": {
                             maxWidth: "450px",
                         },
-                    } }
+                    }}
                 >
                     <DialogTitle
                         id="alert-dialog-title"
-                        sx={ {
+                        sx={{
                             display: "flex",
                             alignItems: "center",
                             justifyItems: "center",
@@ -48,33 +48,33 @@ export default function AlertDialog() {
                                 fontSize: "14px",
                                 fontWeight: "bold",
                             },
-                        } }
+                        }}
                     >
-                        <FaRegQuestionCircle color={dialog.type==="warning"? "red": "blue"}></FaRegQuestionCircle>
-                        <p className="ml-2 mt-1 text-[16px] font-medium text-neutral-600">{ dialog?.title }</p>
+                        <FaRegQuestionCircle color={dialog.type === "warning" ? "red" : "blue"}></FaRegQuestionCircle>
+                        <p className="ml-2 mt-1 text-[16px] font-medium text-neutral-600">{dialog?.title}</p>
                     </DialogTitle>
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description">
-                            <div className="text-sm"> { dialog?.text }</div>
+                            <div className="text-sm"> {dialog?.text}</div>
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
                         <Button
                             disableFocusRipple
-                            onClick={ () => {
+                            onClick={() => {
                                 dialog?.handleOkClick?.();
                                 handleClose();
-                            } }
+                            }}
                             color={dialog.type}
                         >
                             OK
                         </Button>
                         <Button
                             // variant="contained"
-                            onClick={ handleClose }
+                            onClick={handleClose}
                             disableFocusRipple
                         >
-                            Hủy
+                            CANCEL
                         </Button>
                     </DialogActions>
                 </Dialog>

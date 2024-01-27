@@ -1,44 +1,108 @@
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import AddTaskSharpIcon from '@mui/icons-material/AddTaskSharp';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import { faker } from '@faker-js/faker';
-import { getListRegistration } from '../../../utils/api';
-import { useEffect ,useState} from 'react'
-
-const memberListMock = faker.helpers.multiple(
-	() => {
-		return {
-			id: faker.string.uuid(),
-            email: faker.internet.email(),
-            avatar: faker.image.avatar(),
-            name: faker.internet.userName(),
-            yearOfBirth: faker.date.past().getFullYear(),
-            phoneNumber: faker.phone.number(),
-            address: faker.location.streetAddress(),
-            expertise: faker.person.jobTitle(),
-            highestDegree: "PhD",
-            professionalLink: faker.internet.url()
-		};
-	},
-	{
-		count: 10,
-	},
-);
+import { getListRegistration, deleteRegistration, acceptMember } from '../../../utils/api';
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+import { useStateValue } from '../../../context/StateProvider';
+import { actionType } from '../../../context/reducer';
+import { ToastContainer, toast } from 'react-toastify';
 
 const MemberPendingList = () => {
-    const [members, setMembers] = useState([])
-    useEffect(() => {
-        const fetch = async () => {
-            const res = await getListRegistration()
-            if(res.success) {
-                setMembers(res.data)
-            }
-        }
-        fetch()
-    }, [])
+	const [members, setMembers] = useState([]);
+	const navigate = useNavigate();
+	const [_, dispatch] = useStateValue();
+	useEffect(() => {
+		const fetch = async () => {
+			const res = await getListRegistration()
+			if (res.success) {
+				setMembers(res.data)
+			}
+		}
+		fetch()
+	}, [])
+
+	const handleOnClickDelete = (id: number) => {
+		dispatch({
+			type: actionType.SET_DIALOG,
+			payload: {
+				title: 'Confirm deletion',
+				text: 'Are you sure you want to delete this member? The data will be permanently deleted and cannot be recovered.',
+				type: 'warning',
+				handleOkClick: async () => {
+					const res = await deleteRegistration(id)
+					if (res.success) {
+						toast.success("Deleted successfully ", {
+							position: 'top-right',
+							autoClose: 2000,
+							hideProgressBar: false,
+							closeOnClick: true,
+							pauseOnHover: false,
+							draggable: true,
+							progress: undefined,
+							theme: 'light',
+						});
+						setMembers(members.filter((f) => f.id != id));
+					} else {
+						toast.error("Delete failed ", {
+							position: 'top-right',
+							autoClose: 2000,
+							hideProgressBar: false,
+							closeOnClick: true,
+							pauseOnHover: false,
+							draggable: true,
+							progress: undefined,
+							theme: 'light',
+						});
+					}
+				},
+				open: true,
+			},
+		});
+	}
+
+	const handleAccept = (id: number) => {
+		dispatch({
+			type: actionType.SET_DIALOG,
+			payload: {
+				title: 'Confirm accept',
+				text: 'Are you sure you want to accept this member?',
+				type: 'warning',
+				handleOkClick: async () => {
+					const res = await acceptMember(id)
+					if (res.success) {
+						toast.success("Accept successfully ", {
+							position: 'top-right',
+							autoClose: 2000,
+							hideProgressBar: false,
+							closeOnClick: true,
+							pauseOnHover: false,
+							draggable: true,
+							progress: undefined,
+							theme: 'light',
+						});
+						setMembers(members.filter((f) => f.id != id));
+					} else {
+						toast.error("Accept failed ", {
+							position: 'top-right',
+							autoClose: 2000,
+							hideProgressBar: false,
+							closeOnClick: true,
+							pauseOnHover: false,
+							draggable: true,
+							progress: undefined,
+							theme: 'light',
+						});
+					}
+				},
+				open: true,
+			},
+		});
+	}
 	return (
 		<>
-			<h1 className='text-center'>Danh sách đang chờ xét duyệt</h1>
+			<ToastContainer />
+			<h1 className='text-center'>List pending review</h1>
 			<div className='relative overflow-x-auto p-2'>
 				<div className='pb-4 bg-white dark:bg-gray-900'>
 					<label htmlFor='table-search' className='sr-only'>
@@ -89,19 +153,16 @@ const MemberPendingList = () => {
 								</div>
 							</th>
 							<th scope='col' className='px-6 py-3'>
-								Tên
+								Name
 							</th>
 							<th scope='col' className='px-6 py-3'>
 								Email
 							</th>
 							<th scope='col' className='px-6 py-3'>
-								Số điện thoại
+								Expertise
 							</th>
-                            <th scope='col' className='px-6 py-3'>
-								Chuyên môn
-							</th>
-                            <th scope='col' className='px-6 py-3'>
-								Địa chỉ
+							<th scope='col' className='px-6 py-3'>
+								Address
 							</th>
 							<th scope='col' className='px-6 py-3'>
 								Action
@@ -134,7 +195,7 @@ const MemberPendingList = () => {
 										scope='row'
 										className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'
 									>
-										<a href={`/admin/members/${member.id}`}>
+										<a href={`/admin/members-pending/${member.id}`}>
 											{member.name}
 										</a>
 									</th>
@@ -142,114 +203,37 @@ const MemberPendingList = () => {
 										{member.email}
 									</td>
 									<td className='px-6 py-4'>
-										{member.phoneNumber}
-									</td>
-                                    <td className='px-6 py-4'>
 										{member.expertise}
 									</td>
-                                    <td className='px-6 py-4'>
+									<td className='px-6 py-4'>
 										{member.address}
 									</td>
-									<td className='px-6 py-4'>
-										<a
-											href='#'
-											className='font-medium text-blue-600 dark:text-blue-500 hover:underline'
+									<td className='px-6 py-4 flex'>
+										<div
+											onClick={() => navigate(`/admin/members-pending/${member.id}`)}
+											className='font-medium text-blue-600 dark:text-blue-500 hover:underline mr-2 cursor-pointer'
 										>
 											<RemoveRedEyeIcon />
-										</a>
-                                        <a
-											href='#'
-											className='font-medium text-blue-600 dark:text-blue-500 hover:underline'
+										</div>
+										<div
+											onClick={() => handleAccept(member.id)}
+											className='font-medium text-blue-600 dark:text-blue-500 hover:underline mr-2 cursor-pointer'
 										>
-											<ThumbUpIcon />
-										</a>
-										<a
-											href='#'
-											className='font-medium text-blue-600 dark:text-blue-500 hover:underline'
+											<AddTaskSharpIcon />
+										</div>
+										<div
+											onClick={() => handleOnClickDelete(member.id)}
+											className='font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer'
 										>
 											<DeleteForeverIcon
 												sx={{ color: 'red' }}
 											/>
-										</a>
+										</div>
 									</td>
 								</tr>
 							))}
 					</tbody>
 				</table>
-				<nav
-					className='flex items-center flex-column flex-wrap md:flex-row justify-between pt-4'
-					aria-label='Table navigation'
-				>
-					<span className='text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto'>
-						Showing{' '}
-						<span className='font-semibold text-gray-900 dark:text-white'>
-							1-10
-						</span>{' '}
-						of{' '}
-						<span className='font-semibold text-gray-900 dark:text-white'>
-							1000
-						</span>
-					</span>
-					<ul className='inline-flex -space-x-px rtl:space-x-reverse text-sm h-8'>
-						<li>
-							<a
-								href='#'
-								className='flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
-							>
-								Previous
-							</a>
-						</li>
-						<li>
-							<a
-								href='#'
-								className='flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
-							>
-								1
-							</a>
-						</li>
-						<li>
-							<a
-								href='#'
-								className='flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
-							>
-								2
-							</a>
-						</li>
-						<li>
-							<a
-								href='#'
-								aria-current='page'
-								className='flex items-center justify-center px-3 h-8 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white'
-							>
-								3
-							</a>
-						</li>
-						<li>
-							<a
-								href='#'
-								className='flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
-							>
-								4
-							</a>
-						</li>
-						<li>
-							<a
-								href='#'
-								className='flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
-							>
-								5
-							</a>
-						</li>
-						<li>
-							<a
-								href='#'
-								className='flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
-							>
-								Next
-							</a>
-						</li>
-					</ul>
-				</nav>
 			</div>
 		</>
 	);
