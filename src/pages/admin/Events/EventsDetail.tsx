@@ -82,6 +82,24 @@ const EventsDetail = () => {
 		setEventItem({ ...eventItem, [nameInput]: arr.join('/n') });
 	}
 
+	const handelChangeTime1 = (e: any, index: number) => {
+		const arr = eventItem.program.split('/n');
+		arr[index] = e.target.value + arr[index].slice(5);
+		setEventItem({ ...eventItem, program: arr.join('/n') });
+	}
+
+	const handelChangeTime2 = (e: any, index: number) => {
+		const arr = eventItem.program.split('/n');
+		arr[index] = arr[index].slice(0, 8) + e.target.value + arr[index].slice(13);
+		setEventItem({ ...eventItem, program: arr.join('/n') });
+	}
+
+	const handelChangeTime3 = (e: any, index: number) => {
+		const arr = eventItem.program.split('/n');
+		arr[index] = arr[index].slice(0, 13) + ' ' + e.target.value;
+		setEventItem({ ...eventItem, program: arr.join('/n') });
+	}
+
 	return (
 		<>
 			<ToastContainer />
@@ -273,7 +291,7 @@ const EventsDetail = () => {
 					>
 						Purpose
 					</label>
-					{eventItem.purpose && eventItem.purpose.split('/n').map((item, index) => {
+					{eventItem.purpose.split('/n').map((item, index) => {
 						return <div className='flex'>
 							<input 
 								key={index}
@@ -298,7 +316,7 @@ const EventsDetail = () => {
 					>
 						Audience
 					</label>
-					{eventItem.audience && eventItem.audience.split('/n').map((item, index) => {
+					{eventItem.audience.split('/n').map((item, index) => {
 						return <div className='flex'>
 							<input 
 								key={index}
@@ -311,7 +329,7 @@ const EventsDetail = () => {
 								onChange={(e) => handelChangeInputForm2(e, index)}
 								required
 							/>
-							<button className='ml-2 mt-2 bg-red-600 text-white' onClick={() => deleteInput('purpose', index)}>Delete</button>
+							<button className='ml-2 mt-2 bg-red-600 text-white' onClick={() => deleteInput('audience', index)}>Delete</button>
 						</div>;
 					})}
 					<button className='mt-2' onClick={() => addInput("audience")}>Add audience</button>
@@ -323,19 +341,42 @@ const EventsDetail = () => {
 					>
 						Program
 					</label>
-					{eventItem.program && eventItem.program.split('/n').map((item, index) => {
+					{eventItem.program.split('/n').map((item, index) => {
 						return <div className='flex'>
-							<input 
-								key={index}
-								type='text'
-								id='news-program'
-								name='program'
-								value={item}
-								className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-								placeholder='Program ...'
-								onChange={(e) => handelChangeInputForm2(e, index)}
-								required
-							/> 
+							<div className='flex w-11/12'>
+								<input 
+									type='time'
+									pattern="[0-9]{2}:[0-9]{2}"
+									id='news-program'
+									name='program'
+									value={item.slice(0, 5)}
+									className='bg-gray-50 w-1/6 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 mt-2 ml-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+									placeholder='Program ...'
+									onChange={(e) => handelChangeTime1(e, index)}
+									required
+								/>
+								<input 
+									type='time'
+									step="3600"
+									id='news-program'
+									name='program'
+									value={item.slice(8, 13)}
+									className='bg-gray-50 w-1/6 border mr-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 mt-2 ml-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+									placeholder='Program ...'
+									onChange={(e) => handelChangeTime2(e, index)}
+									required
+								/>
+								<input 
+									type='text'
+									id='news-program'
+									name='program'
+									value={item.slice(14)}
+									className='bg-gray-50 w-2/3 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 mt-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+									placeholder='Program ...'
+									onChange={(e) => handelChangeTime3(e, index)}
+									required
+								/>
+							</div>
 							<button className='ml-2 mt-2 bg-red-600 text-white' onClick={() => deleteInput('program', index)}>Delete</button>
 						</div>;
 					})}
