@@ -1,8 +1,14 @@
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 import { formatDate } from '../../../commons/utils';
-
+import { IconButton,Pagination  } from '@mui/material';
+import { useStateValue } from '../../../context/StateProvider';
+import { actionType } from '../../../context/reducer';
 import { faker } from '@faker-js/faker';
+import { useState, useEffect } from 'react'
+
+import { getNews, deleteNews } from '../../../utils/api';
+
 
 const newsListMock = faker.helpers.multiple(
 	() => {
@@ -18,7 +24,49 @@ const newsListMock = faker.helpers.multiple(
 	},
 );
 
+const LIMIT = 10
+
 const NewsList = () => {
+    const [newsList, setNewsList] = useState([])
+    const [page, setPage] = useState(1)
+    const [totalPage, setTotalPage] = useState(1)
+    const [_, dispatch] = useStateValue();
+    useEffect(() => {
+        const fetch = async () => {
+            const res = await getNews({page, limit : LIMIT})
+            if(res.success) {
+                setNewsList(res.data.news)
+                setTotalPage(res.data.total_pages)
+            }
+        }
+        fetch()
+    }, [page])
+
+    const handlePageChange = (_e: any, page: number) => {
+		setPage(page);
+	};
+
+    const handleDeleteNews = (newsId) => {
+		dispatch({
+			type: actionType.SET_DIALOG,
+			payload: {
+				title: 'Xác nhận xóa',
+				text: 'Bạn có chắc chắn muốn xóa bài viết này? Dữ liệu sẽ bị xóa vĩnh viễn và không thể khôi phục',
+				type: 'warning',
+				handleOkClick: async () => {
+                    await onDeleteNews(newsId)
+				},
+				open: true,
+			},
+		});
+		setOpenMenu(false);
+	};
+
+    const onDeleteNews = async (id) => {
+        const res = await deleteNews(id)
+        if(res.success)
+            setNewsList(newsList.filter((f) => f.id !== id));
+    }
 	return (
 		<>
 			<h1 className='text-center'>Danh sách bài viết</h1>
@@ -86,8 +134,8 @@ const NewsList = () => {
 						</tr>
 					</thead>
 					<tbody>
-						{newsListMock &&
-							newsListMock.map((news) => (
+						{newsList &&
+							newsList.map((news) => (
 								<tr key={news.id} className='odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'>
 									<td className='w-4 p-4'>
 										<div className='flex items-center'>
@@ -111,8 +159,8 @@ const NewsList = () => {
                                         <a href={`/admin/news/${news.id}`}>{news.title.length > 60 ? news.title.slice(0,50) + '...' : news.title}</a>
 										
 									</th>
-									<td className='px-6 py-4'>{news.createBy}</td>
-									<td className='px-6 py-4'>{news.createAt}</td>
+									<td className='px-6 py-4'>{news.createBy || 'Admin'}</td>
+									<td className='px-6 py-4'>{news.created_at}</td>
 									<td className='px-6 py-4'>
 										<a
 											href='#'
@@ -120,92 +168,28 @@ const NewsList = () => {
 										>
 											<EditIcon />
 										</a>
-										<a
-											href='#'
+										<IconButton
+											onClick={() => handleDeleteNews(news.id)}
 											className='font-medium text-blue-600 dark:text-blue-500 hover:underline'
 										>
 											<DeleteForeverIcon
 												sx={{ color: 'red' }}
 											/>
-										</a>
+										</IconButton>
 									</td>
 								</tr>
 							))}
 					</tbody>
 				</table>
 				<nav
-					className='flex items-center flex-column flex-wrap md:flex-row justify-between pt-4'
+					className='flex items-center flex-column flex-wrap md:flex-row justify-end pt-4'
 					aria-label='Table navigation'
 				>
-					<span className='text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto'>
-						Showing{' '}
-						<span className='font-semibold text-gray-900 dark:text-white'>
-							1-10
-						</span>{' '}
-						of{' '}
-						<span className='font-semibold text-gray-900 dark:text-white'>
-							1000
-						</span>
-					</span>
-					<ul className='inline-flex -space-x-px rtl:space-x-reverse text-sm h-8'>
-						<li>
-							<a
-								href='#'
-								className='flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
-							>
-								Previous
-							</a>
-						</li>
-						<li>
-							<a
-								href='#'
-								className='flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
-							>
-								1
-							</a>
-						</li>
-						<li>
-							<a
-								href='#'
-								className='flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
-							>
-								2
-							</a>
-						</li>
-						<li>
-							<a
-								href='#'
-								aria-current='page'
-								className='flex items-center justify-center px-3 h-8 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white'
-							>
-								3
-							</a>
-						</li>
-						<li>
-							<a
-								href='#'
-								className='flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
-							>
-								4
-							</a>
-						</li>
-						<li>
-							<a
-								href='#'
-								className='flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
-							>
-								5
-							</a>
-						</li>
-						<li>
-							<a
-								href='#'
-								className='flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
-							>
-								Next
-							</a>
-						</li>
-					</ul>
+					<Pagination
+                        count={totalPage}
+                        page={page}
+                        onChange={handlePageChange}
+                    ></Pagination>
 				</nav>
 			</div>
 		</>

@@ -1,10 +1,55 @@
 import { Editor } from '@tinymce/tinymce-react';
+import { useParams } from "react-router-dom";
+import { useState, useEffect } from 'react'
+import CircularProgress from '@mui/material/CircularProgress';
+import { useNavigate } from 'react-router-dom';
+
+import { getNewsDetail, updateNews } from '../../../utils/api';
 
 const NewsDetail = () => {
+    const [title, setTitle] = useState('')
+    const [content, setContent] = useState('')
+    const [text, setText] = useState("");
+    const [loading, setLoading] = useState(false)
+    const [thumbnail, setThumbnail] = useState("")
+    const routeParams = useParams();
+    const [news, setNews] = useState(null)
+    const navigate = useNavigate();
+    useEffect(() => {
+        console.log(routeParams)
+        const fetch = async () => {
+            const res = await getNewsDetail(routeParams.id)
+            if(res.success) {
+                setNews(res.data)
+                setTitle(res.data.title)
+                setContent(res.data.content)
+                setThumbnail(res.data.image)
+            }
+        }
+        fetch()
+    }, [])
+
+    const onEditorInputChange = (newValue, editor) => {
+        setContent(newValue);
+        setText(editor.getContent({ format: "text" }));
+    }
+
+     const handleOnSubmit = async () => {
+        setLoading(true)
+        const res = await updateNews({
+            id: routeParams.id,
+            title,
+            content,
+            image: thumbnail
+        })
+        if(res.success)
+            navigate('/admin/news');
+        setLoading(false)
+    }
 	return (
 		<>
 			<h1 className='text-center'>Chỉnh sửa tin tức</h1>
-			<form className='mt-5'>
+			<div className='mt-5'>
 				<div className='mb-5'>
 					<label
 						htmlFor='news-title'
@@ -15,11 +60,37 @@ const NewsDetail = () => {
 					<input
 						type='text'
 						id='news-title'
-                        value="Mừng Lễ Giáng sinh và Năm mới! Thông điệp từ Ban Điều hành"
 						className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
 						placeholder='Tiêu đề tin tức ...'
 						required
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
 					/>
+				</div>
+                <div className='mb-5'>
+					<label
+						htmlFor='news-title'
+						className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'
+					>
+						Thumbnail
+					</label>
+					<input
+						type='text'
+						id='news-title'
+                        value={thumbnail}
+                        onChange={(e) => setThumbnail(e.target.value)}
+						className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+						placeholder='Thumbnail ...'
+						required
+					/>
+				</div>
+                <div className='mb-5'>
+					<p
+						className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'
+					>
+						Preview
+					</p>
+                    {thumbnail != '' && <img src={thumbnail} className="w-40 h-40" />}
 				</div>
 				<div className='mb-5'>
 					<label
@@ -70,17 +141,19 @@ Năm 2023 là một năm bản lề đối với VASEA. Ở cấp độ quản t
 							images_file_types: 'jpg,svg,webp',
 							image_title: true,
 						}}
+                        value={content}
+                        onEditorChange={(newValue, editor) => onEditorInputChange(newValue, editor)}
 					/>
 				</div>
 				<div className='flex justify-center mt-10'>
 					<button
-						type='submit'
+						onClick={handleOnSubmit}
 						className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
 					>
-						Cập nhật
+						 {loading ? <CircularProgress size={20} sx={{color: '#ffffff'}}/> : 'Cập nhật'}
 					</button>
 				</div>
-			</form>
+			</div>
 		</>
 	);
 };

@@ -1,16 +1,33 @@
 import { Editor } from '@tinymce/tinymce-react';
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+import CircularProgress from '@mui/material/CircularProgress';
+import { createNews } from '../../../utils/api';
+
+
 const CreateNews = () => {
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
     const [text, setText] = useState("");
+    const [loading, setLoading] = useState(false)
+    const [thumbnail, setThumbnail] = useState("")
+
+    const navigate = useNavigate();
 
     const onEditorInputChange = (newValue, editor) => {
         setContent(newValue);
         setText(editor.getContent({ format: "text" }));
     }
-    const handleOnSubmit = () => {
-        console.log('content', content, text)
+    const handleOnSubmit = async () => {
+        setLoading(true)
+        const res = await createNews({
+            title,
+            content,
+            image: thumbnail
+        })
+        if(res.success)
+            navigate('/admin/news');
+        setLoading(false)
     }
 	return (
 		<>
@@ -32,6 +49,31 @@ const CreateNews = () => {
 						placeholder='Tiêu đề tin tức ...'
 						required
 					/>
+				</div>
+                <div className='mb-5'>
+					<label
+						htmlFor='news-title'
+						className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'
+					>
+						Thumbnail
+					</label>
+					<input
+						type='text'
+						id='news-title'
+                        value={thumbnail}
+                        onChange={(e) => setThumbnail(e.target.value)}
+						className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+						placeholder='Thumbnail ...'
+						required
+					/>
+				</div>
+                <div className='mb-5'>
+					<p
+						className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'
+					>
+						Preview
+					</p>
+                    {thumbnail != '' && <img src={thumbnail} className="w-40 h-40" />}
 				</div>
 				<div className='mb-5'>
 					<label
@@ -90,7 +132,7 @@ const CreateNews = () => {
                         onClick={handleOnSubmit}
 						className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
 					>
-						Tạo tin tức
+						 {loading ? <CircularProgress size={20} sx={{color: '#ffffff'}}/> : 'Tạo tin tức'} 
 					</button>
 				</div>
 			</div>

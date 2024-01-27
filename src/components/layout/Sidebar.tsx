@@ -114,7 +114,7 @@ const Sidebar = () => {
 				},
 				{
 					id: "ConfirmMember",
-					link: "/admin/members",
+					link: "/admin/pending-members",
 					text: "Duyệt thành viên",
 				},
 			],

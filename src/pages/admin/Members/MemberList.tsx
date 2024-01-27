@@ -1,23 +1,69 @@
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
-import { faker } from '@faker-js/faker';
+import { getListMembers, deleteMember } from '../../../utils/api';
+import { useEffect ,useState} from 'react'
+import IconButton from '@mui/material/IconButton';  
 
-const memberListMock = faker.helpers.multiple(
-	() => {
-		return {
-			id: faker.string.uuid(),
-			userName: faker.internet.userName(),
-            email: faker.internet.email(),
-            avatar: faker.image.avatar(),
-		};
-	},
-	{
-		count: 10,
-	},
-);
+import { useStateValue } from '../../../context/StateProvider';
+import { actionType } from '../../../context/reducer';
+import { ToastContainer, toast } from 'react-toastify';
+
 const MemberList = () => {
+    const [members, setMembers] = useState([])
+    const [_, dispatch] = useStateValue();
+    useEffect(() => {
+        const fetch = async () => {
+            const res = await getListMembers()
+            if(res.success) {
+                setMembers(res.data)
+            }
+        }
+        fetch()
+    }, [])
+
+    const handleOnClickDelete = (id) => {
+        dispatch({
+			type: actionType.SET_DIALOG,
+			payload: {
+				title: 'Xác nhận xóa',
+				text: 'Bạn có chắc chắn muốn xóa thành viên này? Dữ liệu sẽ bị xóa vĩnh viễn và không thể khôi phục',
+				type: 'warning',
+				handleOkClick: async () => {
+                    const res = await deleteMember(id)
+                    if(res.success) {
+                        toast.success("Xóa thành công ", {
+                            position: 'top-right',
+                            autoClose: 2000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: false,
+                            draggable: true,
+                            progress: undefined,
+                            theme: 'light',
+                        });
+					    setMembers(members.filter((f) => f.id != id));
+
+                    }else {
+                        toast.error("Xóa thất bại ", {
+                            position: 'top-right',
+                            autoClose: 2000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: false,
+                            draggable: true,
+                            progress: undefined,
+                            theme: 'light',
+                        });
+                    }
+					// setImageList(imageList.filter((f) => f.title !== fileName));
+				},
+				open: true,
+			},
+		});
+    }
 	return (
 		<>
+            <ToastContainer />
 			<h1 className='text-center'>Danh sách thành viên</h1>
 			<div className='relative overflow-x-auto p-2'>
 				<div className='pb-4 bg-white dark:bg-gray-900'>
@@ -83,8 +129,8 @@ const MemberList = () => {
 						</tr>
 					</thead>
 					<tbody>
-						{memberListMock &&
-							memberListMock.map((member) => (
+						{members &&
+							members.map((member) => (
 								<tr
 									key={member.id}
 									className='odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'
@@ -109,14 +155,14 @@ const MemberList = () => {
 										className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'
 									>
 										<a href={`/admin/members/${member.id}`}>
-											{member.userName}
+											{member.name}
 										</a>
 									</th>
 									<td className='px-6 py-4'>
 										{member.email}
 									</td>
 									<td className='px-6 py-4'>
-										<img className="w-10 h-10 rounded-full" src={member.avatar} alt="Jese image"></img>
+										<img className="w-10 h-10 rounded-full" src={member.image} alt="Jese image"></img>
 									</td>
 									<td className='px-6 py-4'>
 										<a
@@ -125,20 +171,20 @@ const MemberList = () => {
 										>
 											<EditIcon />
 										</a>
-										<a
-											href='#'
+										<IconButton
+                                            onClick={()=> handleOnClickDelete(member.id)}
 											className='font-medium text-blue-600 dark:text-blue-500 hover:underline'
 										>
 											<DeleteForeverIcon
 												sx={{ color: 'red' }}
 											/>
-										</a>
+										</IconButton>
 									</td>
 								</tr>
 							))}
 					</tbody>
 				</table>
-				<nav
+				{/* <nav
 					className='flex items-center flex-column flex-wrap md:flex-row justify-between pt-4'
 					aria-label='Table navigation'
 				>
@@ -211,7 +257,7 @@ const MemberList = () => {
 							</a>
 						</li>
 					</ul>
-				</nav>
+				</nav> */}
 			</div>
 		</>
 	);
