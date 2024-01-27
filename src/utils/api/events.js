@@ -10,7 +10,14 @@ export const axiosInstance = axios.create({
 
 export async function getAllEvents(page = 1, LIMIT = 10) {
 	try {
-		const res = await axiosInstance.get(`/events?page=${page}&limit=${LIMIT}`);
+        const res = await axiosInstance.get(
+			`/events/?page=${page}&limit=${LIMIT}`,
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		);
 		return {
 			success: true,
 			data: res.data,
@@ -25,7 +32,14 @@ export async function getAllEvents(page = 1, LIMIT = 10) {
 
 export async function getEventById(id) {
     try {
-        const res = await axiosInstance.get(`/events/${id}`);
+        const res = await axiosInstance.get(`/events/${id}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        
         return {
             success: true,
             data: res.data,

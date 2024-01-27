@@ -32,7 +32,7 @@ export default function ImageGallery() {
 		if (!e.target.files) {
 			return;
 		}
-		let item = e.target.files[0];
+		const item = e.target.files[0];
         item["img"] = URL.createObjectURL(item)
 		setFiles([item]);
 	};
@@ -107,11 +107,11 @@ export default function ImageGallery() {
 			const res = await getListImages({ page, limit: 10 });
 			if (res.success) {
 				setImageList(
-					res.data.image_urls.map((item, index) => {
+					res.data.image.map((item, index) => {
 						return {
 							key: index,
-							img: item,
-							title: item,
+							img: item.url,
+							title: item.name,
 						};
 					}),
 				);

@@ -76,7 +76,8 @@ const EventsDetail = () => {
 		setEventItem({ ...eventItem, [nameInput]: eventItem[nameInput] + '/n' });
 	}
 
-	const deleteInput = (nameInput: string, index: number) => {
+	const deleteInput = (nameInput: string, index: number, e) => {
+		e.preventDefault();
 		const arr = eventItem[nameInput].split('/n');
 		arr.splice(index, 1);
 		setEventItem({ ...eventItem, [nameInput]: arr.join('/n') });
@@ -84,7 +85,7 @@ const EventsDetail = () => {
 
 	const handelChangeTime1 = (e: any, index: number) => {
 		const arr = eventItem.program.split('/n');
-		arr[index] = e.target.value + arr[index].slice(5);
+		arr[index] = e.target.value + ' - ' + arr[index].slice(8);
 		setEventItem({ ...eventItem, program: arr.join('/n') });
 	}
 
@@ -304,7 +305,7 @@ const EventsDetail = () => {
 								onChange={(e) => handelChangeInputForm2(e, index)}
 								required
 							/>
-							<button className='ml-2 mt-2 bg-red-600 text-white' onClick={() => deleteInput('purpose', index)}>Delete</button>
+							<button className='ml-2 mt-2 bg-red-600 text-white' onClick={(e) => deleteInput('purpose', index, e)}>Delete</button>
 						</div>;
 					})}
 					<button className='mt-2' onClick={() => addInput("purpose")}>Add purpose</button>
@@ -329,7 +330,7 @@ const EventsDetail = () => {
 								onChange={(e) => handelChangeInputForm2(e, index)}
 								required
 							/>
-							<button className='ml-2 mt-2 bg-red-600 text-white' onClick={() => deleteInput('audience', index)}>Delete</button>
+							<button className='ml-2 mt-2 bg-red-600 text-white' onClick={(e) => deleteInput('audience', index, e)}>Delete</button>
 						</div>;
 					})}
 					<button className='mt-2' onClick={() => addInput("audience")}>Add audience</button>
@@ -377,7 +378,7 @@ const EventsDetail = () => {
 									required
 								/>
 							</div>
-							<button className='ml-2 mt-2 bg-red-600 text-white' onClick={() => deleteInput('program', index)}>Delete</button>
+							<button className='ml-2 mt-2 bg-red-600 text-white' onClick={(e) => deleteInput('program', index, e)}>Delete</button>
 						</div>;
 					})}
 					<button className='mt-2' onClick={() => addInput("program")}>Add program</button>

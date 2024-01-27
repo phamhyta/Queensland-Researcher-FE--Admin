@@ -8,7 +8,6 @@ import { createNews } from '../../../utils/api';
 const CreateNews = () => {
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
-    const [text, setText] = useState("");
     const [loading, setLoading] = useState(false)
     const [thumbnail, setThumbnail] = useState("")
 
@@ -16,7 +15,6 @@ const CreateNews = () => {
 
     const onEditorInputChange = (newValue, editor) => {
         setContent(newValue);
-        setText(editor.getContent({ format: "text" }));
     }
     const handleOnSubmit = async () => {
         setLoading(true)

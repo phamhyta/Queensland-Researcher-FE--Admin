@@ -1,36 +1,19 @@
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
-import { formatDate } from '../../../commons/utils';
 import { IconButton,Pagination  } from '@mui/material';
 import { useStateValue } from '../../../context/StateProvider';
 import { actionType } from '../../../context/reducer';
-import { faker } from '@faker-js/faker';
 import { useState, useEffect } from 'react'
-
 import { getNews, deleteNews } from '../../../utils/api';
-
-
-const newsListMock = faker.helpers.multiple(
-	() => {
-		return {
-			id: faker.string.uuid(),
-			title: faker.lorem.lines(),
-			createBy: faker.internet.userName(),
-			createAt: formatDate(faker.date.anytime()),
-		};
-	},
-	{
-		count: 10,
-	},
-);
-
-const LIMIT = 10
+import { LIMIT } from '../../../utils/constant';
+import { useNavigate } from 'react-router-dom';
 
 const NewsList = () => {
     const [newsList, setNewsList] = useState([])
     const [page, setPage] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
     const [_, dispatch] = useStateValue();
+	const navigate = useNavigate();
     useEffect(() => {
         const fetch = async () => {
             const res = await getNews({page, limit : LIMIT})
@@ -156,15 +139,15 @@ const NewsList = () => {
 										scope='row'
 										className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'
 									>
-                                        <a href={`/admin/news/${news.id}`}>{news.title.length > 60 ? news.title.slice(0,50) + '...' : news.title}</a>
+                                        <a className='cursor-pointer' onClick={() => navigate(`/admin/news/${news.id}`)}>{news.title.length > 60 ? news.title.slice(0,50) + '...' : news.title}</a>
 										
 									</th>
 									<td className='px-6 py-4'>{news.createBy || 'Admin'}</td>
-									<td className='px-6 py-4'>{news.created_at}</td>
+									<td className='px-6 py-4'>{news.created_at.slice(0, 10)}</td>
 									<td className='px-6 py-4'>
 										<a
-											href='#'
-											className='font-medium text-blue-600 dark:text-blue-500 hover:underline'
+											onClick={() => navigate(`/admin/news/${news.id}`)}
+											className='font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer'
 										>
 											<EditIcon />
 										</a>

@@ -3,35 +3,29 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from 'react'
 import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from 'react-router-dom';
-
 import { getNewsDetail, updateNews } from '../../../utils/api';
 
 const NewsDetail = () => {
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
-    const [text, setText] = useState("");
     const [loading, setLoading] = useState(false)
     const [thumbnail, setThumbnail] = useState("")
     const routeParams = useParams();
-    const [news, setNews] = useState(null)
     const navigate = useNavigate();
     useEffect(() => {
-        console.log(routeParams)
         const fetch = async () => {
             const res = await getNewsDetail(routeParams.id)
             if(res.success) {
-                setNews(res.data)
                 setTitle(res.data.title)
                 setContent(res.data.content)
                 setThumbnail(res.data.image)
             }
         }
         fetch()
-    }, [])
+    }, [routeParams.id])
 
     const onEditorInputChange = (newValue, editor) => {
         setContent(newValue);
-        setText(editor.getContent({ format: "text" }));
     }
 
      const handleOnSubmit = async () => {
@@ -90,7 +84,7 @@ const NewsDetail = () => {
 					>
 						Preview
 					</p>
-                    {thumbnail != '' && <img src={thumbnail} className="w-40 h-40" />}
+                    {thumbnail != '' && <img src={thumbnail} className="h-40" />}
 				</div>
 				<div className='mb-5'>
 					<label
@@ -150,7 +144,7 @@ Năm 2023 là một năm bản lề đối với VASEA. Ở cấp độ quản t
 						onClick={handleOnSubmit}
 						className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
 					>
-						 {loading ? <CircularProgress size={20} sx={{color: '#ffffff'}}/> : 'Cập nhật'}
+						{loading ? <CircularProgress size={20} sx={{color: '#ffffff'}}/> : 'Cập nhật'}
 					</button>
 				</div>
 			</div>
