@@ -2,12 +2,13 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { faker } from '@faker-js/faker';
+import { getListRegistration } from '../../../utils/api';
+import { useEffect ,useState} from 'react'
 
 const memberListMock = faker.helpers.multiple(
 	() => {
 		return {
 			id: faker.string.uuid(),
-            userName: faker.internet.userName(),
             email: faker.internet.email(),
             avatar: faker.image.avatar(),
             name: faker.internet.userName(),
@@ -25,6 +26,16 @@ const memberListMock = faker.helpers.multiple(
 );
 
 const MemberPendingList = () => {
+    const [members, setMembers] = useState([])
+    useEffect(() => {
+        const fetch = async () => {
+            const res = await getListRegistration()
+            if(res.success) {
+                setMembers(res.data)
+            }
+        }
+        fetch()
+    }, [])
 	return (
 		<>
 			<h1 className='text-center'>Danh sách đang chờ xét duyệt</h1>
@@ -98,10 +109,10 @@ const MemberPendingList = () => {
 						</tr>
 					</thead>
 					<tbody>
-						{memberListMock &&
-							memberListMock.map((member) => (
+						{members &&
+							members.map((member, index) => (
 								<tr
-									key={member.id}
+									key={index}
 									className='odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'
 								>
 									<td className='w-4 p-4'>

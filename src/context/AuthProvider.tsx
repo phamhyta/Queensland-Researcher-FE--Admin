@@ -15,7 +15,6 @@ const AuthProvider = ({ children }) => {
 	const handleLogin = async ({ email, password }) => {
 		const res = await login({ email, password });
 		if (res.success) {
-            console.log('res', res)
 			localStorage.setItem('token', res.data.access_token);
 			setToken(res.data.access_token);
             const user = res.data.data

@@ -77,7 +77,7 @@ function App() {
 						}
 					/>
 					<Route
-						path='/admin/members'
+						path='/admin/pending-members'
 						element={
 							<ProtectedRouter>
 								<MemberPendingList />{' '}
@@ -85,7 +85,7 @@ function App() {
 						}
 					/>
 					<Route
-						path='/admin/pending-members'
+						path='/admin/members'
 						element={
 							<ProtectedRouter>
 								<MemberList />{' '}
