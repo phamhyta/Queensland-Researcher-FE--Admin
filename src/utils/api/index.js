@@ -31,7 +31,7 @@ export async function login({ email, password }) {
 export async function getListImages({page, limit}) {
     try {
 		const res = await axiosInstance.get(
-			`uploadImage/get_images?page=${page}&limit=${limit}`,
+			`image?page=${page}&limit=${limit}`,
 		);
 		return {
 			success: true,
@@ -53,7 +53,7 @@ export async function uploadImage(file) {
         const token = localStorage.getItem('token');
 		const formData = new FormData();
 		formData.append('files', file);
-		const res = await axiosInstance.post('uploadImage/upload', formData, {
+		const res = await axiosInstance.post('image', formData, {
 			headers: {
 				'Content-Type': 'multipart/form-data',
 				accept: 'application/json',

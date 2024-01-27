@@ -1,7 +1,7 @@
 import axios from 'axios';
 const token = localStorage.getItem('token');
 export const axiosInstance = axios.create({
-	baseURL: "https://api.avesq.org",
+	baseURL: "https://api.avesq.org/admin",
 	headers: {
 		accept: 'application/json',
         Authorization: `Bearer ${token}`,
@@ -10,7 +10,7 @@ export const axiosInstance = axios.create({
 
 export async function getAllEvents(page = 1, LIMIT = 10) {
 	try {
-		const res = await axiosInstance.get(`/events/get_all_events?page=${page}&limit=${LIMIT}`);
+		const res = await axiosInstance.get(`/events?page=${page}&limit=${LIMIT}`);
 		return {
 			success: true,
 			data: res.data,
@@ -25,7 +25,7 @@ export async function getAllEvents(page = 1, LIMIT = 10) {
 
 export async function getEventById(id) {
     try {
-        const res = await axiosInstance.get(`/events/get_event/${id}`);
+        const res = await axiosInstance.get(`/events/${id}`);
         return {
             success: true,
             data: res.data,
@@ -40,7 +40,7 @@ export async function getEventById(id) {
 
 export async function createEvent(data) {
     try {
-        const res = await axiosInstance.post(`/events/create_event`, data);
+        const res = await axiosInstance.post(`/events`, data);
         return {
             success: true,
             data: res.data,
@@ -55,7 +55,7 @@ export async function createEvent(data) {
 
 export async function updateEvent(id, data) {
     try {
-        const res = await axiosInstance.put(`/events/update_event/${id}`, data);
+        const res = await axiosInstance.put(`/events/${id}`, data);
         return {
             success: true,
             data: res.data,
@@ -70,7 +70,7 @@ export async function updateEvent(id, data) {
 
 export async function deleteEvent(id) {
     try {
-        const res = await axiosInstance.delete(`/events/delete_event/${id}`);
+        const res = await axiosInstance.delete(`/events/${id}`);
         return {
             success: true,
             data: res.data,
