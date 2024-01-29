@@ -1,0 +1,47 @@
+name: Docker Image CI
+
+# Controls when the action will run.
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [master]
+  # # Allows you to run this workflow manually from the Actions tab
+  # workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains multiple jobs
+  push_to_Docker_Hub:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    # build docker image and push to docker hub
+    # only if the app build and test successfull
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v2
+
+      - name: ssh server with ssh public key
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST_ADDRESS }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.HOST_PRIVATE_KEY }}
+          script: |
+            cd ${{ secrets.PATH_DEPLOY }} &&
+            eval "$(ssh-agent -s)" && ssh-add ~/.ssh/id_ed25519 &&
+            git pull origin &&
+            docker compose up -d --build
+      - name: send telegram message on push
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            ${{ secrets.TELEGRAM_TO }}
+            ${{ secrets.TELEGRAM_TOKEN }}
+            ${{ github.actor }} created commit:
+            Commit message: ${{ github.event.commits[0].message }}
+            Project VaipeOCR run successfully
+            Repository: ${{ github.repository }}
+
+            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
