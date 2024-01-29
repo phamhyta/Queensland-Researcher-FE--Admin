@@ -1,0 +1,10 @@
+version: "1.2"
+services:
+  web:
+    image: "avesq-fe-admin"
+    build:
+      context: .
+    ports:
+      - 3010:80
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
