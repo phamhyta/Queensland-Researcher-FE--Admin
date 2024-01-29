@@ -22,7 +22,7 @@ export async function login({ email, password }) {
 export async function getListImages({ page, limit }) {
 	try {
 		const res = await axiosInstance.get(
-			`image?page=${page}&limit=${limit}`,
+			`/image/?page=${page}&limit=${limit}`,
 		);
 		return {
 			success: true,
@@ -60,11 +60,31 @@ export async function uploadImage(file) {
 	}
 }
 
+export async function deleteImage(id) {
+	try {
+		const token = localStorage.getItem('token');
+		const res = await axiosInstance.delete(`/admin/image/${id}`, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
+		return {
+			success: true,
+			data: res.data,
+		};
+	} catch (error) {
+		console.log(error);
+		return {
+			success: false,
+		};
+	}
+}
+
 export async function getNews({ page, limit }) {
 	try {
 		const token = localStorage.getItem('token');
 		const res = await axiosInstance.get(
-			`admin/news/?page=${page}&limit=${limit}`,
+			`/admin/news/?page=${page}&limit=${limit}`,
 			{
 				headers: {
 					Authorization: `Bearer ${token}`,
@@ -86,7 +106,7 @@ export async function deleteNews(id) {
 	try {
 		const token = localStorage.getItem('token');
 		const res = await axiosInstance.delete(
-			`admin/news/${id}`,
+			`/admin/news/${id}`,
 			{
 				headers: {
 					Authorization: `Bearer ${token}`,
@@ -108,7 +128,7 @@ export async function createNews({ title, content, image }) {
 	try {
 		const token = localStorage.getItem('token');
 		const res = await axiosInstance.post(
-			"admin/news/", {
+			"/admin/news/", {
 			title,
 			content,
 			image
@@ -134,7 +154,7 @@ export async function getNewsDetail(id) {
 	try {
 		const token = localStorage.getItem('token');
 		const res = await axiosInstance.get(
-			`admin/news/${id}`,
+			`/admin/news/${id}`,
 			{
 				headers: {
 					Authorization: `Bearer ${token}`,
@@ -156,7 +176,7 @@ export async function updateNews({ id, title, content, image }) {
 	try {
 		const token = localStorage.getItem('token');
 		const res = await axiosInstance.put(
-			`admin/news/${id}`,
+			`/admin/news/${id}`,
 			{
 				title,
 				content,

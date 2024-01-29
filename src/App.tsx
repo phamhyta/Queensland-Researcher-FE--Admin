@@ -35,7 +35,7 @@ function App() {
 		<>
 			<Routes>
 				<Route
-					path='/admin'
+					path='/'
 					element={
 						<ProtectedRouter>
 							{' '}
