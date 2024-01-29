@@ -20,7 +20,7 @@ import MemberPendingDetail from './pages/admin/Members/MemberPendingDetail';
 
 const ProtectedRouter = ({ children }) => {
 	const location = useLocation();
-	const { token, role, currentUser } = useAuth();
+	const { token } = useAuth();
 	if (!token) {
 		return <Navigate to='/login' replace state={{ from: location }} />;
 	} 
@@ -29,6 +29,34 @@ const ProtectedRouter = ({ children }) => {
 	}
 	return children;
 };
+
+const ProtectedRouterAdmin = ({ children }) => {
+	const location = useLocation();
+	const { token, role } = useAuth();
+	if (!token) {
+		return <Navigate to='/login' replace state={{ from: location }} />;
+	} else if (role !== 'admin') {
+		return <Navigate to='/404' replace state={{ from: location }} />;
+	} else {
+		// onVerifyToken();
+	}
+	return children;
+}
+
+const ProtectedRouterMember = ({ children }) => {
+	const location = useLocation();
+	const { token, currentUser} = useAuth();
+	const id = parseInt(location.pathname.split('/')[3]);
+	console.log(currentUser, id);
+	if (!token) {
+		return <Navigate to='/login' replace state={{ from: location }} />;
+	} else if (currentUser.user_id !== id && currentUser.role !== 'admin') {
+		return <Navigate to='/404' replace state={{ from: location }} />;
+	} else {
+		// onVerifyToken();
+	}
+	return children;
+}
 
 function App() {
 	return (
@@ -46,133 +74,133 @@ function App() {
 					<Route
 						path='/admin/dashboard'
 						element={
-							<ProtectedRouter>
+							<ProtectedRouterAdmin>
 								{' '}
 								<Dashboard />
-							</ProtectedRouter>
+							</ProtectedRouterAdmin>
 						}
 					/>
 					<Route
 						path='/admin/news'
 						element={
-							<ProtectedRouter>
+							<ProtectedRouterAdmin>
 								{' '}
 								<NewsList />
-							</ProtectedRouter>
+							</ProtectedRouterAdmin>
 						}
 					/>
 					<Route
 						path='/admin/news/:id'
 						element={
-							<ProtectedRouter>
+							<ProtectedRouterAdmin>
 								{' '}
 								<NewsDetail />
-							</ProtectedRouter>
+							</ProtectedRouterAdmin>
 						}
 					/>
 					<Route
 						path='/admin/news/create-news'
 						element={
-							<ProtectedRouter>
+							<ProtectedRouterAdmin>
 								{' '}
 								<CreateNews />
-							</ProtectedRouter>
+							</ProtectedRouterAdmin>
 						}
 					/>
 					<Route
 						path='/admin/events'
 						element={
-							<ProtectedRouter>
+							<ProtectedRouterAdmin>
 								{' '}
 								<EventsList />
-							</ProtectedRouter>
+							</ProtectedRouterAdmin>
 						}
 					/>
 					<Route
 						path='/admin/events/:id'
 						element={
-							<ProtectedRouter>
+							<ProtectedRouterAdmin>
 								{' '}
 								<EventsDetail />
-							</ProtectedRouter>
+							</ProtectedRouterAdmin>
 						}
 					/>
 					<Route
 						path='/admin/events/create-events'
 						element={
-							<ProtectedRouter>
+							<ProtectedRouterAdmin>
 								{' '}
 								<EventsDetail />
-							</ProtectedRouter>
+							</ProtectedRouterAdmin>
 						}
 					/>
 					<Route
 						path='/admin/events'
 						element={
-							<ProtectedRouter>
+							<ProtectedRouterAdmin>
 								{' '}
 								<EventsList />
-							</ProtectedRouter>
+							</ProtectedRouterAdmin>
 						}
 					/>
 					<Route
 						path='/admin/events/:id'
 						element={
-							<ProtectedRouter>
+							<ProtectedRouterAdmin>
 								{' '}
 								<EventsDetail />
-							</ProtectedRouter>
+							</ProtectedRouterAdmin>
 						}
 					/>
 					<Route
 						path='/admin/events/create-events'
 						element={
-							<ProtectedRouter>
+							<ProtectedRouterAdmin>
 								{' '}
 								<EventsDetail />
-							</ProtectedRouter>
+							</ProtectedRouterAdmin>
 						}
 					/>
 					<Route
 						path='/admin/pending-members'
 						element={
-							<ProtectedRouter>
+							<ProtectedRouterAdmin>
 								<MemberPendingList />{' '}
-							</ProtectedRouter>
+							</ProtectedRouterAdmin>
 						}
 					/>
 					<Route
 						path='/admin/members'
 						element={
-							<ProtectedRouter>
+							<ProtectedRouterAdmin>
 								<MemberList />{' '}
-							</ProtectedRouter>
+							</ProtectedRouterAdmin>
 						}
 					/>
 					<Route
 						path='/admin/members/:id'
 						element={
-							<ProtectedRouter>
+							<ProtectedRouterMember>
 								{' '}
 								<MemberDetail />
-							</ProtectedRouter>
+							</ProtectedRouterMember>
 						}
 					/>
 					<Route
 						path='/admin/members-pending/:id'
 						element={
-							<ProtectedRouter>
+							<ProtectedRouterAdmin>
 								{' '}
 								<MemberPendingDetail />
-							</ProtectedRouter>
+							</ProtectedRouterAdmin>
 						}
 					/>
 					<Route
 						path='/admin/image-gallery'
 						element={
-							<ProtectedRouter>
+							<ProtectedRouterAdmin>
 								<ImageGallery />
-							</ProtectedRouter>
+							</ProtectedRouterAdmin>
 						}
 					/>
 				</Route>
