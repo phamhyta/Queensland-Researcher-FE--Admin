@@ -1,4 +1,12 @@
+# # build environment
+# FROM node:alpine as build-stage
+# WORKDIR /app
+# COPY . .
+# RUN npm install
+# EXPOSE 5173
+# CMD ["npm", "run", "dev", "--host"]
 # build environment
+
 FROM node:alpine as build-stage
 WORKDIR /app
 COPY . .
