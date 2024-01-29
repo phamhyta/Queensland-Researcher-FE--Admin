@@ -1,6 +1,6 @@
 import { getRegistration, acceptMember } from '../../../utils/api';
 import { useEffect, useState } from 'react'
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import { defaultURLImage } from '../../../utils/constant';
 
@@ -27,6 +27,7 @@ const MemberPendingDetail = () => {
 		experience: '',
 	}
 	const [formData, setFormData] = useState(defaultData);
+	const navigate = useNavigate();
 	const routeParams = useParams();
 	useEffect(() => {
 		const fetch = async () => {
@@ -38,11 +39,12 @@ const MemberPendingDetail = () => {
 		fetch()
 	}, [routeParams.id])
 
-	const handleAccept = () => {
+	const handleAccept = async() => {
 		try {
-			const res = acceptMember(routeParams.id);
+			const res = await acceptMember(routeParams.id);
 			if (res.success) {
 				toast.success('Accept success');
+				navigate('/admin/pending-members')
 			} else {
 				toast.error('Accept failed');
 			}
@@ -428,7 +430,7 @@ const MemberPendingDetail = () => {
 				</div>
 			</div>
 			<div>
-				<div onClick={handleAccept}>Accept</div>
+				<div className='rounded py-2 px-4 cursor-pointer bg-blue-600 hover:bg-blue-400 w-min mx-auto mt-4' onClick={handleAccept}>Accept</div>
 			</div>
 		</>
 	);

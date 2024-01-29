@@ -102,20 +102,20 @@ const MemberDetail = () => {
 		const { name, value } = e.target;
 		const professionalLink = formData[name].split("\\n");
 		professionalLink[index] = value;
-		setFormData((prevData) => ({ ...prevData, [name]: professionalLink.join("\n") }));
+		setFormData((prevData) => ({ ...prevData, [name]: professionalLink.join("\\n") }));
 	}
 
 	const handleChangeAddInput = (e, name) => {
 		e.preventDefault();
 		const professionalLink = formData[name].split("\\n");
 		professionalLink.push('');
-		setFormData((prevData) => ({ ...prevData, [name]: professionalLink.join("\n") }));
+		setFormData((prevData) => ({ ...prevData, [name]: professionalLink.join("\\n") }));
 	}
 
 	const handleDeleteInput = (name, index) => {
 		const professionalLink = formData[name].split("\\n");
 		professionalLink.splice(index, 1);
-		setFormData((prevData) => ({ ...prevData, [name]: professionalLink.join("\n") }));
+		setFormData((prevData) => ({ ...prevData, [name]: professionalLink.join("\\n") }));
 	}
 
 	return (
