@@ -154,7 +154,7 @@ const MemberList = () => {
 										scope='row'
 										className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'
 									>
-										<a href={`/admin/members/${member.id}`}>
+										<a onClick={() => navigate(`/admin/members/${member?.id}`)}>
 											{member.name}
 										</a>
 									</th>
@@ -166,7 +166,7 @@ const MemberList = () => {
 									</td>
 									<td className='px-6 py-4'>
 										<a
-											onClick={() => navigate(`/admin/members/${member.id}`)}
+											onClick={() => navigate(`/admin/members/${member?.id}`)}
 											className='font-medium text-blue-600 dark:text-blue-500 hover:underline'
 										>
 											<EditIcon />

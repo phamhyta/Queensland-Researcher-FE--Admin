@@ -1,6 +1,6 @@
 import { getMember, uploadImage, updateMember } from '../../../utils/api';
 import { useEffect, useState } from 'react'
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import { defaultURLImage } from '../../../utils/constant';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
@@ -24,6 +24,7 @@ const MemberDetail = () => {
 	const [loading, setLoading] = useState(false);
 	const [uploading, setUploading] = useState(false);
 	const routeParams = useParams();
+	const navigate = useNavigate();
 	useEffect(() => {
 		const fetch = async () => {
 			const res = await getMember(routeParams.id)
@@ -56,19 +57,14 @@ const MemberDetail = () => {
 	};
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		for (const key in formData)
-			if (formData[key] === '') {
-				toast.error('Please fill all the required fields!');
-				return;
-			}
+		// for (const key in formData)
+			// if (formData[key] === '') {
+			// 	toast.error('Please fill all the required fields!');
+			// 	return;
+			// }
 		const regexEmail = /\S+@\S+\.\S+/;
 		if (!regexEmail.test(formData.email)) {
 			toast.error('Email is invalid!');
-			return;
-		}
-		const regexPhone = /^\d+$/;
-		if (!regexPhone.test(formData.phoneNumber)) {
-			toast.error('Phone number is invalid!');
 			return;
 		}
 		try {
@@ -104,22 +100,22 @@ const MemberDetail = () => {
 
 	const handleChangeInput = (e, index) => {
 		const { name, value } = e.target;
-		const professionalLink = formData[name].split('/n');
+		const professionalLink = formData[name].split("\\n");
 		professionalLink[index] = value;
-		setFormData((prevData) => ({ ...prevData, [name]: professionalLink.join('/n') }));
+		setFormData((prevData) => ({ ...prevData, [name]: professionalLink.join("\n") }));
 	}
 
 	const handleChangeAddInput = (e, name) => {
 		e.preventDefault();
-		const professionalLink = formData[name].split('/n');
+		const professionalLink = formData[name].split("\\n");
 		professionalLink.push('');
-		setFormData((prevData) => ({ ...prevData, [name]: professionalLink.join('/n') }));
+		setFormData((prevData) => ({ ...prevData, [name]: professionalLink.join("\n") }));
 	}
 
 	const handleDeleteInput = (name, index) => {
-		const professionalLink = formData[name].split('/n');
+		const professionalLink = formData[name].split("\\n");
 		professionalLink.splice(index, 1);
-		setFormData((prevData) => ({ ...prevData, [name]: professionalLink.join('/n') }));
+		setFormData((prevData) => ({ ...prevData, [name]: professionalLink.join("\n") }));
 	}
 
 	return (
@@ -287,7 +283,7 @@ const MemberDetail = () => {
 							>
 								Your professional link (if any)
 							</label>
-							{formData.professionalLink.split('/n').map((link, index) => (
+							{formData.professionalLink.split("\\n").map((link, index) => (
 								<div className='flex' key={index}>
 									<input
 										type='text'
@@ -328,7 +324,7 @@ const MemberDetail = () => {
 							>
 								Your experience
 							</label>
-							{formData.experience.split('/n').map((link, index) => (
+							{formData.experience.split("\\n").map((link, index) => (
 								<div className='flex' key={index}>
 									<input
 										type='text'

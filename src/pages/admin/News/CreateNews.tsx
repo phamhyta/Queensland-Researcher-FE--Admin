@@ -13,9 +13,6 @@ const CreateNews = () => {
 
 	const navigate = useNavigate();
 
-	const onEditorInputChange = (newValue, editor) => {
-		setContent(newValue);
-	}
 	const handleOnSubmit = async () => {
 		setLoading(true)
 		const res = await createNews({
@@ -71,7 +68,7 @@ const CreateNews = () => {
 					>
 						Preview
 					</p>
-					{thumbnail != '' && <img src={thumbnail} className="w-40 h-40" />}
+					{thumbnail != '' && <img src={thumbnail} className="h-40" />}
 				</div>
 				<div className='mb-5'>
 					<label
@@ -121,7 +118,7 @@ const CreateNews = () => {
 							image_title: true,
 						}}
 						value={content}
-						onEditorChange={(newValue, editor) => onEditorInputChange(newValue, editor)}
+						onEditorChange={(content) => setContent(content)}
 					/>
 				</div>
 				<div className='flex justify-center mt-10'>

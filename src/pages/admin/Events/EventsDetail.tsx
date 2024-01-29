@@ -1,5 +1,5 @@
 import { Editor } from '@tinymce/tinymce-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import { updateEvent, getEventById, createEvent } from '../../../utils/api/events';
@@ -22,7 +22,10 @@ const EventsDetail = () => {
 		eventDate: '',
 	};
 	const [eventItem, setEventItem] = useState(initialState);
+	const [uploading, setUploading] = useState(false);
 	const { id } = useParams();
+	const editorRef = useRef(null);
+
 	useEffect(() => {
 		if(id === undefined) {
 			setEventItem(initialState);
@@ -43,10 +46,19 @@ const EventsDetail = () => {
 		if (!e.target.files) {
 			return;
 		}
-		const res = await uploadImage(e.target.files[0]);
-        if(res.success) {
-			setEventItem({...eventItem, image: res.data.urls[0]});
-        } else {
+		try {
+			setUploading(true);
+			const res = await uploadImage(e.target.files[0]);
+			console.log(res);
+			
+			if(res.success) {
+				setEventItem({...eventItem, image: res.data.data[0].url});
+			} else {
+				toast.error("Networl error");
+			}
+			setUploading(false);
+		} catch (error) {
+			setUploading(false);
 			toast.error("Networl error");
 		}
 	};
@@ -57,6 +69,8 @@ const EventsDetail = () => {
 
 	const handleUpdateEvent = async (e) => {
 		e.preventDefault();
+		console.log(eventItem);
+		
 		const res = id === undefined ? await createEvent(eventItem) : await updateEvent(id, eventItem);
 		if(res.success) {
 			id === undefined ? toast.success("Create event success!") : toast.success("Update event success!");
@@ -67,38 +81,38 @@ const EventsDetail = () => {
 	}
 
 	const handelChangeInputForm2 = (e: any, index: number) => {
-		const arr = eventItem[e.target.name].split('/n');
+		const arr = eventItem[e.target.name].split("\\n");
 		arr[index] = e.target.value;
-		setEventItem({ ...eventItem, [e.target.name]: arr.join('/n') });
+		setEventItem({ ...eventItem, [e.target.name]: arr.join("\\n") });
 	}
 
 	const addInput = (nameInput: string) => {
-		setEventItem({ ...eventItem, [nameInput]: eventItem[nameInput] + '/n' });
+		setEventItem({ ...eventItem, [nameInput]: eventItem[nameInput] + "\\n" });
 	}
 
 	const deleteInput = (nameInput: string, index: number, e) => {
 		e.preventDefault();
-		const arr = eventItem[nameInput].split('/n');
+		const arr = eventItem[nameInput].split("\\n");
 		arr.splice(index, 1);
-		setEventItem({ ...eventItem, [nameInput]: arr.join('/n') });
+		setEventItem({ ...eventItem, [nameInput]: arr.join("\\n") });
 	}
 
 	const handelChangeTime1 = (e: any, index: number) => {
-		const arr = eventItem.program.split('/n');
+		const arr = eventItem.program.split("\\n");
 		arr[index] = e.target.value + ' - ' + arr[index].slice(8);
-		setEventItem({ ...eventItem, program: arr.join('/n') });
+		setEventItem({ ...eventItem, program: arr.join("\\n") });
 	}
 
 	const handelChangeTime2 = (e: any, index: number) => {
-		const arr = eventItem.program.split('/n');
+		const arr = eventItem.program.split("\\n");
 		arr[index] = arr[index].slice(0, 8) + e.target.value + arr[index].slice(13);
-		setEventItem({ ...eventItem, program: arr.join('/n') });
+		setEventItem({ ...eventItem, program: arr.join("\\n") });
 	}
 
 	const handelChangeTime3 = (e: any, index: number) => {
-		const arr = eventItem.program.split('/n');
+		const arr = eventItem.program.split("\\n");
 		arr[index] = arr[index].slice(0, 13) + ' ' + e.target.value;
-		setEventItem({ ...eventItem, program: arr.join('/n') });
+		setEventItem({ ...eventItem, program: arr.join("\\n") });
 	}
 
 	return (
@@ -138,7 +152,7 @@ const EventsDetail = () => {
 								sx={{margin: 0, padding: 0, height: '100%', '&:hover': {backgroundColor: 'transparent',}, textTransform: 'none',}}
 							>
 								<div className='text-md text-[#646cff] font-semibold'>
-								{id === undefined ? 'Upload' : 'Edit'} image
+								{uploading ? 'Uploading image...' : <>{id === undefined ? 'Upload' : 'Edit'} image</>}
 								</div>
 								<input id='news-image' type='file' accept='image/*' hidden onChange={handleImageUpload}/>
 							</Button>
@@ -154,10 +168,12 @@ const EventsDetail = () => {
 						Overview
 					</label>
 					<Editor
+						onInit={(evt, editor) => editorRef.current = editor}
 						id='news-overview'
 						apiKey='up47n387bsvwk9o4t2c5am3dzhbh9nlmxkwfz50ldckxn3mm'
-						initialValue={eventItem.overview}
-						onChange={(e) => setEventItem({ ...eventItem, overview: e.target.getContent() })}
+						// initialValue='<p>This is the initial content</p>'
+						value={eventItem.overview}
+						onEditorChange={() => setEventItem({ ...eventItem, overview: editorRef.current?.getContent() })}
 						init={{
 							height: 500,
 							menubar: false,
@@ -292,7 +308,7 @@ const EventsDetail = () => {
 					>
 						Purpose
 					</label>
-					{eventItem.purpose.split('/n').map((item, index) => {
+					{eventItem.purpose.split("\\n").map((item, index) => {
 						return <div className='flex'>
 							<input 
 								key={index}
@@ -308,7 +324,7 @@ const EventsDetail = () => {
 							<button className='ml-2 mt-2 bg-red-600 text-white' onClick={(e) => deleteInput('purpose', index, e)}>Delete</button>
 						</div>;
 					})}
-					<button className='mt-2' onClick={() => addInput("purpose")}>Add purpose</button>
+					<button type='button' className='mt-2 border border-white' onClick={() => addInput("purpose")}>Add purpose</button>
 				</div>
 				<div className='mb-5'>
 					<label
@@ -317,7 +333,7 @@ const EventsDetail = () => {
 					>
 						Audience
 					</label>
-					{eventItem.audience.split('/n').map((item, index) => {
+					{eventItem.audience.split("\\n").map((item, index) => {
 						return <div className='flex'>
 							<input 
 								key={index}
@@ -333,7 +349,7 @@ const EventsDetail = () => {
 							<button className='ml-2 mt-2 bg-red-600 text-white' onClick={(e) => deleteInput('audience', index, e)}>Delete</button>
 						</div>;
 					})}
-					<button className='mt-2' onClick={() => addInput("audience")}>Add audience</button>
+					<button type='button' className='mt-2 border border-white' onClick={() => addInput("audience")}>Add audience</button>
 				</div>
 				<div className='mb-5'>
 					<label
@@ -342,7 +358,7 @@ const EventsDetail = () => {
 					>
 						Program
 					</label>
-					{eventItem.program.split('/n').map((item, index) => {
+					{eventItem.program.split("\\n").map((item, index) => {
 						return <div className='flex'>
 							<div className='flex w-11/12'>
 								<input 
@@ -358,7 +374,7 @@ const EventsDetail = () => {
 								/>
 								<input 
 									type='time'
-									step="3600"
+									pattern="[0-9]{2}:[0-9]{2}"
 									id='news-program'
 									name='program'
 									value={item.slice(8, 13)}
@@ -381,7 +397,7 @@ const EventsDetail = () => {
 							<button className='ml-2 mt-2 bg-red-600 text-white' onClick={(e) => deleteInput('program', index, e)}>Delete</button>
 						</div>;
 					})}
-					<button className='mt-2' onClick={() => addInput("program")}>Add program</button>
+					<button type='button' className='mt-2 border border-white' onClick={() => addInput("program")}>Add program</button>
 				</div>
 				<div className='flex justify-center mt-10'>
 					<button

@@ -48,7 +48,7 @@ export async function getEventById(id) {
 
 export async function createEvent(data) {
     try {
-        const res = await axiosInstance.post(`admin/events`, data);
+        const res = await axiosInstance.post(`admin/events/`, data);
         return {
             success: true,
             data: res.data,

@@ -328,11 +328,9 @@ export async function getMember(id) {
 export async function acceptMember(id) {
 	try {
 		const token = localStorage.getItem('token');
-		const formData = new FormData();
-		formData.append('id', id);
-		const res = await axiosInstance.post(`/admin/accept/`, formData, {
+		const res = await axiosInstance.post(`/admin/accept?id=${id}`, {
 			headers: {
-				'Content-Type': 'multipart/form-data',
+				'Content-Type': 'application/json',
 				Authorization: `Bearer ${token}`,
 			},
 		});

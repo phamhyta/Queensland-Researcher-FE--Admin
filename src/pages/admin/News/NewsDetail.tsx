@@ -6,10 +6,10 @@ import { useNavigate } from 'react-router-dom';
 import { getNewsDetail, updateNews } from '../../../utils/api';
 
 const NewsDetail = () => {
-	const [title, setTitle] = useState('')
-	const [content, setContent] = useState('')
-	const [loading, setLoading] = useState(false)
-	const [thumbnail, setThumbnail] = useState("")
+	const [title, setTitle] = useState('');
+	const [content, setContent] = useState('');
+	const [loading, setLoading] = useState(false);
+	const [thumbnail, setThumbnail] = useState("");
 	const routeParams = useParams();
 	const navigate = useNavigate();
 	useEffect(() => {
@@ -23,10 +23,6 @@ const NewsDetail = () => {
 		}
 		fetch()
 	}, [routeParams.id])
-
-	const onEditorInputChange = (newValue, editor) => {
-		setContent(newValue);
-	}
 
 	const handleOnSubmit = async () => {
 		setLoading(true)
@@ -96,8 +92,7 @@ const NewsDetail = () => {
 					<Editor
 						id='news-content'
 						apiKey='up47n387bsvwk9o4t2c5am3dzhbh9nlmxkwfz50ldckxn3mm'
-						// onInit={(evt, editor) => (editorRef.current = editor)}
-						initialValue={content}
+						// initialValue='<p>This is the initial content</p>'
 						init={{
 							height: 500,
 							menubar: false,
@@ -135,7 +130,7 @@ const NewsDetail = () => {
 							image_title: true,
 						}}
 						value={content}
-						onEditorChange={(newValue, editor) => onEditorInputChange(newValue, editor)}
+						onEditorChange={(content) => setContent(content)}
 					/>
 				</div>
 				<div className='flex justify-center mt-10'>

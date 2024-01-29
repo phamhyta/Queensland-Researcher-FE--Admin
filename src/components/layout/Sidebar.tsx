@@ -165,7 +165,7 @@ const Sidebar = () => {
 							alt="VASEA Logo"
 						/>
 						<span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-							VASEA Admin
+							AVESQ Admin
 						</span>
 					</a>
 					<ul className="space-y-2 font-medium">

@@ -341,7 +341,7 @@ const MemberPendingDetail = () => {
 						>
 							Your professional link (if any)
 						</label>
-						{formData.professionalLink?.split('/n').map((link, index) => (
+						{formData.professionalLink?.split("\\n").map((link, index) => (
 							<div className='flex' key={index}>
 								<input
 									type='text'
@@ -378,7 +378,7 @@ const MemberPendingDetail = () => {
 						>
 							Your experience
 						</label>
-						{formData.experience?.split('/n').map((link, index) => (
+						{formData.experience?.split("\\n").map((link, index) => (
 							<div className='flex' key={index}>
 								<input
 									type='text'

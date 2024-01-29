@@ -20,16 +20,13 @@ import MemberPendingDetail from './pages/admin/Members/MemberPendingDetail';
 
 const ProtectedRouter = ({ children }) => {
 	const location = useLocation();
-	const { token, onVerifyToken, role } = useAuth();
+	const { token, role, currentUser } = useAuth();
 	if (!token) {
 		return <Navigate to='/login' replace state={{ from: location }} />;
-	} else if (role != 'admin') {
-		const user = localStorage.getItem('user');
-		return <Navigate to={`/admin/members/${user?.id}`} replace state={{ from: location }} />;
-	} else {
+	} 
+	else {
 		// onVerifyToken();
 	}
-
 	return children;
 };
 
