@@ -28,7 +28,7 @@ jobs:
           key: ${{ secrets.HOST_PRIVATE_KEY }}
           script: |
             cd ${{ secrets.PATH_DEPLOY }} &&
-            eval "$(ssh-agent -s)" && ssh-add ~/.ssh/id_ed25519 &&
+            # eval "$(ssh-agent -s)" && ssh-add ~/.ssh/id_ed25519 &&
             git pull origin &&
             docker compose up -d --build
       - name: send telegram message on push
