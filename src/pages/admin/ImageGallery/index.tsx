@@ -11,8 +11,7 @@ import { actionType } from '../../../context/reducer';
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 
-
-import { getListImages, uploadImage } from '../../../utils/api';
+import { getListImages, uploadImage, deleteImage } from '../../../utils/api';
 
 export default function ImageGallery() {
 	const [page, setPage] = React.useState(1);
@@ -53,7 +52,7 @@ export default function ImageGallery() {
 		</div>
 	));
 
-	const handleDeleteImage = (fileName: string) => {
+	const handleDeleteImage = (key: int) => {
 		dispatch({
 			type: actionType.SET_DIALOG,
 			payload: {
@@ -61,7 +60,8 @@ export default function ImageGallery() {
 				text: 'Bạn có chắc chắn muốn xóa ảnh này? Dữ liệu sẽ bị xóa vĩnh viễn và không thể khôi phục',
 				type: 'warning',
 				handleOkClick: () => {
-					setImageList(imageList.filter((f) => f.title !== fileName));
+					setImageList(imageList.filter((f) => f.key !== key));
+					deleteImage(key)
 				},
 				open: true,
 			},
@@ -243,7 +243,7 @@ export default function ImageGallery() {
 						}}
 						onClick={() => {
 							console.log(selectedImage.title);
-							handleDeleteImage(selectedImage.title);
+							handleDeleteImage(selectedImage.key);
 						}}
 					>
 						Xóa

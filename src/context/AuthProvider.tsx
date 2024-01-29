@@ -23,7 +23,11 @@ const AuthProvider = ({ children }) => {
 			localStorage.setItem('user', JSON.stringify(user));
 			setCurrentUser(res.data.data);
 			const origin = location.state?.from?.pathname || '/admin/news';
-			navigate(origin);
+			if(user.role !== 'admin') {
+				window.location.href  = `/admin/members/${user.user_id}`;
+			} else {
+				window.location.href = origin;
+			}
 		} else {
 			return res.msg;
 		}
