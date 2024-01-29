@@ -1,24 +1,70 @@
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
-import { faker } from '@faker-js/faker';
+import { getListMembers, deleteMember } from '../../../utils/api';
+import { useEffect, useState } from 'react'
+import IconButton from '@mui/material/IconButton';
+import { useStateValue } from '../../../context/StateProvider';
+import { actionType } from '../../../context/reducer';
+import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
-const memberListMock = faker.helpers.multiple(
-	() => {
-		return {
-			id: faker.string.uuid(),
-			userName: faker.internet.userName(),
-            email: faker.internet.email(),
-            avatar: faker.image.avatar(),
-		};
-	},
-	{
-		count: 10,
-	},
-);
 const MemberList = () => {
+	const [members, setMembers] = useState([]);
+	const [_, dispatch] = useStateValue();
+	const navigate = useNavigate();
+	useEffect(() => {
+		const fetch = async () => {
+			const res = await getListMembers()
+			if (res.success) {
+				setMembers(res.data);
+			}
+		}
+		fetch()
+	}, [])
+
+	const handleOnClickDelete = (id: number) => {
+		dispatch({
+			type: actionType.SET_DIALOG,
+			payload: {
+				title: 'Confirm deletion',
+				text: 'Are you sure you want to delete this member? The data will be permanently deleted and cannot be recovered.',
+				type: 'warning',
+				handleOkClick: async () => {
+					const res = await deleteMember(id)
+					if (res.success) {
+						toast.success("Deleted successfully ", {
+							position: 'top-right',
+							autoClose: 2000,
+							hideProgressBar: false,
+							closeOnClick: true,
+							pauseOnHover: false,
+							draggable: true,
+							progress: undefined,
+							theme: 'light',
+						});
+						setMembers(members.filter((f) => f.id != id));
+					} else {
+						toast.error("Delete failed ", {
+							position: 'top-right',
+							autoClose: 2000,
+							hideProgressBar: false,
+							closeOnClick: true,
+							pauseOnHover: false,
+							draggable: true,
+							progress: undefined,
+							theme: 'light',
+						});
+					}
+				},
+				open: true,
+			},
+		});
+	}
+
 	return (
 		<>
-			<h1 className='text-center'>Danh sách thành viên</h1>
+			<ToastContainer />
+			<h1 className='text-center'>List Members</h1>
 			<div className='relative overflow-x-auto p-2'>
 				<div className='pb-4 bg-white dark:bg-gray-900'>
 					<label htmlFor='table-search' className='sr-only'>
@@ -69,13 +115,13 @@ const MemberList = () => {
 								</div>
 							</th>
 							<th scope='col' className='px-6 py-3'>
-								Tên
+								Name
 							</th>
 							<th scope='col' className='px-6 py-3'>
 								Email
 							</th>
 							<th scope='col' className='px-6 py-3'>
-								Avatar
+								Organization
 							</th>
 							<th scope='col' className='px-6 py-3'>
 								Action
@@ -83,10 +129,10 @@ const MemberList = () => {
 						</tr>
 					</thead>
 					<tbody>
-						{memberListMock &&
-							memberListMock.map((member) => (
+						{members &&
+							members.map((member, index) => (
 								<tr
-									key={member.id}
+									key={index}
 									className='odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'
 								>
 									<td className='w-4 p-4'>
@@ -108,110 +154,36 @@ const MemberList = () => {
 										scope='row'
 										className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'
 									>
-										<a href={`/admin/members/${member.id}`}>
-											{member.userName}
+										<a onClick={() => navigate(`/admin/members/${member?.id}`)}>
+											{member.name}
 										</a>
 									</th>
 									<td className='px-6 py-4'>
 										{member.email}
 									</td>
 									<td className='px-6 py-4'>
-										<img className="w-10 h-10 rounded-full" src={member.avatar} alt="Jese image"></img>
+										{member.organization}
 									</td>
 									<td className='px-6 py-4'>
 										<a
-											href='#'
+											onClick={() => navigate(`/admin/members/${member?.id}`)}
 											className='font-medium text-blue-600 dark:text-blue-500 hover:underline'
 										>
 											<EditIcon />
 										</a>
-										<a
-											href='#'
+										<IconButton
+											onClick={() => handleOnClickDelete(member.id)}
 											className='font-medium text-blue-600 dark:text-blue-500 hover:underline'
 										>
 											<DeleteForeverIcon
 												sx={{ color: 'red' }}
 											/>
-										</a>
+										</IconButton>
 									</td>
 								</tr>
 							))}
 					</tbody>
 				</table>
-				<nav
-					className='flex items-center flex-column flex-wrap md:flex-row justify-between pt-4'
-					aria-label='Table navigation'
-				>
-					<span className='text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto'>
-						Showing{' '}
-						<span className='font-semibold text-gray-900 dark:text-white'>
-							1-10
-						</span>{' '}
-						of{' '}
-						<span className='font-semibold text-gray-900 dark:text-white'>
-							1000
-						</span>
-					</span>
-					<ul className='inline-flex -space-x-px rtl:space-x-reverse text-sm h-8'>
-						<li>
-							<a
-								href='#'
-								className='flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
-							>
-								Previous
-							</a>
-						</li>
-						<li>
-							<a
-								href='#'
-								className='flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
-							>
-								1
-							</a>
-						</li>
-						<li>
-							<a
-								href='#'
-								className='flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
-							>
-								2
-							</a>
-						</li>
-						<li>
-							<a
-								href='#'
-								aria-current='page'
-								className='flex items-center justify-center px-3 h-8 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white'
-							>
-								3
-							</a>
-						</li>
-						<li>
-							<a
-								href='#'
-								className='flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
-							>
-								4
-							</a>
-						</li>
-						<li>
-							<a
-								href='#'
-								className='flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
-							>
-								5
-							</a>
-						</li>
-						<li>
-							<a
-								href='#'
-								className='flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
-							>
-								Next
-							</a>
-						</li>
-					</ul>
-				</nav>
 			</div>
 		</>
 	);

@@ -1,12 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
 import { FaImage } from "react-icons/fa6";
 import { useAuth } from '../../utils/hook';
-
+import { useEffect, useState } from "react";
+import { getListRegistration } from "../../utils/api";
 
 interface ISideBarSubItem {
 
 	id: string; text: string; link: string,
-	onRender?: (item: { id: string; text: string; link: string}) => JSX.Element
+	onRender?: (item: { id: string; text: string; link: string }) => JSX.Element
 
 }
 interface ISideBarItem {
@@ -51,17 +52,17 @@ const Sidebar = () => {
 					<path d="M16 14V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h12a1 1 0 0 0 0-2h-1v-2a2 2 0 0 0 2-2ZM4 2h2v12H4V2Zm8 16H3a1 1 0 0 1 0-2h9v2Z" />
 				</svg>
 			),
-			text: "Tin tức",
+			text: "News",
 			subItems: [
 				{
 					id: "NewsList",
 					link: "/admin/news",
-					text: "Danh sách tin tức",
+					text: "List news",
 				},
 				{
 					id: "CreateNews",
 					link: "/admin/news/create-news",
-					text: "Tạo mới tin tức",
+					text: "Create new news",
 				},
 			],
 		},
@@ -105,23 +106,23 @@ const Sidebar = () => {
 					<path d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
 				</svg>
 			),
-			text: "Thành viên",
+			text: "Members",
 			subItems: [
 				{
 					id: "MemberList",
 					link: "/admin/members",
-					text: "Danh sách thành viên",
+					text: "List Members",
 				},
 				{
 					id: "ConfirmMember",
-					link: "/admin/members",
-					text: "Duyệt thành viên",
+					link: "/admin/pending-members",
+					text: "Member approval",
 				},
 			],
 		},
 		{
 			id: "image-gallery",
-			text: "Thư viện ảnh",
+			text: "Photo Library",
 			icon: <FaImage className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />,
 			link: "/admin/image-gallery"
 		},
@@ -144,7 +145,7 @@ const Sidebar = () => {
 					/>
 				</svg>
 			),
-			text: "Đăng xuất",
+			text: "Logout",
 			link: "#",
 		},
 	];
@@ -164,13 +165,13 @@ const Sidebar = () => {
 							alt="VASEA Logo"
 						/>
 						<span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-							VASEA Admin
+							AVESQ Admin
 						</span>
 					</a>
 					<ul className="space-y-2 font-medium">
-						{ sideBarItemList.map((item) => (
-							<SidebarItem item={ item } key={item.id}></SidebarItem>
-						)) }
+						{sideBarItemList.map((item) => (
+							<SidebarItem item={item} key={item.id}></SidebarItem>
+						))}
 					</ul>
 				</div>
 			</aside>
@@ -179,11 +180,12 @@ const Sidebar = () => {
 };
 
 const SidebarItem = ({ item }: { item: ISideBarItem }) => {
-    const { onLogout } = useAuth()
-    const handleOnClick = (id) => {
-        if(id == "logout")
-            onLogout()
-    }
+	const { onLogout } = useAuth()
+	const handleOnClick = (id) => {
+		if (id == "logout")
+			onLogout()
+	};
+	const [numOfPendingMembers, setNumOfPendingMembers] = useState(0);
 	const navigate = useNavigate()
 	const hasSubItems = item.subItems && item.subItems.length > 0
 	const targetProps = hasSubItems ? {
@@ -191,24 +193,40 @@ const SidebarItem = ({ item }: { item: ISideBarItem }) => {
 		"data-target": item.id,
 		"data-collapse-toggle": item.id
 	} : {}
+
+	useEffect(() => {
+		const fetch = async () => {
+			try {
+				const res = await getListRegistration();
+				if (res.success) {
+					setNumOfPendingMembers(res.data.length);
+				} else {
+					console.log(res.msg);
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		};
+		fetch();
+	}, [item.id]);
 	return <li>
 		<button
 			type="button"
-			key={ `sidebar-item-${item.id}` }
-            onClick={() => handleOnClick(item.id)}
+			key={`sidebar-item-${item.id}`}
+			onClick={() => handleOnClick(item.id)}
 			className="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-			{ ...targetProps }
+			{...targetProps}
 		>
-			{ item.icon }
+			{item.icon}
 			<span className="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap"
-				onClick={ item.link ? () => {
+				onClick={item.link ? () => {
 					item.link && navigate(item.link)
-				} : undefined }>
-				{ item.text }
-			
+				} : undefined}>
+				{item.text}
+
 			</span>
-			
-			{ hasSubItems && (
+
+			{hasSubItems && (
 				<svg
 					className="w-3 h-3"
 					aria-hidden="true"
@@ -224,25 +242,25 @@ const SidebarItem = ({ item }: { item: ISideBarItem }) => {
 						d="m1 1 4 4 4-4"
 					/>
 				</svg>
-			) }
+			)}
 		</button>
-		{ hasSubItems && (
-			<ul id={ item.id } className="hidden py-2 space-y-2">
-				{ item.subItems?.map((subItem) => (
+		{hasSubItems && (
+			<ul id={item.id} className="hidden py-2 space-y-2">
+				{item.subItems?.map((subItem) => (
 					<Link
-						key= {subItem.id}
-						id={ subItem.id }
+						key={subItem.id}
+						id={subItem.id}
 						className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-						to={ subItem.link }
+						to={subItem.link}
 					>
-						{ subItem.text }
-						{ subItem.text === "Duyệt thành viên" && <span className='inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300'>
-							3
-						</span> }
+						{subItem.text}
+						{subItem.text === "Member approval" && <span className='inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300'>
+							{numOfPendingMembers}
+						</span>}
 					</Link>
-				)) }
+				))}
 			</ul>
-		) }
+		)}
 	</li>
 }
 

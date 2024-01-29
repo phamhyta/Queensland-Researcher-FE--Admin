@@ -16,16 +16,17 @@ import {
 import { Dialog, Snackbar } from './commons';
 import EventsList from './pages/admin/Events/EventsList';
 import EventsDetail from './pages/admin/Events/EventsDetail';
+import MemberPendingDetail from './pages/admin/Members/MemberPendingDetail';
 
 const ProtectedRouter = ({ children }) => {
 	const location = useLocation();
-	const { token, onVerifyToken } = useAuth();
+	const { token, role, currentUser } = useAuth();
 	if (!token) {
 		return <Navigate to='/login' replace state={{ from: location }} />;
-	} else {
+	} 
+	else {
 		// onVerifyToken();
 	}
-
 	return children;
 };
 
@@ -106,7 +107,34 @@ function App() {
 						}
 					/>
 					<Route
-						path='/admin/members'
+						path='/admin/events'
+						element={
+							<ProtectedRouter>
+								{' '}
+								<EventsList />
+							</ProtectedRouter>
+						}
+					/>
+					<Route
+						path='/admin/events/:id'
+						element={
+							<ProtectedRouter>
+								{' '}
+								<EventsDetail />
+							</ProtectedRouter>
+						}
+					/>
+					<Route
+						path='/admin/events/create-events'
+						element={
+							<ProtectedRouter>
+								{' '}
+								<EventsDetail />
+							</ProtectedRouter>
+						}
+					/>
+					<Route
+						path='/admin/pending-members'
 						element={
 							<ProtectedRouter>
 								<MemberPendingList />{' '}
@@ -114,7 +142,7 @@ function App() {
 						}
 					/>
 					<Route
-						path='/admin/pending-members'
+						path='/admin/members'
 						element={
 							<ProtectedRouter>
 								<MemberList />{' '}
@@ -127,6 +155,15 @@ function App() {
 							<ProtectedRouter>
 								{' '}
 								<MemberDetail />
+							</ProtectedRouter>
+						}
+					/>
+					<Route
+						path='/admin/members-pending/:id'
+						element={
+							<ProtectedRouter>
+								{' '}
+								<MemberPendingDetail />
 							</ProtectedRouter>
 						}
 					/>

@@ -1,31 +1,39 @@
-import axios from 'axios';
-const token = localStorage.getItem('token');
-export const axiosInstance = axios.create({
-	baseURL: "https://api.avesq.org",
-	headers: {
-		accept: 'application/json',
-        Authorization: `Bearer ${token}`,
-	},
-});
+import { axiosInstance } from "../constant";
 
-export async function getAllEvents(page = 1, LIMIT = 10) {
-	try {
-		const res = await axiosInstance.get(`/events/get_all_events?page=${page}&limit=${LIMIT}`);
-		return {
-			success: true,
-			data: res.data,
-		};
-	} catch (error) {
-		return {
-			success: false,
+const token = localStorage.getItem('token');
+
+export async function getAllEvents(page = 1, limit = 10) {
+    try {
+        const res = await axiosInstance.get(
+            `admin/events/?page=${page}&limit=${limit}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            },
+        );
+        return {
+            success: true,
+            data: res.data,
+        };
+    } catch (error) {
+        return {
+            success: false,
             message: error.response.data.detail || 'Something was wrong!'
-		};
-	}
+        };
+    }
 }
 
 export async function getEventById(id) {
     try {
-        const res = await axiosInstance.get(`/events/get_event/${id}`);
+        const res = await axiosInstance.get(`admin/events/${id}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        
         return {
             success: true,
             data: res.data,
@@ -40,7 +48,7 @@ export async function getEventById(id) {
 
 export async function createEvent(data) {
     try {
-        const res = await axiosInstance.post(`/events/create_event`, data);
+        const res = await axiosInstance.post(`admin/events/`, data);
         return {
             success: true,
             data: res.data,
@@ -55,7 +63,7 @@ export async function createEvent(data) {
 
 export async function updateEvent(id, data) {
     try {
-        const res = await axiosInstance.put(`/events/update_event/${id}`, data);
+        const res = await axiosInstance.put(`admin/events/${id}`, data);
         return {
             success: true,
             data: res.data,
@@ -70,7 +78,7 @@ export async function updateEvent(id, data) {
 
 export async function deleteEvent(id) {
     try {
-        const res = await axiosInstance.delete(`/events/delete_event/${id}`);
+        const res = await axiosInstance.delete(`admin/events/${id}`);
         return {
             success: true,
             data: res.data,

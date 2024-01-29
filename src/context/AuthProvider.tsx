@@ -9,16 +9,17 @@ const AuthProvider = ({ children }) => {
 	const userStorage = JSON.parse(localStorage.getItem('user')) || null;
 	const [token, setToken] = useState(tokenStorage);
 	const [currentUser, setCurrentUser] = useState(userStorage);
+	const [role, setRole] = useState(userStorage?.role || null);
 	const navigate = useNavigate();
 	const location = useLocation();
 
 	const handleLogin = async ({ email, password }) => {
 		const res = await login({ email, password });
 		if (res.success) {
-            console.log('res', res)
 			localStorage.setItem('token', res.data.access_token);
 			setToken(res.data.access_token);
-            const user = res.data.data
+			setRole(res.data.data.role);
+			const user = res.data.data
 			localStorage.setItem('user', JSON.stringify(user));
 			setCurrentUser(res.data.data);
 			const origin = location.state?.from?.pathname || '/admin/news';
@@ -38,6 +39,7 @@ const AuthProvider = ({ children }) => {
 
 	const value = {
 		token: token,
+		role: role,
 		onLogin: handleLogin,
 		onLogout: handleLogout,
 		currentUser,
