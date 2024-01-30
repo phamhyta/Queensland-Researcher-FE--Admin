@@ -230,17 +230,17 @@ const MemberPendingDetail = () => {
 							htmlFor='academicRank'
 							className='block text-sm font-medium leading-6 text-darkGray mb-4'
 						>
-							My highest degree
+							Highest degree
 							<span className='text-red-500 pl-1'>*</span>
 						</label>
-						<div className='choice_degree'>
+						<div className='choice_degree grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3'>
 							<label className='block mb-4'>
 								<input
 									type='radio'
 									name='academicRank'
 									className='mr-2'
-									value='phd'
-									checked={formData.academicRank === 'phd'}
+									value='PhD'
+									checked={formData.academicRank === 'PhD'}
 									disabled
 								/>
 								PhD
@@ -250,8 +250,8 @@ const MemberPendingDetail = () => {
 									type='radio'
 									name='academicRank'
 									className='mr-2'
-									value='master'
-									checked={formData.academicRank === 'master'}
+									value='Master'
+									checked={formData.academicRank === 'Master'}
 									disabled
 								/>
 								Master
@@ -261,22 +261,72 @@ const MemberPendingDetail = () => {
 									type='radio'
 									name='academicRank'
 									className='mr-2'
-									value='bachelor'
-									checked={formData.academicRank === 'bachelor'}
+									value='Doctor'
+									checked={formData.academicRank === 'Doctor'}
+								/>
+								Doctor
+							</label>
+							<label className='block mb-4'>
+								<input
+									type='radio'
+									name='academicRank'
+									className='mr-2'
+									value='Bachelor'
+									checked={formData.academicRank === 'Bachelor'}
 									disabled
 								/>
 								Bachelor
+							</label>
+							<label className='block mb-4'>
+								<input
+									type='radio'
+									name='academicRank'
+									className='mr-2'
+									value='Tertiary Student'
+									checked={formData.academicRank === 'Tertiary Student'}
+									disabled
+								/>
+								Tertiary Student
+							</label>
+							<label className='block mb-4'>
+								<input
+									type='radio'
+									name='academicRank'
+									className='mr-2'
+									value='PhD Candidate'
+									checked={formData.academicRank === 'PhD Candidate'}
+								/>
+								PhD Candidate
+							</label>
+							<label className='block mb-4'>
+								<input
+									type='radio'
+									name='academicRank'
+									className='mr-2'
+									value='Professor'
+									checked={formData.academicRank === 'Professor'}
+								/>
+								Professor
+							</label>
+							<label className='block mb-4'>
+								<input
+									type='radio'
+									name='academicRank'
+									className='mr-2'
+									value='Associate Professor'
+									checked={formData.academicRank === 'Associate Professor'}
+								/>
+								Associate Professor
 							</label>
 							<label className='block'>
 								<input
 									type='radio'
 									name='academicRank'
 									className='mr-2'
-									value='tertiary'
-									checked={formData.academicRank === 'tertiary'}
-									disabled
+									value='Adjunct Associate Professor'
+									checked={formData.academicRank === 'Adjunct Associate Professor'}
 								/>
-								Tertiary Student
+								Adjunct Associate Professor
 							</label>
 						</div>
 					</div>
