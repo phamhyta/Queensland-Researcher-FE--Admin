@@ -3,13 +3,17 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
 import { createNews } from '../../../utils/api';
-
+import { uploadImage } from '../../../utils/api';
+import { BiImageAdd } from 'react-icons/bi';
+import { Button } from '@mui/material';
+import { toast } from 'react-toastify';
 
 const CreateNews = () => {
-	const [title, setTitle] = useState('')
-	const [content, setContent] = useState('')
-	const [loading, setLoading] = useState(false)
-	const [thumbnail, setThumbnail] = useState("")
+	const [title, setTitle] = useState('');
+	const [content, setContent] = useState('');
+	const [loading, setLoading] = useState(false);
+	const [thumbnail, setThumbnail] = useState("");
+	const [uploading, setUploading] = useState(false);
 
 	const navigate = useNavigate();
 
@@ -24,6 +28,27 @@ const CreateNews = () => {
 			navigate('/admin/news');
 		setLoading(false)
 	}
+
+	const handleImageUpload = async(e) => {
+		if (!e.target.files) {
+			return;
+		}
+		try {
+			setUploading(true);
+			const res = await uploadImage(e.target.files[0]);
+			console.log(res);
+			
+			if(res.success) {
+				setThumbnail(res.data.data[0].url);
+			} else {
+				toast.error("Networl error");
+			}
+			setUploading(false);
+		} catch (error) {
+			setUploading(false);
+			toast.error("Networl error");
+		}
+	};
 	return (
 		<>
 			<h1 className='text-center'>Create new news</h1>
@@ -47,28 +72,25 @@ const CreateNews = () => {
 				</div>
 				<div className='mb-5'>
 					<label
-						htmlFor='news-title'
+						htmlFor='news-image'
 						className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'
 					>
-						Thumbnail
+						Image
 					</label>
-					<input
-						type='text'
-						id='news-title'
-						value={thumbnail}
-						onChange={(e) => setThumbnail(e.target.value)}
-						className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-						placeholder='Thumbnail ...'
-						required
-					/>
-				</div>
-				<div className='mb-5'>
-					<p
-						className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'
-					>
-						Preview
-					</p>
-					{thumbnail != '' && <img src={thumbnail} className="h-40" />}
+					<div className='flex'>
+						<div className='w-1/2 flex justify-center items-center text-[#646cff] font-bold cursor-pointer'>
+							<Button component='label' fullWidth disableRipple className='hover:bg-neutral-200 rounded-md text-md hover:cursor-pointer'
+								startIcon={<BiImageAdd style={{color: '#646cff', fontSize: '20px',}}/>}
+								sx={{margin: 0, padding: 0, height: '100%', '&:hover': {backgroundColor: 'transparent',}, textTransform: 'none',}}
+							>
+								<div className='text-md text-[#646cff] font-semibold'>
+								{uploading ? 'Uploading image...' : <> Update image</>}
+								</div>
+								<input id='news-image' type='file' accept='image/*' hidden onChange={handleImageUpload}/>
+							</Button>
+						</div>
+						<div>{thumbnail != '' && <img src={thumbnail} alt="" className='max-h-48'/>}</div>
+					</div>
 				</div>
 				<div className='mb-5'>
 					<label

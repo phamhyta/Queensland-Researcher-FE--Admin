@@ -19,12 +19,12 @@ const MemberDetail = () => {
 		bio: '',
 		researchInterest: '',
 		experience: '',
+		position: '',
 	}
 	const [formData, setFormData] = useState(defaultData);
 	const [loading, setLoading] = useState(false);
 	const [uploading, setUploading] = useState(false);
 	const routeParams = useParams();
-	const navigate = useNavigate();
 	useEffect(() => {
 		const fetch = async () => {
 			const res = await getMember(routeParams.id)
@@ -41,6 +41,7 @@ const MemberDetail = () => {
 					bio: res.data.bio,
 					researchInterest: res.data.researchInterest,
 					experience: res.data.experience,
+					position: res.data.position,
 				})
 			}
 		}
@@ -275,6 +276,116 @@ const MemberDetail = () => {
 								required
 								className='block w-full text-sm rounded-md border-0 py-2.5 px-4 bg-gray-500 text-white shadow-sm ring-2 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-500 sm:leading-6'
 							/>
+						</div>
+						<div className='mt-6 rounded-mdshadow-sm ring-2 ring-inset ring-gray-300 p-5'>
+							<label
+								htmlFor='position'
+								className='block text-sm font-medium leading-6 text-darkGray mb-4'
+							>
+								Highest degree
+								<span className='text-red-500 pl-1'>*</span>
+							</label>
+							<div className='choice_degree grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3'>
+								<label className='block mb-4'>
+									<input
+										type='radio'
+										name='position'
+										className='mr-2'
+										value='PhD'
+                                        checked={formData.position === 'PhD'}
+										onChange={handleChange}
+									/>
+									PhD
+								</label>
+								<label className='block mb-4'>
+									<input
+										type='radio'
+										name='position'
+										className='mr-2'
+										value='Master'
+										checked={formData.position === 'Master'}
+										onChange={handleChange}
+									/>
+									Master
+								</label>
+								<label className='block mb-4'>
+									<input
+										type='radio'
+										name='academicRank'
+										className='mr-2'
+										value='Doctor'
+                                        checked={formData.position === 'Doctor'}
+										onChange={handleChange}
+									/>
+									Doctor
+								</label>
+								<label className='block mb-4'>
+									<input
+										type='radio'
+										name='position'
+										className='mr-2'
+										value='Bachelor'
+										checked={formData.position === 'Bachelor'}
+										onChange={handleChange}
+									/>
+									Bachelor
+								</label>
+								<label className='block mb-4'>
+									<input
+										type='radio'
+										name='position'
+										className='mr-2'
+										value='Tertiary Student'
+										checked={formData.position === 'Tertiary Student'}
+										onChange={handleChange}
+									/>
+									Tertiary Student
+								</label>
+								<label className='block mb-4'>
+									<input
+										type='radio'
+										name='position'
+										className='mr-2'
+										value='PhD Candidate'
+										checked={formData.position === 'PhD Candidate'}
+										onChange={handleChange}
+									/>
+									PhD Candidate
+								</label>
+								<label className='block mb-4'>
+									<input
+										type='radio'
+										name='position'
+										className='mr-2'
+										value='Professor'
+										checked={formData.position === 'Professor'}
+										onChange={handleChange}
+									/>
+									Professor
+								</label>
+								<label className='block mb-4'>
+									<input
+										type='radio'
+										name='position'
+										className='mr-2'
+										value='Associate Professor'
+										checked={formData.position === 'Associate Professor'}
+										onChange={handleChange}
+									/>
+									Associate Professor
+								</label>
+								<label className='block'>
+									<input
+										type='radio'
+										name='position'
+										className='mr-2'
+										value='Adjunct Associate Professor'
+										checked={formData.position === 'Adjunct Associate Professor'}
+										onChange={handleChange}
+									/>
+									Adjunct Associate Professor
+								</label>
+							</div>
 						</div>
 						<div className='mt-6'>
 							<label
