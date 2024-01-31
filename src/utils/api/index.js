@@ -365,3 +365,25 @@ export async function acceptMember(id) {
 		};
 	}
 }
+
+
+export async function exportMember () {
+	try {
+		const token = localStorage.getItem('token');
+		const res = await axiosInstance.get(`/admin/members/export/`, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+			responseType: 'blob'
+		});
+		return {
+			success: true,
+			data: res.data,
+		};
+	} catch (error) {
+		console.log(error);
+		return {
+			success: false,
+		};
+	}
+}
