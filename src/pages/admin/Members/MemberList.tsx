@@ -1,15 +1,19 @@
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
-import { getListMembers, deleteMember } from '../../../utils/api';
+import { getListMembers, deleteMember, exportMember } from '../../../utils/api';
 import { useEffect, useState } from 'react'
 import IconButton from '@mui/material/IconButton';
 import { useStateValue } from '../../../context/StateProvider';
 import { actionType } from '../../../context/reducer';
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-
+import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 const MemberList = () => {
 	const [members, setMembers] = useState([]);
+	// thêm tạm pagination trong lúc chưa viết api chờ demo
+	const [currentPage, setCurrentPage] = useState(1);
+	const [membersPerPage] = useState(8);
+	// 
 	const [_, dispatch] = useStateValue();
 	const navigate = useNavigate();
 	useEffect(() => {
@@ -22,6 +26,13 @@ const MemberList = () => {
 		fetch()
 	}, [])
 
+	// thêm tạm pagination trong lúc chưa viết api chờ demo
+	const indexOfLastMember = currentPage * membersPerPage;
+	const indexOfFirstMember = indexOfLastMember - membersPerPage;
+	const currentMembers = members.slice(indexOfFirstMember, indexOfLastMember);
+
+	const paginate = (pageNumber) => setCurrentPage(pageNumber);
+	//
 	const handleOnClickDelete = (id: number) => {
 		dispatch({
 			type: actionType.SET_DIALOG,
@@ -60,7 +71,25 @@ const MemberList = () => {
 			},
 		});
 	}
-
+	const handleOnClickDownload = async () => {
+		console.log('download');
+		try {
+			const response = await exportMember();
+			if (response.success) {
+				const url = window.URL.createObjectURL(new Blob([response.data]));
+				const link = document.createElement('a');
+				link.href = url;
+				link.setAttribute('download', 'members.csv');
+				document.body.appendChild(link);
+				link.click();
+				document.body.removeChild(link);
+			} else {
+				console.error('Download failed!');
+			}
+		} catch (error) {
+			console.error('Download failed: ', error);
+		}
+	};
 	return (
 		<>
 			<ToastContainer />
@@ -70,7 +99,7 @@ const MemberList = () => {
 					<label htmlFor='table-search' className='sr-only'>
 						Search
 					</label>
-					<div className='relative mt-1'>
+					<div className='relative mt-1 flex items-center justify-between'>
 						<div className='absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none'>
 							<svg
 								className='w-4 h-4 text-gray-500 dark:text-gray-400'
@@ -94,6 +123,10 @@ const MemberList = () => {
 							className='block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
 							placeholder='Search for items'
 						/>
+						<div className='flex items-center'>
+							<p className='pr-2'>Download CSV</p>
+							<button onClick={handleOnClickDownload}><FileDownloadOutlinedIcon /></button>
+						</div>
 					</div>
 				</div>
 				<table className='w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400'>
@@ -129,8 +162,10 @@ const MemberList = () => {
 						</tr>
 					</thead>
 					<tbody>
-						{members &&
-							members.map((member, index) => (
+						{/* {members &&
+							members.map((member, index) => ( */}
+						{currentMembers &&
+							currentMembers.map((member, index) => (
 								<tr
 									key={index}
 									className='odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'
@@ -184,6 +219,17 @@ const MemberList = () => {
 							))}
 					</tbody>
 				</table>
+				<div className='flex justify-center items-center mt-4'>
+					<ul className='pagination' style={{ display: 'flex', listStyle: 'none', padding: 0 }}>
+						{Array.from({ length: Math.ceil(members.length / membersPerPage) }).map((_, index) => (
+							<li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`} style={{ margin: '0 5px' }}>
+								<button className='page-link' onClick={() => paginate(index + 1)}>
+									{index + 1}
+								</button>
+							</li>
+						))}
+					</ul>
+				</div>
 			</div>
 		</>
 	);
