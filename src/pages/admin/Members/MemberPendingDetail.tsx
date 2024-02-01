@@ -230,31 +230,19 @@ const MemberPendingDetail = () => {
 							htmlFor='academicRank'
 							className='block text-sm font-medium leading-6 text-darkGray mb-4'
 						>
-							Highest degree
+							Highest Degree or Academic Rank
 							<span className='text-red-500 pl-1'>*</span>
 						</label>
-						<div className='choice_degree grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3'>
+						<div className='choice_degree'>
 							<label className='block mb-4'>
 								<input
 									type='radio'
 									name='academicRank'
 									className='mr-2'
-									value='PhD'
-									checked={formData.academicRank === 'PhD'}
-									disabled
+									value='PhD Candidate'
+									checked={formData.academicRank === 'PhD Candidate'}
 								/>
-								PhD
-							</label>
-							<label className='block mb-4'>
-								<input
-									type='radio'
-									name='academicRank'
-									className='mr-2'
-									value='Master'
-									checked={formData.academicRank === 'Master'}
-									disabled
-								/>
-								Master
+								PhD Candidate
 							</label>
 							<label className='block mb-4'>
 								<input
@@ -271,42 +259,10 @@ const MemberPendingDetail = () => {
 									type='radio'
 									name='academicRank'
 									className='mr-2'
-									value='Bachelor'
-									checked={formData.academicRank === 'Bachelor'}
-									disabled
+									value='Adjunct Associate Professor'
+									checked={formData.academicRank === 'Adjunct Associate Professor'}
 								/>
-								Bachelor
-							</label>
-							<label className='block mb-4'>
-								<input
-									type='radio'
-									name='academicRank'
-									className='mr-2'
-									value='Tertiary Student'
-									checked={formData.academicRank === 'Tertiary Student'}
-									disabled
-								/>
-								Tertiary Student
-							</label>
-							<label className='block mb-4'>
-								<input
-									type='radio'
-									name='academicRank'
-									className='mr-2'
-									value='PhD Candidate'
-									checked={formData.academicRank === 'PhD Candidate'}
-								/>
-								PhD Candidate
-							</label>
-							<label className='block mb-4'>
-								<input
-									type='radio'
-									name='academicRank'
-									className='mr-2'
-									value='Professor'
-									checked={formData.academicRank === 'Professor'}
-								/>
-								Professor
+								Adjunct Associate Professor
 							</label>
 							<label className='block mb-4'>
 								<input
@@ -323,10 +279,10 @@ const MemberPendingDetail = () => {
 									type='radio'
 									name='academicRank'
 									className='mr-2'
-									value='Adjunct Associate Professor'
-									checked={formData.academicRank === 'Adjunct Associate Professor'}
+									value='Professor'
+									checked={formData.academicRank === 'Professor'}
 								/>
-								Adjunct Associate Professor
+								Professor
 							</label>
 						</div>
 					</div>
