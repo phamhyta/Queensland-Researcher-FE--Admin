@@ -5,6 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { getAllEvents, deleteEvent } from '../../../utils/api/events';
 import { useNavigate } from 'react-router-dom';
 import Pagination from '@mui/material/Pagination';
+import { CircularProgress } from '@mui/material';
 
 const reducer = (state, action) => {
 	switch (action.type) {
@@ -198,6 +199,7 @@ const EventsList = () => {
 							))}
 					</tbody>
 				</table>
+				{loading && (<div className='pt-20 w-full text-center'><CircularProgress size={20} sx={{color: '#ffffff'}}/></div>)}
 				{numOfPage && (
 					<div className='flex justify-center mt-5'>
 						<Pagination

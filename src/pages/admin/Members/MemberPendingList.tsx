@@ -7,17 +7,21 @@ import { useNavigate } from 'react-router-dom';
 import { useStateValue } from '../../../context/StateProvider';
 import { actionType } from '../../../context/reducer';
 import { ToastContainer, toast } from 'react-toastify';
+import { CircularProgress } from '@mui/material';
 
 const MemberPendingList = () => {
 	const [members, setMembers] = useState([]);
 	const navigate = useNavigate();
 	const [_, dispatch] = useStateValue();
+	const [loading, setLoading] = useState(false);
 	useEffect(() => {
 		const fetch = async () => {
+			setLoading(true);
 			const res = await getListRegistration()
 			if (res.success) {
 				setMembers(res.data)
 			}
+			setLoading(false);
 		}
 		fetch()
 	}, [])
@@ -234,6 +238,7 @@ const MemberPendingList = () => {
 							))}
 					</tbody>
 				</table>
+				{loading && (<div className='pt-20 w-full text-center'><CircularProgress size={20} sx={{color: '#ffffff'}}/></div>)}
 			</div>
 		</>
 	);

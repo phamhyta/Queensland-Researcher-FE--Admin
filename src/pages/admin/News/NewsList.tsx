@@ -1,6 +1,6 @@
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
-import { IconButton, Pagination } from '@mui/material';
+import { CircularProgress, IconButton, Pagination } from '@mui/material';
 import { useStateValue } from '../../../context/StateProvider';
 import { actionType } from '../../../context/reducer';
 import { useState, useEffect } from 'react'
@@ -14,13 +14,16 @@ const NewsList = () => {
 	const [totalPage, setTotalPage] = useState(1)
 	const [_, dispatch] = useStateValue();
 	const navigate = useNavigate();
+	const [loading, setLoading] = useState(false);
 	useEffect(() => {
 		const fetch = async () => {
+			setLoading(true);
 			const res = await getNews({ page, limit: LIMIT })
 			if (res.success) {
 				setNewsList(res.data.news)
 				setTotalPage(res.data.total_pages)
 			}
+			setLoading(false);
 		}
 		fetch()
 	}, [page])
@@ -164,6 +167,8 @@ const NewsList = () => {
 							))}
 					</tbody>
 				</table>
+				{loading && (<div className='pt-20 w-full text-center'><CircularProgress size={20} sx={{color: '#ffffff'}}/></div>)}
+
 				<nav
 					className='flex items-center flex-column flex-wrap md:flex-row justify-end pt-4'
 					aria-label='Table navigation'
