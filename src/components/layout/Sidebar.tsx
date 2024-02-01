@@ -119,6 +119,11 @@ const Sidebar = () => {
 					link: "/admin/pending-members",
 					text: "Member approval",
 				},
+				{
+					id: "CreateMember",
+					link: "/admin/members/create-member",
+					text: "Create Member",
+				},
 			],
 		},
 		// {
