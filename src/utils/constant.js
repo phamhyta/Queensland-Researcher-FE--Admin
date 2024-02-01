@@ -11,3 +11,4 @@ export const axiosInstance = axios.create({
 
 export const LIMIT = 10;
 export const defaultURLImage = 'https://static.vecteezy.com/system/resources/previews/013/042/571/original/default-avatar-profile-icon-social-media-user-photo-in-flat-style-vector.jpg';
+export const defaultPassWord = '@queenslandexpert2024'

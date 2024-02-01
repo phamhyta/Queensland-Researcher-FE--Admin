@@ -17,6 +17,7 @@ import { Dialog, Snackbar } from './commons';
 import EventsList from './pages/admin/Events/EventsList';
 import EventsDetail from './pages/admin/Events/EventsDetail';
 import MemberPendingDetail from './pages/admin/Members/MemberPendingDetail';
+import MemberCreate from './pages/admin/Members/MemberCreate';
 
 const ProtectedRouter = ({ children }) => {
 	const location = useLocation();
@@ -174,6 +175,14 @@ function App() {
 						element={
 							<ProtectedRouterAdmin>
 								<MemberList />{' '}
+							</ProtectedRouterAdmin>
+						}
+					/>
+					<Route
+						path='/admin/members/create-member'
+						element={
+							<ProtectedRouterAdmin>
+								<MemberCreate />{' '}
 							</ProtectedRouterAdmin>
 						}
 					/>

@@ -307,6 +307,26 @@ export async function updateMember(id, data) {
 	}
 }
 
+export async function createMember(data) {
+	try {
+		const token = localStorage.getItem('token');
+		const res = await axiosInstance.post(`/admin/members/`, data, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
+		return {
+			success: true,
+			data: res.data,
+		};
+	} catch (error) {
+		return {
+			success: false,
+			message: error.response.data.detail || 'Something was wrong!'
+		};
+	}
+}
+
 export async function deleteMember(id) {
 	try {
 		const token = localStorage.getItem('token');
