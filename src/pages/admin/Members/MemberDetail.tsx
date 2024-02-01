@@ -282,31 +282,20 @@ const MemberDetail = () => {
 								htmlFor='position'
 								className='block text-sm font-medium leading-6 text-darkGray mb-4'
 							>
-								Highest degree
+								Highest Degree or Academic Rank
 								<span className='text-red-500 pl-1'>*</span>
 							</label>
-							<div className='choice_degree grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3'>
+							<div className='choice_degree'>
 								<label className='block mb-4'>
 									<input
 										type='radio'
 										name='position'
 										className='mr-2'
-										value='PhD'
-                                        checked={formData.position === 'PhD'}
+										value='PhD Candidate'
+										checked={formData.position === 'PhD Candidate'}
 										onChange={handleChange}
 									/>
-									PhD
-								</label>
-								<label className='block mb-4'>
-									<input
-										type='radio'
-										name='position'
-										className='mr-2'
-										value='Master'
-										checked={formData.position === 'Master'}
-										onChange={handleChange}
-									/>
-									Master
+									PhD Candidate
 								</label>
 								<label className='block mb-4'>
 									<input
@@ -324,44 +313,11 @@ const MemberDetail = () => {
 										type='radio'
 										name='position'
 										className='mr-2'
-										value='Bachelor'
-										checked={formData.position === 'Bachelor'}
+										value='Adjunct Associate Professor'
+										checked={formData.position === 'Adjunct Associate Professor'}
 										onChange={handleChange}
 									/>
-									Bachelor
-								</label>
-								<label className='block mb-4'>
-									<input
-										type='radio'
-										name='position'
-										className='mr-2'
-										value='Tertiary Student'
-										checked={formData.position === 'Tertiary Student'}
-										onChange={handleChange}
-									/>
-									Tertiary Student
-								</label>
-								<label className='block mb-4'>
-									<input
-										type='radio'
-										name='position'
-										className='mr-2'
-										value='PhD Candidate'
-										checked={formData.position === 'PhD Candidate'}
-										onChange={handleChange}
-									/>
-									PhD Candidate
-								</label>
-								<label className='block mb-4'>
-									<input
-										type='radio'
-										name='position'
-										className='mr-2'
-										value='Professor'
-										checked={formData.position === 'Professor'}
-										onChange={handleChange}
-									/>
-									Professor
+									Adjunct Associate Professor
 								</label>
 								<label className='block mb-4'>
 									<input
@@ -379,11 +335,11 @@ const MemberDetail = () => {
 										type='radio'
 										name='position'
 										className='mr-2'
-										value='Adjunct Associate Professor'
-										checked={formData.position === 'Adjunct Associate Professor'}
+										value='Professor'
+										checked={formData.position === 'Professor'}
 										onChange={handleChange}
 									/>
-									Adjunct Associate Professor
+									Professor
 								</label>
 							</div>
 						</div>
