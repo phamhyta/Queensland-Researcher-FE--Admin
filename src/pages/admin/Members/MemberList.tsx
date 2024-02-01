@@ -8,8 +8,10 @@ import { actionType } from '../../../context/reducer';
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
+import { CircularProgress } from '@mui/material';
 const MemberList = () => {
 	const [members, setMembers] = useState([]);
+	const [loading, setLoading] = useState(false);
 	// thêm tạm pagination trong lúc chưa viết api chờ demo
 	const [currentPage, setCurrentPage] = useState(1);
 	const [membersPerPage] = useState(8);
@@ -18,10 +20,12 @@ const MemberList = () => {
 	const navigate = useNavigate();
 	useEffect(() => {
 		const fetch = async () => {
+			setLoading(true);
 			const res = await getListMembers()
 			if (res.success) {
 				setMembers(res.data);
 			}
+			setLoading(false);
 		}
 		fetch()
 	}, [])
@@ -219,6 +223,8 @@ const MemberList = () => {
 							))}
 					</tbody>
 				</table>
+				{loading && (<div className='pt-20 w-full text-center'><CircularProgress size={20} sx={{color: '#ffffff'}}/></div>)}
+
 				<div className='flex justify-center items-center mt-4'>
 					<ul className='pagination' style={{ display: 'flex', listStyle: 'none', padding: 0 }}>
 						{Array.from({ length: Math.ceil(members.length / membersPerPage) }).map((_, index) => (
