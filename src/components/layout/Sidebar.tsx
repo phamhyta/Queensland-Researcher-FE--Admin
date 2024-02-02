@@ -126,12 +126,12 @@ const Sidebar = () => {
 				},
 			],
 		},
-		// {
-		// 	id: "image-gallery",
-		// 	text: "Photo Library",
-		// 	icon: <FaImage className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />,
-		// 	link: "/admin/image-gallery"
-		// },
+		{
+			id: "image-gallery",
+			text: "Photo Library",
+			icon: <FaImage className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />,
+			link: "/admin/image-gallery"
+		},
 		{
 			id: "logout",
 			icon: (
