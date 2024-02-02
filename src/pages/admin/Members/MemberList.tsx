@@ -224,7 +224,7 @@ const MemberList = () => {
 							))}
 					</tbody>
 				</table>
-				{loading && (<div className='pt-20 w-full text-center'><CircularProgress size={20} sx={{color: '#ffffff'}}/></div>)}
+				{loading && (<div className='pt-20 w-full text-center'><CircularProgress size={20} sx={{color: '#00BFFF'}}/></div>)}
 
 				<div className='flex justify-center items-center mt-4'>
 					<ul className='pagination' style={{ display: 'flex', listStyle: 'none', padding: 0 }}>
