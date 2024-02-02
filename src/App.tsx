@@ -73,6 +73,15 @@ function App() {
 					}
 				>
 					<Route
+						path='/'
+						element={
+							<ProtectedRouterAdmin>
+								{' '}
+								<NewsList />
+							</ProtectedRouterAdmin>
+						}
+					/>
+					<Route
 						path='/admin/dashboard'
 						element={
 							<ProtectedRouterAdmin>
