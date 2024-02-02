@@ -42,7 +42,7 @@ export async function uploadImage(file) {
 		const token = localStorage.getItem('token');
 		const formData = new FormData();
 		formData.append('files', file);
-		const res = await axiosInstance.post('image', formData, {
+		const res = await axiosInstance.post('image/', formData, {
 			headers: {
 				'Content-Type': 'multipart/form-data',
 				accept: 'application/json',

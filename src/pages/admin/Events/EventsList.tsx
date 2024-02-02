@@ -62,10 +62,10 @@ const EventsList = () => {
 		};
 		fetchData();
 	}, [currentPage]);
-	const handleDelete = (id) => {
+	const handleDelete = (id, title) => {
 		console.log('id', id);
 		const confirm = window.confirm(
-			'Bạn có chắc chắn muốn xóa sự kiện này không ?'
+			`Bạn có chắc chắn muốn xóa sự kiện ${title} không ?`
 		);
 		if (confirm) {
 			deleteEvent(id).then((res) => {
@@ -187,7 +187,7 @@ const EventsList = () => {
 										</a>
 										<a
 											href='#'
-											onClick={() => {handleDelete(news.id)}}
+											onClick={() => {handleDelete(news.id, news.title)}}
 											className='font-medium text-blue-600 dark:text-blue-500 hover:underline'
 										>
 											<DeleteForeverIcon

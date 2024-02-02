@@ -32,12 +32,12 @@ const NewsList = () => {
 		setPage(page);
 	};
 
-	const handleDeleteNews = (newsId) => {
+	const handleDeleteNews = (newsId, newsTitle) => {
 		dispatch({
 			type: actionType.SET_DIALOG,
 			payload: {
 				title: 'Confirm deletion',
-				text: 'Are you sure you want to delete this post? The data will be permanently deleted and cannot be recovered',
+				text: `Are you sure you want to delete the news "${newsTitle}" ? The data will be permanently deleted and cannot be recovered`,
 				type: 'warning',
 				handleOkClick: async () => {
 					await onDeleteNews(newsId)
@@ -155,7 +155,7 @@ const NewsList = () => {
 											<EditIcon />
 										</a>
 										<IconButton
-											onClick={() => handleDeleteNews(news.id)}
+											onClick={() => handleDeleteNews(news.id, news.title)}
 											className='font-medium text-blue-600 dark:text-blue-500 hover:underline'
 										>
 											<DeleteForeverIcon

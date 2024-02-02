@@ -26,12 +26,12 @@ const MemberPendingList = () => {
 		fetch()
 	}, [])
 
-	const handleOnClickDelete = (id: number) => {
+	const handleOnClickDelete = (id: number, name: string) => {
 		dispatch({
 			type: actionType.SET_DIALOG,
 			payload: {
 				title: 'Confirm deletion',
-				text: 'Are you sure you want to delete this member? The data will be permanently deleted and cannot be recovered.',
+				text: `Are you sure you want to delete member ${name}? The data will be permanently deleted and cannot be recovered.`,
 				type: 'warning',
 				handleOkClick: async () => {
 					const res = await deleteRegistration(id)
@@ -226,7 +226,7 @@ const MemberPendingList = () => {
 											<AddTaskSharpIcon />
 										</div>
 										<div
-											onClick={() => handleOnClickDelete(member.id)}
+											onClick={() => handleOnClickDelete(member.id, member.name)}
 											className='font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer'
 										>
 											<DeleteForeverIcon
