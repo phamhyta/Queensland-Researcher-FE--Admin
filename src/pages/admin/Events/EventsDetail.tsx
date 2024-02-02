@@ -170,7 +170,8 @@ const EventsDetail = () => {
 					<Editor
 						onInit={(evt, editor) => editorRef.current = editor}
 						id='news-overview'
-						apiKey='up47n387bsvwk9o4t2c5am3dzhbh9nlmxkwfz50ldckxn3mm'
+						// apiKey='up47n387bsvwk9o4t2c5am3dzhbh9nlmxkwfz50ldckxn3mm'
+						apiKey='125forgcd7noj9j97bmqpayn4dmt8r5x6ezdb7302c9x8c5k'
 						// initialValue='<p>This is the initial content</p>'
 						value={eventItem.overview}
 						onEditorChange={() => setEventItem({ ...eventItem, overview: editorRef.current?.getContent() })}
