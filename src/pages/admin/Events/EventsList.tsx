@@ -199,7 +199,7 @@ const EventsList = () => {
 							))}
 					</tbody>
 				</table>
-				{loading && (<div className='pt-20 w-full text-center'><CircularProgress size={20} sx={{color: '#ffffff'}}/></div>)}
+				{loading && (<div className='pt-20 w-full text-center'><CircularProgress size={20} sx={{color: '#00BFFF'}}/></div>)}
 				{numOfPage && (
 					<div className='flex justify-center mt-5'>
 						<Pagination
