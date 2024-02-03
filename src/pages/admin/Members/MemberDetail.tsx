@@ -133,7 +133,7 @@ const MemberDetail = () => {
 									className='block text-sm font-medium leading-6 text-darkGray'
 								>
 									Your Email
-									<span className='text-red-500 pl-1'>*</span>
+									{/* <span className='text-red-500 pl-1'>*</span> */}
 								</label>
 								<input
 									type='email'
@@ -142,7 +142,7 @@ const MemberDetail = () => {
 									onChange={handleChange}
 									id='email'
 									required
-									className='block w-full text-sm rounded-md border-0 py-2.5 px-4 bg-gray-500 text-white shadow-sm ring-2 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-500 sm:leading-6'
+									className='block w-full text-sm rounded-md border-0 py-2.5 px-4 bg-white text-lightGray shadow-sm ring-2 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-500 sm:leading-6'
 								/>
 							</div>
 							<div>
@@ -151,7 +151,7 @@ const MemberDetail = () => {
 									className='block text-sm font-medium leading-6 text-darkGray'
 								>
 									Your Name
-									<span className='text-red-500 pl-1'>*</span>
+									{/* <span className='text-red-500 pl-1'>*</span> */}
 								</label>
 								<input
 									type='name'
@@ -160,7 +160,7 @@ const MemberDetail = () => {
 									onChange={handleChange}
 									id='name'
 									required
-									className='block w-full text-sm rounded-md border-0 py-2.5 px-4 bg-gray-500 text-white shadow-sm ring-2 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-500 sm:leading-6'
+									className='block w-full text-sm rounded-md border-0 py-2.5 px-4 bg-white text-lightGray shadow-sm ring-2 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-500 sm:leading-6'
 								/>
 							</div>
 						</div>
@@ -171,7 +171,7 @@ const MemberDetail = () => {
 									className='block text-sm font-medium leading-6 text-darkGray'
 								>
 									Phone number
-									<span className='text-red-500 pl-1'>*</span>
+									{/* <span className='text-red-500 pl-1'>*</span> */}
 								</label>
 								<input
 									type='phone'
@@ -180,7 +180,7 @@ const MemberDetail = () => {
 									value={formData.phoneNumber}
 									onChange={handleChange}
 									required
-									className='block w-full text-sm rounded-md border-0 py-2.5 px-4 bg-gray-500 text-white shadow-sm ring-2 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-500 sm:leading-6'
+									className='block w-full text-sm rounded-md border-0 py-2.5 px-4 bg-white text-lightGray shadow-sm ring-2 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-500 sm:leading-6'
 								/>
 							</div>
 						</div>
@@ -190,7 +190,7 @@ const MemberDetail = () => {
 								className='block text-sm font-medium leading-6 text-darkGray'
 							>
 								Job Title
-								<span className='text-red-500 pl-1'>*</span>
+								{/* <span className='text-red-500 pl-1'>*</span> */}
 							</label>
 							<input
 								type='text'
@@ -199,7 +199,7 @@ const MemberDetail = () => {
 								value={formData.subPosition}
 								onChange={handleChange}
 								required
-								className='block w-full text-sm rounded-md border-0 py-2.5 px-4 bg-gray-500 text-white shadow-sm ring-2 ring-gray-300 ring-inset placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-500 sm:leading-6'
+								className='block w-full text-sm rounded-md border-0 py-2.5 px-4 bg-white text-lightGray shadow-sm ring-2 ring-gray-300 ring-inset placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-500 sm:leading-6'
 							/>
 						</div>
 						<div className='mt-6'>
@@ -208,7 +208,7 @@ const MemberDetail = () => {
 								className='block text-sm font-medium leading-6 text-darkGray'
 							>
 								Research Interest
-								<span className='text-red-500 pl-1'>*</span>
+								{/* <span className='text-red-500 pl-1'>*</span> */}
 							</label>
 							<input
 								type='text'
@@ -217,7 +217,7 @@ const MemberDetail = () => {
 								value={formData.researchInterest}
 								onChange={handleChange}
 								required
-								className='block w-full text-sm rounded-md border-0 py-2.5 px-4 bg-gray-500 text-white shadow-sm ring-2 ring-gray-300 ring-inset placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-500 sm:leading-6'
+								className='block w-full text-sm rounded-md border-0 py-2.5 px-4 bg-white text-lightGray shadow-sm ring-2 ring-gray-300 ring-inset placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-500 sm:leading-6'
 							/>
 						</div>
 						<div className='flex mt-6'>
@@ -227,7 +227,7 @@ const MemberDetail = () => {
 									className='block text-sm font-medium leading-6 text-darkGray'
 								>
 									Photo
-									<span className='text-red-500 pl-1'>*</span>
+									{/* <span className='text-red-500 pl-1'>*</span> */}
 								</label>
 								<button className='flex justify-center items-center w-full h-full' type='button'>
 									<label htmlFor='defaultURLImage' className='cursor-pointer flex'>
@@ -247,7 +247,7 @@ const MemberDetail = () => {
 								className='block text-sm font-medium leading-6 text-darkGray'
 							>
 								Address
-								<span className='text-red-500 pl-1'>*</span>
+								{/* <span className='text-red-500 pl-1'>*</span> */}
 							</label>
 							<input
 								type='text'
@@ -256,7 +256,7 @@ const MemberDetail = () => {
 								value={formData.address}
 								onChange={handleChange}
 								required
-								className='block w-full text-sm rounded-md border-0 py-2.5 px-4 bg-gray-500 text-white shadow-sm ring-2 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-500 sm:leading-6'
+								className='block w-full text-sm rounded-md border-0 py-2.5 px-4 bg-white text-lightGray shadow-sm ring-2 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-500 sm:leading-6'
 							/>
 						</div>
 						<div className='mt-6'>
@@ -265,7 +265,7 @@ const MemberDetail = () => {
 								className='block text-sm font-medium leading-6 text-darkGray'
 							>
 								Organization
-								<span className='text-red-500 pl-1'>*</span>
+								{/* <span className='text-red-500 pl-1'>*</span> */}
 							</label>
 							<input
 								type='text'
@@ -274,7 +274,7 @@ const MemberDetail = () => {
 								value={formData.organization}
 								onChange={handleChange}
 								required
-								className='block w-full text-sm rounded-md border-0 py-2.5 px-4 bg-gray-500 text-white shadow-sm ring-2 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-500 sm:leading-6'
+								className='block w-full text-sm rounded-md border-0 py-2.5 px-4 bg-white text-lightGray shadow-sm ring-2 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-500 sm:leading-6'
 							/>
 						</div>
 						<div className='mt-6 rounded-mdshadow-sm ring-2 ring-inset ring-gray-300 p-5'>
@@ -358,7 +358,7 @@ const MemberDetail = () => {
 										id='professionalLink'
 										value={link}
 										onChange={(e) => { handleChangeInput(e, index) }}
-										className='block w-full text-sm rounded-md border-0 py-2.5 px-4 bg-gray-500 text-white shadow-sm ring-2 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-500 sm:leading-6 mb-4'
+										className='block w-full text-sm rounded-md border-0 py-2.5 px-4 bg-white text-lightGray shadow-sm ring-2 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-500 sm:leading-6 mb-4'
 									/>
 									<div className='mb-4 flex justify-center items-center cursor-pointer'>
 										<HighlightOffSharpIcon className=' text-red-500 ml-2' onClick={() => handleDeleteInput('professionalLink', index)} />
@@ -381,7 +381,7 @@ const MemberDetail = () => {
 								onChange={handleChange}
 								cols={30}
 								rows={3}
-								className='block w-full text-sm rounded-md border-0 py-2.5 px-4 bg-gray-500 text-white shadow-sm ring-2 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-500 sm:leading-6'
+								className='block w-full text-sm rounded-md border-0 py-2.5 px-4 bg-white text-lightGray shadow-sm ring-2 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-500 sm:leading-6'
 							></textarea>
 						</div>
 						<div className='mt-6'>
@@ -399,7 +399,7 @@ const MemberDetail = () => {
 										id='experience'
 										value={link}
 										onChange={(e) => { handleChangeInput(e, index) }}
-										className='mb-4 block w-full text-sm rounded-md border-0 py-2.5 px-4 bg-gray-500 text-white shadow-sm ring-2 ring-gray-300 ring-inset placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-500 sm:leading-6'
+										className='mb-4 block w-full text-sm rounded-md border-0 py-2.5 px-4 bg-white text-lightGray shadow-sm ring-2 ring-gray-300 ring-inset placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-500 sm:leading-6'
 									/>
 									<div className='mb-4 flex justify-center items-center cursor-pointer'>
 										<HighlightOffSharpIcon className=' text-red-500 ml-2' onClick={() => handleDeleteInput('experience', index)} />
@@ -422,7 +422,7 @@ const MemberDetail = () => {
 							{loading ? 'LOADING...' : 'SUBMIT'}
 						</button>
 						<button
-							className={`text-sm font-semibold py-3 px-16 bg-white rounded-full border border-[#1B52BE] text-[#1B52BE] hover:bg-[#1B52BE] hover:text-white ${loading ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+							className={`text-sm font-semibold py-3 px-16 bg-white rounded-full border border-[#1B52BE] text-[#1B52BE] hover:bg-[#1B52BE] hover:text-lightGray ${loading ? 'cursor-not-allowed' : 'cursor-pointer'}`}
 							onClick={() => setFormData(defaultData)}
 						>
 							CLEAR

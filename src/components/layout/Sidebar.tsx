@@ -207,9 +207,9 @@ const Sidebar = () => {
 				<div className="h-full px-3 py-6 overflow-y-auto bg-gray-50 dark:bg-gray-800">
 					<a href="/admin/news" className="flex items-center ps-2.5 mb-5">
 						<img
-							src="https://vasea.org.au/wp-content/uploads/2023/07/z4514410384541_dfbb72ef99454483fbfb6f19314dce7f.jpg"
+							src="/logo_avesq.png"
 							className="h-6 me-3 sm:h-7"
-							alt="VASEA Logo"
+							alt="AVESQ Logo"
 						/>
 						<span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
 							AVESQ Admin
