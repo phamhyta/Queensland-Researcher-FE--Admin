@@ -111,7 +111,7 @@ const MemberCreate = () => {
 							<div>
 								<label
 									htmlFor='email'
-									className='block text-sm font-medium leading-6 text-darkGray'
+									className='block text-sm font-medium leading-6 dark:text-white'
 								>
 									Your Email
 									<span className='text-red-500 pl-1'>*</span>
@@ -129,7 +129,7 @@ const MemberCreate = () => {
 							<div>
 								<label
 									htmlFor='name'
-									className='block text-sm font-medium leading-6 text-darkGray'
+									className='block text-sm font-medium leading-6 dark:text-white'
 								>
 									Your Name
 									<span className='text-red-500 pl-1'>*</span>
@@ -149,7 +149,7 @@ const MemberCreate = () => {
 							<div>
 								<label
 									htmlFor='phoneNumber'
-									className='block text-sm font-medium leading-6 text-darkGray'
+									className='block text-sm font-medium leading-6 dark:text-white'
 								>
 									Phone number
 									<span className='text-red-500 pl-1'>*</span>
@@ -168,7 +168,7 @@ const MemberCreate = () => {
 						<div className='mt-6'>
 							<label
 								htmlFor='subPosition'
-								className='block text-sm font-medium leading-6 text-darkGray'
+								className='block text-sm font-medium leading-6 dark:text-white'
 							>
 								Job Title
 								<span className='text-red-500 pl-1'>*</span>
@@ -186,7 +186,7 @@ const MemberCreate = () => {
 						<div className='mt-6'>
 							<label
 								htmlFor='researchInterest'
-								className='block text-sm font-medium leading-6 text-darkGray'
+								className='block text-sm font-medium leading-6 dark:text-white'
 							>
 								Research Interest
 								<span className='text-red-500 pl-1'>*</span>
@@ -205,7 +205,7 @@ const MemberCreate = () => {
 							<div className='w-1/2 items-center text-[#646cff] font-bold cursor-pointer'>
 								<label
 									htmlFor='defaultURLImage'
-									className='block text-sm font-medium leading-6 text-darkGray'
+									className='block text-sm font-medium leading-6 dark:text-white'
 								>
 									Photo
 									<span className='text-red-500 pl-1'>*</span>
@@ -225,7 +225,7 @@ const MemberCreate = () => {
 						<div className='mt-6'>
 							<label
 								htmlFor='address'
-								className='block text-sm font-medium leading-6 text-darkGray'
+								className='block text-sm font-medium leading-6 dark:text-white'
 							>
 								Address
 								<span className='text-red-500 pl-1'>*</span>
@@ -243,7 +243,7 @@ const MemberCreate = () => {
 						<div className='mt-6'>
 							<label
 								htmlFor='organization'
-								className='block text-sm font-medium leading-6 text-darkGray'
+								className='block text-sm font-medium leading-6 dark:text-white'
 							>
 								Organization
 								<span className='text-red-500 pl-1'>*</span>
@@ -261,7 +261,7 @@ const MemberCreate = () => {
 						<div className='mt-6 rounded-mdshadow-sm ring-2 ring-inset ring-gray-300 p-5'>
 							<label
 								htmlFor='position'
-								className='block text-sm font-medium leading-6 text-darkGray mb-4'
+								className='block text-sm font-medium leading-6 dark:text-white mb-4'
 							>
 								Highest Degree or Academic Rank
 								<span className='text-red-500 pl-1'>*</span>
@@ -327,7 +327,7 @@ const MemberCreate = () => {
 						<div className='mt-6'>
 							<label
 								htmlFor='professionalLink'
-								className='block text-sm font-medium leading-6 text-darkGray'
+								className='block text-sm font-medium leading-6 dark:text-white'
 							>
 								Your professional link (if any)
 							</label>
@@ -351,7 +351,7 @@ const MemberCreate = () => {
 						<div className='mt-6'>
 							<label
 								htmlFor='bio'
-								className='block text-sm font-medium leading-6 text-darkGray'
+								className='block text-sm font-medium leading-6 dark:text-white'
 							>
 								Bio
 							</label>
@@ -368,7 +368,7 @@ const MemberCreate = () => {
 						<div className='mt-6'>
 							<label
 								htmlFor='experience'
-								className='block text-sm font-medium leading-6 text-darkGray'
+								className='block text-sm font-medium leading-6 dark:text-white'
 							>
 								Your experience
 							</label>

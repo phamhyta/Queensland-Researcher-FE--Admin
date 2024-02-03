@@ -62,7 +62,7 @@ const MemberPendingDetail = () => {
 						<div>
 							<label
 								htmlFor='email'
-								className='block text-sm font-medium leading-6 text-darkGray'
+								className='block text-sm font-medium leading-6 dark:text-white'
 							>
 								Your Email
 								<span className='text-red-500 pl-1'>*</span>
@@ -79,7 +79,7 @@ const MemberPendingDetail = () => {
 						<div>
 							<label
 								htmlFor='name'
-								className='block text-sm font-medium leading-6 text-darkGray'
+								className='block text-sm font-medium leading-6 dark:text-white'
 							>
 								Your Name
 								<span className='text-red-500 pl-1'>*</span>
@@ -99,7 +99,7 @@ const MemberPendingDetail = () => {
 						<div>
 							<label
 								htmlFor='dateOfBirth'
-								className='block text-sm font-medium leading-6 text-darkGray'
+								className='block text-sm font-medium leading-6 dark:text-white'
 							>
 								Date of Birth
 								<span className='text-red-500 pl-1'>*</span>
@@ -117,7 +117,7 @@ const MemberPendingDetail = () => {
 						<div>
 							<label
 								htmlFor='phoneNumber'
-								className='block text-sm font-medium leading-6 text-darkGray'
+								className='block text-sm font-medium leading-6 dark:text-white'
 							>
 								Phone number
 								<span className='text-red-500 pl-1'>*</span>
@@ -136,7 +136,7 @@ const MemberPendingDetail = () => {
 					<div className='mt-6'>
 						<label
 							htmlFor='experienceYears'
-							className='block text-sm font-medium leading-6 text-darkGray'
+							className='block text-sm font-medium leading-6 dark:text-white'
 						>
 							Experience Years
 							<span className='text-red-500 pl-1'>*</span>
@@ -155,7 +155,7 @@ const MemberPendingDetail = () => {
 					<div className='mt-6'>
 						<label
 							htmlFor='jobTitle'
-							className='block text-sm font-medium leading-6 text-darkGray'
+							className='block text-sm font-medium leading-6 dark:text-white'
 						>
 							Job Title
 							<span className='text-red-500 pl-1'>*</span>
@@ -173,7 +173,7 @@ const MemberPendingDetail = () => {
 					<div className='mt-6'>
 						<label
 							htmlFor='researchInterest'
-							className='block text-sm font-medium leading-6 text-darkGray'
+							className='block text-sm font-medium leading-6 dark:text-white'
 						>
 							Research Interest
 							<span className='text-red-500 pl-1'>*</span>
@@ -194,7 +194,7 @@ const MemberPendingDetail = () => {
 					<div className='mt-6'>
 						<label
 							htmlFor='address'
-							className='block text-sm font-medium leading-6 text-darkGray'
+							className='block text-sm font-medium leading-6 dark:text-white'
 						>
 							Address
 							<span className='text-red-500 pl-1'>*</span>
@@ -212,7 +212,7 @@ const MemberPendingDetail = () => {
 					<div className='mt-6'>
 						<label
 							htmlFor='state'
-							className='block text-sm font-medium leading-6 text-darkGray'
+							className='block text-sm font-medium leading-6 dark:text-white'
 						>
 							State where I am residing now
 						</label>
@@ -228,7 +228,7 @@ const MemberPendingDetail = () => {
 					<div className='mt-6 rounded-mdshadow-sm ring-2 ring-inset ring-gray-300 p-5'>
 						<label
 							htmlFor='academicRank'
-							className='block text-sm font-medium leading-6 text-darkGray mb-4'
+							className='block text-sm font-medium leading-6 dark:text-white mb-4'
 						>
 							Highest Degree or Academic Rank
 							<span className='text-red-500 pl-1'>*</span>
@@ -289,7 +289,7 @@ const MemberPendingDetail = () => {
 					<div className='mt-6'>
 						<label
 							htmlFor='institute'
-							className='block text-sm font-medium leading-6 text-darkGray'
+							className='block text-sm font-medium leading-6 dark:text-white'
 						>
 							Institute that I have studied for the highest
 							degree
@@ -308,7 +308,7 @@ const MemberPendingDetail = () => {
 					<div className='mt-6'>
 						<label
 							htmlFor='expertise'
-							className='block text-sm font-medium leading-6 text-darkGray'
+							className='block text-sm font-medium leading-6 dark:text-white'
 						>
 							My Expertise (e.g. Robotics, Biomedicines,
 							Business ...)
@@ -327,7 +327,7 @@ const MemberPendingDetail = () => {
 					<div className='mt-6'>
 						<label
 							htmlFor='organization'
-							className='block text-sm font-medium leading-6 text-darkGray'
+							className='block text-sm font-medium leading-6 dark:text-white'
 						>
 							Organization
 							<span className='text-red-500 pl-1'>*</span>
@@ -345,7 +345,7 @@ const MemberPendingDetail = () => {
 					<div className='mt-6'>
 						<label
 							htmlFor='professionalLink'
-							className='block text-sm font-medium leading-6 text-darkGray'
+							className='block text-sm font-medium leading-6 dark:text-white'
 						>
 							Your professional link (if any)
 						</label>
@@ -365,7 +365,7 @@ const MemberPendingDetail = () => {
 					<div className='mt-6'>
 						<label
 							htmlFor='bio'
-							className='block text-sm font-medium leading-6 text-darkGray'
+							className='block text-sm font-medium leading-6 dark:text-white'
 						>
 							Bio
 						</label>
@@ -382,7 +382,7 @@ const MemberPendingDetail = () => {
 					<div className='mt-6'>
 						<label
 							htmlFor='experience'
-							className='block text-sm font-medium leading-6 text-darkGray'
+							className='block text-sm font-medium leading-6 dark:text-white'
 						>
 							Your experience
 						</label>
@@ -402,7 +402,7 @@ const MemberPendingDetail = () => {
 					<div className='mt-6 rounded-md shadow-sm ring-2 ring-inset ring-gray-300 p-5'>
 						<label
 							htmlFor='tier'
-							className='block text-sm font-medium leading-6 text-darkGray mb-4'
+							className='block text-sm font-medium leading-6 dark:text-white mb-4'
 						>
 							Which tier of membership you wish to join?
 							Please refer to AVESQ website for legibility.
