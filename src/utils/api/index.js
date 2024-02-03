@@ -42,7 +42,7 @@ export async function uploadImage(file) {
 		const token = localStorage.getItem('token');
 		const formData = new FormData();
 		formData.append('files', file);
-		const res = await axiosInstance.post('image/', formData, {
+		const res = await axiosInstance.post('/image/', formData, {
 			headers: {
 				'Content-Type': 'multipart/form-data',
 				accept: 'application/json',
@@ -368,7 +368,7 @@ export async function getMember(id) {
 export async function acceptMember(id) {
 	try {
 		const token = localStorage.getItem('token');
-		const res = await axiosInstance.post(`/admin/accept?id=${id}`, {
+		const res = await axiosInstance.post(`/admin/accept/?id=${id}`, {
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: `Bearer ${token}`,

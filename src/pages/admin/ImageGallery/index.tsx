@@ -12,6 +12,7 @@ import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 
 import { getListImages, uploadImage, deleteImage } from '../../../utils/api';
+import { CircularProgress } from '@mui/material';
 
 export default function ImageGallery() {
 	const [page, setPage] = React.useState(1);
@@ -24,6 +25,8 @@ export default function ImageGallery() {
 
 	const [files, setFiles] = React.useState([]);
     const [uploadLoading, setUploadLoading] = React.useState(false)
+
+	const [loading, setLoading] = React.useState(true);
 
 	const imageHeight: number = 164;
 	const [_, dispatch] = useStateValue();
@@ -116,6 +119,7 @@ export default function ImageGallery() {
 					}),
 				);
 				setTotalPage(res.data.total_pages);
+				setLoading(false);
 			}
 		};
 		fetch();
@@ -179,6 +183,7 @@ export default function ImageGallery() {
 				
 			</div>
 			<ImageList cols={4} rowHeight={imageHeight} variant='quilted'>
+				{loading && (<div className='pt-20 w-full text-center'><CircularProgress size={60} sx={{color: '#00BFFF'}}/></div>)}
 				{imageList.map((item) => (
 					<ImageListItem
 						key={item.key}
