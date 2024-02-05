@@ -25,6 +25,7 @@ const MemberCreate = () => {
 	const [formData, setFormData] = useState(defaultData);
 	const [loading, setLoading] = useState(false);
 	const [uploading, setUploading] = useState(false);
+	const fieldRequired = ['email', 'name', 'experience', 'bio', 'organization', 'expertise', 'jobTitle'];
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setFormData((prevData) => ({
@@ -34,11 +35,11 @@ const MemberCreate = () => {
 	};
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		// for (const key in formData)
-			// if (formData[key] === '') {
-			// 	toast.error('Please fill all the required fields!');
-			// 	return;
-			// }
+		for (const key in formData)
+			if (fieldRequired.includes(key) && !formData[key]){
+				toast.error('Please fill all the required fields!');
+				return;
+			}
 		const regexEmail = /\S+@\S+\.\S+/;
 		if (!regexEmail.test(formData.email)) {
 			toast.error('Email is invalid!');
@@ -152,7 +153,7 @@ const MemberCreate = () => {
 									className='block text-sm font-medium leading-6 dark:text-white'
 								>
 									Phone number
-									<span className='text-red-500 pl-1'>*</span>
+									{/* <span className='text-red-500 pl-1'>*</span> */}
 								</label>
 								<input
 									type='phone'
@@ -183,7 +184,7 @@ const MemberCreate = () => {
 								className='block w-full text-sm rounded-md border-0 py-2.5 px-4 bg-gray-500 text-white shadow-sm ring-2 ring-gray-300 ring-inset placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-500 sm:leading-6'
 							/>
 						</div>
-						<div className='mt-6'>
+						{/* <div className='mt-6'>
 							<label
 								htmlFor='researchInterest'
 								className='block text-sm font-medium leading-6 dark:text-white'
@@ -200,7 +201,7 @@ const MemberCreate = () => {
 								required
 								className='block w-full text-sm rounded-md border-0 py-2.5 px-4 bg-gray-500 text-white shadow-sm ring-2 ring-gray-300 ring-inset placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-500 sm:leading-6'
 							/>
-						</div>
+						</div> */}
 						<div className='flex mt-6'>
 							<div className='w-1/2 items-center text-[#646cff] font-bold cursor-pointer'>
 								<label
@@ -208,7 +209,7 @@ const MemberCreate = () => {
 									className='block text-sm font-medium leading-6 dark:text-white'
 								>
 									Photo
-									<span className='text-red-500 pl-1'>*</span>
+									{/* <span className='text-red-500 pl-1'>*</span> */}
 								</label>
 								<button className='flex justify-center items-center w-full h-full' type='button'>
 									<label htmlFor='defaultURLImage' className='cursor-pointer flex'>
@@ -228,7 +229,7 @@ const MemberCreate = () => {
 								className='block text-sm font-medium leading-6 dark:text-white'
 							>
 								Address
-								<span className='text-red-500 pl-1'>*</span>
+								{/* <span className='text-red-500 pl-1'>*</span> */}
 							</label>
 							<input
 								type='text'
@@ -264,7 +265,7 @@ const MemberCreate = () => {
 								className='block text-sm font-medium leading-6 dark:text-white mb-4'
 							>
 								Highest Degree or Academic Rank
-								<span className='text-red-500 pl-1'>*</span>
+								{/* <span className='text-red-500 pl-1'>*</span> */}
 							</label>
 							<div className='choice_degree'>
 								<label className='block mb-4'>
@@ -311,7 +312,7 @@ const MemberCreate = () => {
 									/>
 									Associate Professor
 								</label>
-								<label className='block'>
+								<label className='block mb-4'>
 									<input
 										type='radio'
 										name='position'
@@ -321,6 +322,17 @@ const MemberCreate = () => {
 										onChange={handleChange}
 									/>
 									Professor
+								</label>
+								<label className='block'>
+									<input
+										type='radio'
+										name='position'
+										className='mr-2'
+										value=''
+										checked={formData.position === ''}
+										onChange={handleChange}
+									/>
+									None
 								</label>
 							</div>
 						</div>
@@ -354,6 +366,7 @@ const MemberCreate = () => {
 								className='block text-sm font-medium leading-6 dark:text-white'
 							>
 								Bio
+								<span className='text-red-500 pl-1'>*</span>
 							</label>
 							<textarea
 								name='bio'
@@ -371,6 +384,7 @@ const MemberCreate = () => {
 								className='block text-sm font-medium leading-6 dark:text-white'
 							>
 								Your experience
+								<span className='text-red-500 pl-1'>*</span>
 							</label>
 							{formData.experience.split("\\n").map((link, index) => (
 								<div className='flex' key={index}>

@@ -102,7 +102,7 @@ const MemberPendingDetail = () => {
 								className='block text-sm font-medium leading-6 dark:text-white'
 							>
 								Date of Birth
-								<span className='text-red-500 pl-1'>*</span>
+								{/* <span className='text-red-500 pl-1'>*</span> */}
 							</label>
 							<input
 								type='date'
@@ -120,7 +120,7 @@ const MemberPendingDetail = () => {
 								className='block text-sm font-medium leading-6 dark:text-white'
 							>
 								Phone number
-								<span className='text-red-500 pl-1'>*</span>
+								{/* <span className='text-red-500 pl-1'>*</span> */}
 							</label>
 							<input
 								type='phone'
@@ -139,7 +139,7 @@ const MemberPendingDetail = () => {
 							className='block text-sm font-medium leading-6 dark:text-white'
 						>
 							Experience Years
-							<span className='text-red-500 pl-1'>*</span>
+							{/* <span className='text-red-500 pl-1'>*</span> */}
 						</label>
 						<input
 							type='number'
@@ -170,7 +170,7 @@ const MemberPendingDetail = () => {
 							className='block w-full text-sm rounded-md border-0 py-2.5 px-4 bg-gray-500 text-white shadow-sm ring-2 ring-gray-300 ring-inset placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-500 sm:leading-6'
 						/>
 					</div>
-					<div className='mt-6'>
+					{/* <div className='mt-6'>
 						<label
 							htmlFor='researchInterest'
 							className='block text-sm font-medium leading-6 dark:text-white'
@@ -187,7 +187,7 @@ const MemberPendingDetail = () => {
 							required
 							className='block w-full text-sm rounded-md border-0 py-2.5 px-4 bg-gray-500 text-white shadow-sm ring-2 ring-gray-300 ring-inset placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-500 sm:leading-6'
 						/>
-					</div>
+					</div> */}
 					<div className='flex mt-6'>
 						<div className='flex w-1/2 justify-center items-center'><img src={formData.avatarURL ? formData.avatarURL : defaultURLImage} alt="" className='h-48 w-48 object-cover rounded-full' /></div>
 					</div>
@@ -197,7 +197,7 @@ const MemberPendingDetail = () => {
 							className='block text-sm font-medium leading-6 dark:text-white'
 						>
 							Address
-							<span className='text-red-500 pl-1'>*</span>
+							{/* <span className='text-red-500 pl-1'>*</span> */}
 						</label>
 						<input
 							type='text'
@@ -209,7 +209,7 @@ const MemberPendingDetail = () => {
 							className='block w-full text-sm rounded-md border-0 py-2.5 px-4 bg-gray-500 text-white shadow-sm ring-2 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-500 sm:leading-6'
 						/>
 					</div>
-					<div className='mt-6'>
+					{/* <div className='mt-6'>
 						<label
 							htmlFor='state'
 							className='block text-sm font-medium leading-6 dark:text-white'
@@ -224,14 +224,14 @@ const MemberPendingDetail = () => {
 							id='state'
 							className='block w-full text-sm rounded-md border-0 py-2.5 px-4 bg-gray-500 text-white shadow-sm ring-2 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-500 sm:leading-6'
 						/>
-					</div>
+					</div> */}
 					<div className='mt-6 rounded-mdshadow-sm ring-2 ring-inset ring-gray-300 p-5'>
 						<label
 							htmlFor='academicRank'
 							className='block text-sm font-medium leading-6 dark:text-white mb-4'
 						>
 							Highest Degree or Academic Rank
-							<span className='text-red-500 pl-1'>*</span>
+							{/* <span className='text-red-500 pl-1'>*</span> */}
 						</label>
 						<div className='choice_degree'>
 							<label className='block mb-4'>
@@ -274,7 +274,7 @@ const MemberPendingDetail = () => {
 								/>
 								Associate Professor
 							</label>
-							<label className='block'>
+							<label className='block mb-4'>
 								<input
 									type='radio'
 									name='academicRank'
@@ -284,9 +284,19 @@ const MemberPendingDetail = () => {
 								/>
 								Professor
 							</label>
+							<label className='block'>
+								<input
+									type='radio'
+									name='position'
+									className='mr-2'
+									value=''
+									checked={formData.academicRank === ''}
+								/>
+								None
+							</label>
 						</div>
 					</div>
-					<div className='mt-6'>
+					{/* <div className='mt-6'>
 						<label
 							htmlFor='institute'
 							className='block text-sm font-medium leading-6 dark:text-white'
@@ -304,7 +314,7 @@ const MemberPendingDetail = () => {
 							required
 							className='block w-full text-sm rounded-md border-0 py-2.5 px-4 bg-gray-500 text-white shadow-sm ring-2 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-500 sm:leading-6'
 						/>
-					</div>
+					</div> */}
 					<div className='mt-6'>
 						<label
 							htmlFor='expertise'
@@ -368,14 +378,15 @@ const MemberPendingDetail = () => {
 							className='block text-sm font-medium leading-6 dark:text-white'
 						>
 							Bio
+							<span className='text-red-500 pl-1'>*</span>
 						</label>
 						<textarea
 							name='bio'
 							id='bio'
 							value={formData.bio}
 							disabled
-							cols='30'
-							rows='3'
+							cols={30}
+							rows={3}
 							className='block w-full text-sm rounded-md border-0 py-2.5 px-4 bg-gray-500 text-white shadow-sm ring-2 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-500 sm:leading-6'
 						></textarea>
 					</div>
@@ -385,6 +396,7 @@ const MemberPendingDetail = () => {
 							className='block text-sm font-medium leading-6 dark:text-white'
 						>
 							Your experience
+							<span className='text-red-500 pl-1'>*</span>
 						</label>
 						{formData.experience?.split("\\n").map((link, index) => (
 							<div className='flex' key={index}>
@@ -399,7 +411,7 @@ const MemberPendingDetail = () => {
 							</div>
 						))}
 					</div>
-					<div className='mt-6 rounded-md shadow-sm ring-2 ring-inset ring-gray-300 p-5'>
+					{/* <div className='mt-6 rounded-md shadow-sm ring-2 ring-inset ring-gray-300 p-5'>
 						<label
 							htmlFor='tier'
 							className='block text-sm font-medium leading-6 dark:text-white mb-4'
@@ -432,7 +444,7 @@ const MemberPendingDetail = () => {
 								Associate Member
 							</label>
 						</div>
-					</div>
+					</div> */}
 				</div>
 			</div>
 			<div>

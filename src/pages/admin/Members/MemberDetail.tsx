@@ -25,6 +25,7 @@ const MemberDetail = () => {
 	const [loading, setLoading] = useState(false);
 	const [uploading, setUploading] = useState(false);
 	const routeParams = useParams();
+	const fieldRequired = ['email', 'name', 'experience', 'bio', 'organization', 'expertise', 'jobTitle'];
 	useEffect(() => {
 		const fetch = async () => {
 			const res = await getMember(routeParams.id)
@@ -58,11 +59,11 @@ const MemberDetail = () => {
 	};
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		// for (const key in formData)
-			// if (formData[key] === '') {
-			// 	toast.error('Please fill all the required fields!');
-			// 	return;
-			// }
+		for (const key in formData)
+			if (formData[key] === '' && fieldRequired.includes(key)) {
+				toast.error('Please fill all the required fields!');
+				return;
+			}
 		const regexEmail = /\S+@\S+\.\S+/;
 		if (!regexEmail.test(formData.email)) {
 			toast.error('Email is invalid!');
@@ -101,20 +102,20 @@ const MemberDetail = () => {
 
 	const handleChangeInput = (e, index) => {
 		const { name, value } = e.target;
-		const professionalLink = formData[name].split("\\n");
+		const professionalLink = formData[name]?.split("\\n") ?? [];
 		professionalLink[index] = value;
 		setFormData((prevData) => ({ ...prevData, [name]: professionalLink.join("\\n") }));
 	}
 
 	const handleChangeAddInput = (e, name) => {
 		e.preventDefault();
-		const professionalLink = formData[name].split("\\n");
+		const professionalLink = formData[name]?.split("\\n") ?? [];
 		professionalLink.push('');
 		setFormData((prevData) => ({ ...prevData, [name]: professionalLink.join("\\n") }));
 	}
 
 	const handleDeleteInput = (name, index) => {
-		const professionalLink = formData[name].split("\\n");
+		const professionalLink = formData[name]?.split("\\n") ?? [];
 		professionalLink.splice(index, 1);
 		setFormData((prevData) => ({ ...prevData, [name]: professionalLink.join("\\n") }));
 	}
@@ -133,7 +134,7 @@ const MemberDetail = () => {
 									className='block text-sm font-medium leading-6 dark:text-white'
 								>
 									Your Email
-									{/* <span className='text-red-500 pl-1'>*</span> */}
+									<span className='text-red-500 pl-1'>*</span>
 								</label>
 								<input
 									type='email'
@@ -151,7 +152,7 @@ const MemberDetail = () => {
 									className='block text-sm font-medium leading-6 dark:text-white'
 								>
 									Your Name
-									{/* <span className='text-red-500 pl-1'>*</span> */}
+									<span className='text-red-500 pl-1'>*</span>
 								</label>
 								<input
 									type='name'
@@ -190,7 +191,7 @@ const MemberDetail = () => {
 								className='block text-sm font-medium leading-6 dark:text-white'
 							>
 								Job Title
-								{/* <span className='text-red-500 pl-1'>*</span> */}
+								<span className='text-red-500 pl-1'>*</span>
 							</label>
 							<input
 								type='text'
@@ -202,13 +203,13 @@ const MemberDetail = () => {
 								className='block w-full text-sm rounded-md border-0 py-2.5 px-4 bg-white text-lightGray shadow-sm ring-2 ring-gray-300 ring-inset placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-500 sm:leading-6'
 							/>
 						</div>
-						<div className='mt-6'>
+						{/* <div className='mt-6'>
 							<label
 								htmlFor='researchInterest'
 								className='block text-sm font-medium leading-6 dark:text-white'
 							>
 								Research Interest
-								{/* <span className='text-red-500 pl-1'>*</span> */}
+								<span className='text-red-500 pl-1'>*</span>
 							</label>
 							<input
 								type='text'
@@ -219,7 +220,7 @@ const MemberDetail = () => {
 								required
 								className='block w-full text-sm rounded-md border-0 py-2.5 px-4 bg-white text-lightGray shadow-sm ring-2 ring-gray-300 ring-inset placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-500 sm:leading-6'
 							/>
-						</div>
+						</div> */}
 						<div className='flex mt-6'>
 							<div className='w-1/2 items-center text-[#646cff] font-bold cursor-pointer'>
 								<label
@@ -265,7 +266,7 @@ const MemberDetail = () => {
 								className='block text-sm font-medium leading-6 dark:text-white'
 							>
 								Organization
-								{/* <span className='text-red-500 pl-1'>*</span> */}
+								<span className='text-red-500 pl-1'>*</span>
 							</label>
 							<input
 								type='text'
@@ -283,7 +284,7 @@ const MemberDetail = () => {
 								className='block text-sm font-medium leading-6 dark:text-white mb-4'
 							>
 								Highest Degree or Academic Rank
-								<span className='text-red-500 pl-1'>*</span>
+								{/* <span className='text-red-500 pl-1'>*</span> */}
 							</label>
 							<div className='choice_degree'>
 								<label className='block mb-4'>
@@ -330,7 +331,7 @@ const MemberDetail = () => {
 									/>
 									Associate Professor
 								</label>
-								<label className='block'>
+								<label className='block mb-4'>
 									<input
 										type='radio'
 										name='position'
@@ -341,6 +342,17 @@ const MemberDetail = () => {
 									/>
 									Professor
 								</label>
+								<label className='block'>
+									<input
+										type='radio'
+										name='position'
+										className='mr-2'
+										value=''
+										checked={formData.position === ''}
+										onChange={handleChange}
+									/>
+									None
+								</label>
 							</div>
 						</div>
 						<div className='mt-6'>
@@ -350,7 +362,7 @@ const MemberDetail = () => {
 							>
 								Your professional link (if any)
 							</label>
-							{formData.professionalLink.split("\\n").map((link, index) => (
+							{formData.professionalLink?.split("\\n").map((link, index) => (
 								<div className='flex' key={index}>
 									<input
 										type='text'
@@ -373,6 +385,7 @@ const MemberDetail = () => {
 								className='block text-sm font-medium leading-6 dark:text-white'
 							>
 								Bio
+								<span className='text-red-500 pl-1'>*</span>
 							</label>
 							<textarea
 								name='bio'
@@ -390,8 +403,9 @@ const MemberDetail = () => {
 								className='block text-sm font-medium leading-6 dark:text-white'
 							>
 								Your experience
+								<span className='text-red-500 pl-1'>*</span>
 							</label>
-							{formData.experience.split("\\n").map((link, index) => (
+							{formData.experience?.split("\\n").map((link, index) => (
 								<div className='flex' key={index}>
 									<input
 										type='text'
@@ -421,12 +435,20 @@ const MemberDetail = () => {
 						>
 							{loading ? 'LOADING...' : 'SUBMIT'}
 						</button>
-						<button
-							className={`text-sm font-semibold py-3 px-16 bg-white rounded-full border border-[#1B52BE] text-[#1B52BE] hover:bg-[#1B52BE] hover:text-lightGray ${loading ? 'cursor-not-allowed' : 'cursor-pointer'}`}
-							onClick={() => setFormData(defaultData)}
-						>
-							CLEAR
-						</button>
+						<div>
+							<button
+								className={`text-sm font-semibold py-3 px-8 bg-white rounded-full border border-[#1B52BE] text-[#1B52BE] hover:bg-[#1B52BE] hover:text-lightGray ${loading ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+								onClick={() => setFormData(defaultData)}
+							>
+								CLEAR
+							</button>
+							<button 
+								className={`text-sm font-semibold py-3 px-8 ml-4 bg-red-500 rounded-full border border-red-600 text-white hover:bg-red-400`}
+								onClick={() => window.location.reload()}
+							>
+								CANCEL
+							</button>
+						</div>
 					</div>
 				</div>
 			</div>
