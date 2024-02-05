@@ -300,7 +300,7 @@ const MemberDetail = () => {
 								<label className='block mb-4'>
 									<input
 										type='radio'
-										name='academicRank'
+										name='position'
 										className='mr-2'
 										value='Doctor'
                                         checked={formData.position === 'Doctor'}
