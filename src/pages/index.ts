@@ -12,3 +12,6 @@ export { default as MemberDetail } from "./admin/Members/MemberDetail";
 export { default as MemberPendingList } from "./admin/Members/MemberPendingList";
 export { LoginPage } from "./auth";
 export { default as NotFoundPage } from "./commons/NotFoundPage";
+
+export { default as PasswordMember} from "./admin/Password/PasswordMember";
+export { default as PasswordList} from "./admin/Password/PasswordList";
