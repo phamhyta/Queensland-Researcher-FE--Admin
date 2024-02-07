@@ -18,7 +18,8 @@ import EventsList from './pages/admin/Events/EventsList';
 import EventsDetail from './pages/admin/Events/EventsDetail';
 import MemberPendingDetail from './pages/admin/Members/MemberPendingDetail';
 import MemberCreate from './pages/admin/Members/MemberCreate';
-
+import PasswordList from './pages/admin/Password/PasswordList';
+import PasswordMember from './pages/admin/Password/PasswordMember';
 const ProtectedRouter = ({ children }) => {
 	const location = useLocation();
 	const { token } = useAuth();
@@ -219,6 +220,24 @@ function App() {
 							<ProtectedRouterAdmin>
 								<ImageGallery />
 							</ProtectedRouterAdmin>
+						}
+					/>
+					<Route
+						path='/admin/password'
+						element={
+							<ProtectedRouterAdmin>
+								{' '}
+								<PasswordList />
+							</ProtectedRouterAdmin>
+						}
+					/>
+					<Route
+						path='/admin/password/:id'
+						element={
+							<ProtectedRouterMember>
+								{' '}
+								<PasswordMember />
+							</ProtectedRouterMember>
 						}
 					/>
 				</Route>

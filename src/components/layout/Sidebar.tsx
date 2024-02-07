@@ -3,7 +3,7 @@ import { FaImage } from "react-icons/fa6";
 import { useAuth } from '../../utils/hook';
 import { useEffect, useState } from "react";
 import { getListRegistration } from "../../utils/api";
-
+import { RiLockPasswordLine } from "react-icons/ri";
 interface ISideBarSubItem {
 
 	id: string; text: string; link: string,
@@ -133,6 +133,12 @@ const Sidebar = () => {
 			link: "/admin/image-gallery"
 		},
 		{
+			id: "Change Password",
+			icon: <RiLockPasswordLine />,
+			text: "Change Password",
+			link: "/admin/password",
+		},
+		{
 			id: "logout",
 			icon: (
 				<svg
@@ -172,6 +178,12 @@ const Sidebar = () => {
 			),
 			text: "Members",
 			link: `/admin/members/${currentUser?.user_id}`,
+		},
+		{
+			id: "Change Password",
+			icon: <RiLockPasswordLine />,
+			text: "Change Password",
+			link: `/admin/password/${currentUser?.user_id}`,
 		},
 		{
 			id: "logout",

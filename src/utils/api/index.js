@@ -407,3 +407,27 @@ export async function exportMember () {
 		};
 	}
 }
+
+export async function changePassword(id, data){
+	try {
+		const token = localStorage.getItem('token');
+		const res = await axiosInstance.put(`/members/password/${id}`, {
+            password: data.currentPassword,
+            newPassword: data.newPassword,
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+		return {
+			success: true,
+			data: res.data,
+		};
+	} catch (error) {
+		return {
+			success: false,
+			message: error.response.data.detail || 'Something was wrong!'
+		};
+	}
+}
