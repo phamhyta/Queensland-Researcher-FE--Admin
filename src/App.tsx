@@ -20,6 +20,9 @@ import MemberPendingDetail from './pages/admin/Members/MemberPendingDetail';
 import MemberCreate from './pages/admin/Members/MemberCreate';
 import PasswordList from './pages/admin/Password/PasswordList';
 import PasswordMember from './pages/admin/Password/PasswordMember';
+import MemberFeedback from './pages/admin/Feedback/MemberFeedback';
+import MemberHistoryFeedback from './pages/admin/Feedback/MemberHistoryFeedback';
+import MemberFeedbackList from './pages/admin/Feedback/MemberFeedbackList';
 const ProtectedRouter = ({ children }) => {
 	const location = useLocation();
 	const { token } = useAuth();
@@ -49,7 +52,6 @@ const ProtectedRouterMember = ({ children }) => {
 	const location = useLocation();
 	const { token, currentUser} = useAuth();
 	const id = parseInt(location.pathname.split('/')[3]);
-	console.log(currentUser, id);
 	if (!token) {
 		return <Navigate to='/login' replace state={{ from: location }} />;
 	} else if (currentUser.user_id !== id && currentUser.role !== 'admin') {
@@ -238,6 +240,33 @@ function App() {
 								{' '}
 								<PasswordMember />
 							</ProtectedRouterMember>
+						}
+					/>
+					<Route
+						path='/admin/member-feedback/:id'
+						element={
+							<ProtectedRouterMember>
+								{' '}
+								<MemberFeedback />
+							</ProtectedRouterMember>
+						}
+					/>
+					<Route
+						path='/admin/member-feedback-history/:id'
+						element={
+							<ProtectedRouterMember>
+								{' '}
+								<MemberHistoryFeedback />
+							</ProtectedRouterMember>
+						}
+					/>
+					<Route
+						path='/admin/list-feedback'
+						element={
+							<ProtectedRouterAdmin>
+								{' '}
+								<MemberFeedbackList />
+							</ProtectedRouterAdmin>
 						}
 					/>
 				</Route>
