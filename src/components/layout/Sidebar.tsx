@@ -4,7 +4,7 @@ import { useAuth } from '../../utils/hook';
 import { useEffect, useState } from "react";
 import { getListRegistration } from "../../utils/api";
 import { RiLockPasswordLine } from "react-icons/ri";
-import { FeedbackOutlined, HistoryEduOutlined } from "@mui/icons-material";
+import { FeedbackOutlined, HistoryEduOutlined, Settings } from "@mui/icons-material";
 interface ISideBarSubItem {
 
 	id: string; text: string; link: string,
@@ -203,6 +203,12 @@ const Sidebar = () => {
 			icon: <RiLockPasswordLine />,
 			text: "Change Password",
 			link: `/admin/password/${currentUser?.user_id}`,
+		},
+		{
+			id: "Setting",
+			icon: <Settings />,
+			text: "Setting",
+			link: `/admin/settings/${currentUser?.user_id}`,
 		},
 		{
 			id: "logout",
