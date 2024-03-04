@@ -23,6 +23,8 @@ import PasswordMember from './pages/admin/Password/PasswordMember';
 import MemberFeedback from './pages/admin/Feedback/MemberFeedback';
 import MemberHistoryFeedback from './pages/admin/Feedback/MemberHistoryFeedback';
 import MemberFeedbackList from './pages/admin/Feedback/MemberFeedbackList';
+import SettingMember from './pages/admin/Settings/SettingMember';
+
 const ProtectedRouter = ({ children }) => {
 	const location = useLocation();
 	const { token } = useAuth();
@@ -239,6 +241,15 @@ function App() {
 							<ProtectedRouterMember>
 								{' '}
 								<PasswordMember />
+							</ProtectedRouterMember>
+						}
+					/>
+					<Route
+						path='/admin/settings/:id'
+						element={
+							<ProtectedRouterMember>
+								{' '}
+								<SettingMember />
 							</ProtectedRouterMember>
 						}
 					/>
