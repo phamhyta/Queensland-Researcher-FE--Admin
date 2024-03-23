@@ -4,7 +4,7 @@ import { useAuth } from '../../utils/hook';
 import { useEffect, useState } from "react";
 import { getListRegistration } from "../../utils/api";
 import { RiLockPasswordLine } from "react-icons/ri";
-import { FeedbackOutlined, HistoryEduOutlined, Settings } from "@mui/icons-material";
+import { ContactSupportOutlined, FeedbackOutlined, HistoryEduOutlined, Settings } from "@mui/icons-material";
 interface ISideBarSubItem {
 
 	id: string; text: string; link: string,
@@ -132,6 +132,12 @@ const Sidebar = () => {
 			icon: <FeedbackOutlined />,
 			text: "Information Received",
 			link: `/admin/list-feedback`,
+		},
+		{
+			id: "List contact",
+			icon: <ContactSupportOutlined />,
+			text: "List contact",
+			link: `/admin/list-contact`,
 		},
 		{
 			id: "image-gallery",

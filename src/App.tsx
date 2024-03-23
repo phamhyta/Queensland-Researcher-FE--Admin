@@ -24,6 +24,8 @@ import MemberFeedback from './pages/admin/Feedback/MemberFeedback';
 import MemberHistoryFeedback from './pages/admin/Feedback/MemberHistoryFeedback';
 import MemberFeedbackList from './pages/admin/Feedback/MemberFeedbackList';
 import SettingMember from './pages/admin/Settings/SettingMember';
+import ListContact from './pages/admin/Contact/ListContact';
+import ContactDetail from './pages/admin/Contact/ContactDetail';
 
 const ProtectedRouter = ({ children }) => {
 	const location = useLocation();
@@ -277,6 +279,24 @@ function App() {
 							<ProtectedRouterAdmin>
 								{' '}
 								<MemberFeedbackList />
+							</ProtectedRouterAdmin>
+						}
+					/>
+					<Route
+						path='/admin/list-contact'
+						element={
+							<ProtectedRouterAdmin>
+								{' '}
+								<ListContact />
+							</ProtectedRouterAdmin>
+						}
+					/>
+					<Route
+						path='/admin/contact-detail/:id'
+						element={
+							<ProtectedRouterAdmin>
+								{' '}
+								<ContactDetail />
 							</ProtectedRouterAdmin>
 						}
 					/>

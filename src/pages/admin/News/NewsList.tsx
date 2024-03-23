@@ -170,7 +170,7 @@ const NewsList = () => {
 				{loading && (<div className='pt-20 w-full text-center'><CircularProgress size={20} sx={{color: '#00BFFF'}}/></div>)}
 
 				<nav
-					className='flex items-center flex-column flex-wrap md:flex-row justify-end pt-4'
+					className='flex items-center flex-column flex-wrap md:flex-row justify-center pt-4'
 					aria-label='Table navigation'
 				>
 					<Pagination
