@@ -1,8 +1,7 @@
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import EditIcon from '@mui/icons-material/Edit';
 import { useEffect, useReducer, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
-import { getAllEvents, deleteEvent } from '../../../utils/api/events';
+import { getAllContacts, deleteContact } from '../../../utils/api/contact';
 import { useNavigate } from 'react-router-dom';
 import Pagination from '@mui/material/Pagination';
 import { CircularProgress } from '@mui/material';
@@ -14,7 +13,7 @@ const reducer = (state, action) => {
 		case 'FETCH_SUCCESS':
 			return {
 				...state,
-				events: action.payload.events,
+				events: action.payload.contacts,
 				numOfPage: action.payload.total_pages,
 				loading: false,
 			};
@@ -32,8 +31,7 @@ const reducer = (state, action) => {
 	}
 };
 
-
-const EventsList = () => {
+const ListContact = () => {
 	const [{ loading, events, numOfPage }, dispatch] = useReducer(reducer, {
 		loading: true,
 		error: '',
@@ -43,7 +41,7 @@ const EventsList = () => {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const res = await getAllEvents(currentPage);
+			const res = await getAllContacts(currentPage);
 			if (res.success) {
 				dispatch({
 					type: 'FETCH_SUCCESS',
@@ -61,12 +59,11 @@ const EventsList = () => {
 		fetchData();
 	}, [currentPage]);
 	const handleDelete = (id, title) => {
-		console.log('id', id);
 		const confirm = window.confirm(
-			`Bạn có chắc chắn muốn xóa sự kiện ${title} không ?`
+			`Do you want to delete contact of ${title} ?`
 		);
 		if (confirm) {
-			deleteEvent(id).then((res) => {
+			deleteContact(id).then((res) => {
 				if (res.success) {
 					dispatch({
 						type: 'DELETE_SUCCESS',
@@ -80,9 +77,10 @@ const EventsList = () => {
 		}
 
 	};
+
 	return (
 		<>
-			<h1 className='text-center'>List Events</h1>
+			<h1 className='text-center'>List Contacts</h1>
 			<ToastContainer />
 			<div className='relative overflow-x-auto p-2'>
 				<div className='pb-4 bg-white dark:bg-gray-900'>
@@ -134,13 +132,16 @@ const EventsList = () => {
 								</div>
 							</th>
 							<th scope='col' className='px-6 py-3'>
-								Title
+								Name
 							</th>
 							<th scope='col' className='px-6 py-3'>
-								Category
+								Phone
 							</th>
 							<th scope='col' className='px-6 py-3'>
-								Event date
+								Email
+							</th>
+							<th scope='col' className='px-6 py-3'>
+								Create at
 							</th>
 							<th scope='col' className='px-6 py-3'>
 								Action
@@ -170,22 +171,16 @@ const EventsList = () => {
 										scope='row'
 										className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'
 									>
-                                        <a href={`/admin/events/${news.id}`}>{news.title.length > 60 ? news.title.slice(0,50) + '...' : news.title}</a>
+                                        <a href="#" onClick={() => navigate(`/admin/contact-detail/${news.id}`)}>{news.name}</a>
 										
 									</th>
-									<td className='px-6 py-4'>{news.category}</td>
-									<td className='px-6 py-4'>{news.eventDate.slice(0, 10)}</td>
+									<td className='px-6 py-4'>{news.phone}</td>
+									<td className='px-6 py-4'>{news.email}</td>
+									<td className='px-6 py-4'>{news.created_at.slice(0, 10)}</td>
 									<td className='px-6 py-4'>
 										<a
 											href='#'
-											onClick={() => navigate(`/admin/events/${news.id}`)}
-											className='font-medium text-blue-600 dark:text-blue-500 hover:underline'
-										>
-											<EditIcon />
-										</a>
-										<a
-											href='#'
-											onClick={() => {handleDelete(news.id, news.title)}}
+											onClick={() => {handleDelete(news.id, news.name)}}
 											className='font-medium text-blue-600 dark:text-blue-500 hover:underline'
 										>
 											<DeleteForeverIcon
@@ -204,9 +199,8 @@ const EventsList = () => {
 							count={numOfPage}
 							page={currentPage}
 							onChange={(e) => {
-								setCurrentPage(e.target?.textContent);
+								setCurrentPage(e.target.textContent);
 							}}
-							className='dark:text-white'
 						></Pagination>
 					</div>
 				)}
@@ -215,4 +209,4 @@ const EventsList = () => {
 		</>
 	);
 };
-export default EventsList;
+export default ListContact;
