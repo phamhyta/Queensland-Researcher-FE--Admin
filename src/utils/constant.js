@@ -2,7 +2,7 @@ import axios from 'axios';
 const token = localStorage.getItem('token');
 
 export const axiosInstance = axios.create({
-	baseURL: "https://api.avesq.org",
+	baseURL: "https://api",
 	headers: {
 		accept: 'application/json',
 		Authorization: `Bearer ${token}`,
